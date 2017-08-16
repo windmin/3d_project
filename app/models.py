@@ -145,3 +145,19 @@ login_manager.anonymous_user = AnonymousUser
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+# 设备表
+class ShebeiTable(db.Model):
+    __tablename__ = '设备'
+    id = db.Column(db.Integer, primary_key=True)
+    shebei_name = db.Column(db.String(64))
+    front_slotNums = db.Column(db.Integer) #slot块数
+    front_slot_rows = db.Column(db.Integer) #每块slot有几排
+    front_slot_cols = db.Column(db.Integer) #每块slot有几列
+    back_slotNums = db.Column(db.Integer)
+    back_slot_rows = db.Column(db.Integer)
+    back_slot_cols = db.Column(db.Integer)
+    slot_used_list = db.Column(db.String()) #已被占用的端口 例：[1(1,4),3(2,3),4(3,1),7(3,24)]
+    def __repr__(self):
+        return '<设备 %r>' % self.id

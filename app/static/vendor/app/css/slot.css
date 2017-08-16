@@ -1,0 +1,25 @@
+div.slot.table-responsive {
+    border-style: none;
+}
+
+div.slot.table-responsive>.table>tbody td {
+    padding: 0;
+    border-style: none;
+}
+
+div.slot.table-responsive>.table>thead th {
+    padding: 0;
+    font-weight: normal;
+    border-style: none;
+}
+
+div.slot.table-responsive>.table>tbody td:nth-child(1) {
+    padding-right: 4px;
+}
+
+div.slot-number {
+    padding-left: 0;
+    margin-top: 50px;
+    font-size: 20px;
+    color: green;
+}

@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}跳纤计算{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href={{ url_for('static', filename = 'vendor/app/css/slot.css') }} rel="stylesheet">
+{% endblock %}
+{% block page_content %}
+
+{% macro render_radio(slotNum,shebei_name,rows,slot,usedlist_dict,flag) %}
+    {% for slot_row in rows %}
+        <tr>
+            <td>{{ slot_row }}</td>
+            {% for s in slot %}
+                {% if s[0] == slot_row %}
+                    {% if s in usedlist_dict[slotNum] %}
+                        <td><input type="radio" value="{{ slotNum }},{{ s[0] }},{{ s[1] }}" checked disabled /></td>
+                    {% else %}
+                        <td><input type="radio" name={{ flag }} value="{{ slotNum }},{{ s[0] }},{{ s[1] }}" /></td>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+{% endmacro %}
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>请选择<strong>{{ shebei_dict['jiechushebei'] }}</strong>的<strong>{{ shebei_dict['jiechushebei_side'] }}</strong>端口</h2>
+        </div>
+
+        <div class="col-md-6">
+            <h2>请选择<strong>{{ shebei_dict['jierushebei'] }}</strong>的<strong>{{ shebei_dict['jierushebei_side'] }}</strong>端口</h2>
+        </div>
+    </div>
+</div>
+
+
+{% if shebei_dict['jiechushebei_slotNums']|length <= shebei_dict['jierushebei_slotNums']|length %}
+    {% set slotNums = shebei_dict['jiechushebei_slotNums'] %}
+{% else %}
+    {% set slotNums = shebei_dict['jierushebei_slotNums'] %}
+{% endif %}
+
+<form method="POST" action="{{ url_for('main.slot',shebei_dict=shebei_dict) }}">
+{% for slotNum in slotNums %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-1 slot-number">#{{ slotNum }}</div>
+                <div class="table-responsive slot col-md-10">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for col in shebei_dict['jiechushebei_slot_cols'] %}
+                                    <th>{{ col }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ render_radio(slotNum,shebei_dict['jiechushebei'],shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot'],shebei_dict['jiechushebei_usedlist_dict'],"jiechushebei") }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-1 slot-number">#{{ slotNum }}</div>
+                <div class="table-responsive slot col-md-10">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                {% for col in shebei_dict['jierushebei_slot_cols'] %}
+                                    <th>{{ col }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{ render_radio(slotNum,shebei_dict['jierushebei'],shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot'],shebei_dict['jierushebei_usedlist_dict'],"jierushebei") }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{#    diffrence_slotNum#}
+{% if shebei_dict['jiechushebei_slotNums']|length <= shebei_dict['jierushebei_slotNums']|length %}
+    {% for slotNum in shebei_dict['difference_slotNums'] %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-6">
+                <div class="row">
+                    <div class="col-md-1 slot-number">#{{ slotNum }}</div>
+                    <div class="table-responsive slot col-md-10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    {% for col in shebei_dict['jierushebei_slot_cols'] %}
+                                        <th>{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{ render_radio(slotNum,shebei_dict['jierushebei'],shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot'],shebei_dict['jierushebei_usedlist_dict'],"jierushebei") }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    {% for slotNum in shebei_dict['difference_slotNums'] %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-1 slot-number">#{{ slotNum }}</div>
+                    <div class="table-responsive slot col-md-10">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    {% for col in shebei_dict['jiechushebei_slot_cols'] %}
+                                        <th>{{ col }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{ render_radio(slotNum,shebei_dict['jiechushebei'],shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot'],shebei_dict['jiechushebei_usedlist_dict'],"jiechushebei") }}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="row">
+    <input type="submit" name="submit" class="btn btn-default" value="开始计算">
+    <input type="submit" name="submit" class="btn btn-default" value="重置">
+</div>
+</form>
+
+
+{% endblock %}

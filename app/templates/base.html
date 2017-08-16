@@ -3,10 +3,6 @@
 {% block title %}鲲九泵业 报价系统{% endblock %}
 {% block styles %}
     {{ super() }}
-    <style>
-        th {text-overflow:ellipsis;white-space:nowrap;}
-{#        .navbar-nav>li:hover {border-bottom-style:solid;border-bottom-color: #f6f6f6}#}
-    </style>
     <!-- Bootstrap Core CSS -->
     <link href={{ url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
 
@@ -29,53 +25,30 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 {% endblock %}
-{% block navbar %}
-<div class="navbar navbar-inverse" role="navigation">
-<div class="col-lg-1">
-<a href="/" class="home-link" style="float:right"><img alt="Logo" src="/static/images/logo.png" class="logo"></a>
-</div>
-<div class="container">
-{#    <div class="navbar-header">#}
-{#        <button type="button" class="navbar-toggle"#}
-{#        data-toggle="collapse" data-target=".navbar-collapse">#}
-{#        <span class="sr-only">Toggle navigation</span>#}
-{#        <span class="icon-bar"></span>#}
-{#        <span class="icon-bar"></span>#}
-{#        <span class="icon-bar"></span>#}
-{#        </button>#}
-{#        <a class="navbar-brand" href="/">报价列表</a>#}
-{#    </div>#}
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav ul5">
-{#            <li><a href="/">泵选型报价列表</a></li>#}
-            {% if current_user.is_administrator() %}
-                <li><a href="/">报价列表</a></li>
-                <li><a href="/motor">电机基座号</a></li>
-                <li><a href="/motorjishu">电机极数</a></li>
-                <li><a href="/bengjiage">泵价格</a></li>
-                <li><a href="/bengcaizhixishu">数据库系数</a></li>
-                <li><a href="/dianjijiage">电机价格</a></li>
-                <li><a href="/mifengjiage">密封价格</a></li>
-                <li><a href="/grouplist">群组</a></li>
-{#                <li><a href="/shuilv">税率</a></li>#}
-            {% endif %}
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            {% if current_user.is_administrator() %}
-                <li><a href="{{ url_for('auth.account') }}">Accounts</a></li>
-            {% endif %}
 
-            {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('auth.logout') }}">Sign Out ({{ current_user.username }})</a></li>
-            {% else %}
-                <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
-            {% endif %}
-        </ul>
+{% block body_attribs %}
+     onload="draw();"
+{% endblock %}
+
+{% block navbar %}
+    <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">乐通通信</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <input class="form-control" id="del_account_id" name="del_account_id" type="hidden" value={{ del_account_id }}>
-    <input class="form-control" id="li-id" name="li-id" type="hidden" value={{ li_id }}>
-</div>
-</div>
 {% endblock %}
 
 {% block content %}
@@ -95,32 +68,4 @@
     <script src={{ url_for('static', filename = 'moveline-master/js/jquery.easing.js') }} type="text/javascript"></script>
     <script src={{ url_for('static', filename = 'moveline-master/js/moveline.js') }} type="text/javascript"></script>
     <script src={{ url_for('static', filename = 'moveline-master/js/toast.js') }} type="text/javascript"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            if ($("#del_account_id").val() != ''){
-{#                alert($("#del_account_id").val());#}
-                alert('您的账号已在别处登入！')
-                window.location.href='/auth/logout';
-            }
-        });
-        if ($("#li-id").val() != ''){
-            $(".ul5").children().eq($("#li-id").val()).addClass('active');
-        }else{
-            $(".ul5").children().eq(0).addClass('active');
-        }
-
-
-        $('.ul5').moveline({
-            color:'#F6F6F6',
-            position:'inner',
-            height:4,
-{#            click:function(ret){#}
-{#                ret.ele.addClass('active');#}
-{#                alert(ret.ele.attr("class"))#}
-{#                ret.ele.addClass('active').siblings().removeClass('active');#}
-{#                alert('点击的是第'+ret.index+'个li,当前已经被设置成active的状态');#}
-{#            }#}
-        });
-    </script>
 {% endblock %}
