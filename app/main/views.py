@@ -67,7 +67,10 @@ def index():
             'jierushebei': jierushebei,
             'jierushebei_side': jierushebei_side
             }
-        return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        if jiechushebei_side == jierushebei_side == '96芯设备单元' and jiechushebei == jierushebei:
+            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        else:
+            flash('目前只支持计算相同机架96芯设备单元间的跳纤计算')
 
     # elif form.reset.data:
     #     return redirect(url_for('main.index'))
@@ -81,24 +84,24 @@ def slot(shebei_dict):
     shebei_dict = eval(shebei_dict)
     # 1. 接出设备
     jiechushebei_info = ShebeiTable.query.filter_by(shebei_name=shebei_dict['jiechushebei']).first()
-    if shebei_dict['jiechushebei_side'] == '正面':
+    if shebei_dict['jiechushebei_side'] == '96芯设备单元':
         jiechushebei_slotNums = range(1,jiechushebei_info.front_slotNums+1)
         jiechushebei_slot_rows = range(1,jiechushebei_info.front_slot_rows+1)
         jiechushebei_slot_cols = range(1,jiechushebei_info.front_slot_cols+1)
-    elif shebei_dict['jiechushebei_side'] == '背面':
+    elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
         jiechushebei_slotNums = range(1,jiechushebei_info.back_slotNums+1)
         jiechushebei_slot_rows = range(1,jiechushebei_info.back_slot_rows+1)
         jiechushebei_slot_cols = range(1,jiechushebei_info.back_slot_cols+1)
     jiechushebei_slot = []
-    jiechushebei_slot = calculate_slot(len(jiechushebei_slot_rows),len(jiechushebei_slot_cols),jiechushebei_slot)
+    jiechushebei_slot = calculate_slot(len(jiechushebei_slot_rows), len(jiechushebei_slot_cols), jiechushebei_slot)
 
     # 2. 接入设备
     jierushebei_info = ShebeiTable.query.filter_by(shebei_name=shebei_dict['jierushebei']).first()
-    if shebei_dict['jierushebei_side'] == '正面':
+    if shebei_dict['jierushebei_side'] == '96芯设备单元':
         jierushebei_slotNums = range(1,jierushebei_info.front_slotNums+1)
         jierushebei_slot_rows = range(1,jierushebei_info.front_slot_rows+1)
         jierushebei_slot_cols = range(1,jierushebei_info.front_slot_cols+1)
-    elif shebei_dict['jierushebei_side'] == '背面':
+    elif shebei_dict['jierushebei_side'] == '72芯配线单元':
         jierushebei_slotNums = range(1,jierushebei_info.back_slotNums+1)
         jierushebei_slot_rows = range(1,jierushebei_info.back_slot_rows+1)
         jierushebei_slot_cols = range(1,jierushebei_info.back_slot_cols+1)
@@ -161,15 +164,19 @@ def step(shebei_dict):
         # 同side相连
         if shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side']:
             # side==正面
-            if shebei_dict['jiechushebei_side'] == '正面':
+            if shebei_dict['jiechushebei_side'] == '96芯设备单元':
                 step_list =calculate_one_front_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'])
+            elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
+                print('72芯')
         # 不同side相连
         elif shebei_dict['jiechshebei_side'] != shebei_dict['jierushebei_side']:
             print('1-2. 不同side相连')
+            flash('目前只支持计算相同机架96芯设备单元相连的计算')
     # 不同设备相连
     elif shebei_dict['jiechushebei'] != shebei_dict['jierushebei']:
         print('2. 不同设备相连')
+        flash('目前只支持计算相同机架96芯设备单元相连的计算')
 
     return render_template('step.html',shebei_dict=shebei_dict,step_list=step_list)

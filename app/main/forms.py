@@ -20,10 +20,10 @@ class CreateShebeiForm(FlaskForm):
 
 # 选择设备 - 表单
 class SelectShebeiForm(FlaskForm):
-    jiechushebei = SelectField('1. 请选择此次跳纤的接出设备', coerce=str)
-    jiechushebei_side = SelectField('请选择正面（96芯）端口还是背面（72芯）端口', choices=[('正面','正面'),('背面','背面')])
-    jierushebei = SelectField('2. 请选择此次跳纤的接入设备', coerce=str)
-    jierushebei_side = SelectField('请选择正面（96芯）端口还是背面（72芯）端口', choices=[('正面','正面'),('背面','背面')])
+    jiechushebei = SelectField('1. 请选择此次跳纤的接出机架', coerce=str)
+    jiechushebei_side = SelectField('请选择从机架的「96芯设备单元」还是「72芯配线单元」接出', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
+    jierushebei = SelectField('2. 请选择此次跳纤的接入机架', coerce=str)
+    jierushebei_side = SelectField('请选择从机架的「96芯设备单元」还是「72芯配线单元」接出', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
     # submit = SubmitField('开始计算')
     # reset = SubmitField('重新选择')
     # step = SubmitField('跳纤步骤')

@@ -77,8 +77,8 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
             from_slot_cols = jiechushebei_slot_cols
             to_slot_rows = jierushebei_slot_rows
             to_slot_cols = jierushebei_slot_cols
-        print(from_point)
-        print(to_point)
+        print('from_point'+str(from_point))
+        print('to_point'+str(to_point))
         # 1. 先往下走到小线环
         distance_step_1 = (len(from_slot_rows) - int(from_point[1]) + 1) * 35
         print('1. 先从from_point端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
@@ -88,6 +88,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
         step_list.append(pic_step2)
         print(pic_step1)
         print(pic_step2)
+
         # 2. 往右穿过中线环，最后一个端口到slot边框/中线环是26mm，（到大线环1左边框是99mm，）,从中线环顶边到大线环2底边是190mm
         if int(from_point[2]) < 12 :
             distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 12 + 26 + 190
@@ -100,10 +101,11 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
         step_list.append(pic_step4)
         print(pic_step3)
         print(pic_step4)
+
         # 3. 往下走直到侧面最下面那个挂纤轮调头向上走
         bigline2_distance = BIGLINE2_DISTANCE[from_point[0]] #正面第几个slot大线环2到底部的距离
         wheel_distance = WHEEL_DISTANCE[-1] #最后一个挂纤轮到底部的距离
-        distance_step_3 = bigline2_distance - wheel_distance
+        distance_step_3 = abs(bigline2_distance - wheel_distance)
         print('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮：' + str(distance_step_3))
         pic_step5 = (240,550+(int(from_point[0])-1)*320)
         pic_step6 = (280,550+(int(from_point[0])-1)*320)
