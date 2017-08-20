@@ -1,9 +1,19 @@
-from flask import jsonify, request, g, abort, url_for, current_app
+from flask import jsonify, request, g, abort, url_for, current_app, session
 from .. import db
 from ..models import Permission, User
 from . import api
 from .decorators import permission_required
 from .errors import forbidden
+
+
+@api.route('/render')
+def render():
+    if session.get('json_list')[0] == 'front_front':
+        return jsonify(front_1=session.get('json_list')[1],
+                       front_2=session.get('json_list')[2],
+                       side_3=session.get('json_list')[3],
+                       front_4=session.get('json_list')[4],
+                       front_5=session.get('json_list')[5])
 
 
 @api.route('/users')

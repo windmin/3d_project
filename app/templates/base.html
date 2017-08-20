@@ -40,11 +40,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/">乐通通信</a>
+                <a class="navbar-brand" href="/"><img src="/static/images/logo.jpg"></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">跳纤计算</a></li>
                 </ul>
             </div>
         </div>
@@ -65,7 +65,9 @@
 
 {% block scripts %}
     {{ super() }}
-    <script src={{ url_for('static', filename = 'moveline-master/js/jquery.easing.js') }} type="text/javascript"></script>
-    <script src={{ url_for('static', filename = 'moveline-master/js/moveline.js') }} type="text/javascript"></script>
-    <script src={{ url_for('static', filename = 'moveline-master/js/toast.js') }} type="text/javascript"></script>
+    <script src={{ url_for('static', filename = 'vendor/bootstrap/js/bootstrap.min.js') }} type="text/javascript"></script>
+    <script src={{ url_for('static', filename = 'vendor/jquery/jquery.min.js') }} type="text/javascript"></script>
+{#    <script src={{ url_for('static', filename = 'moveline-master/js/jquery.easing.js') }} type="text/javascript"></script>#}
+{#    <script src={{ url_for('static', filename = 'moveline-master/js/moveline.js') }} type="text/javascript"></script>#}
+{#    <script src={{ url_for('static', filename = 'moveline-master/js/toast.js') }} type="text/javascript"></script>#}
 {% endblock %}
