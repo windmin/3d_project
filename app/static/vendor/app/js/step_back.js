@@ -204,6 +204,9 @@ function draw() {
             else if (step4_x == '' || step5_x == ''){
                 ctx3.fillText("8", Number(step9_x)+20, Number(step9_y)-10);
             }
+            else {
+                ctx3.fillText("9", Number(step9_x)+20, Number(step9_y)-10);
+            }
             ctx3.lineTo(step10_x,step10_y);
             ctx3.lineTo(step11_x,step11_y);
             if (step4_x == '' && step5_x == ''){
@@ -211,6 +214,9 @@ function draw() {
             }
             else if (step4_x == '' || step5_x == ''){
                 ctx3.fillText("9", Number(step11_x)+20, Number(step11_y)+20);
+            }
+            else {
+                ctx3.fillText("10", Number(step11_x)+20, Number(step11_y)+20);
             }
             // ctx3.lineTo(step10_x,step10_y);
             ctx3.strokeStyle = "blue";
