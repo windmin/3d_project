@@ -83,198 +83,122 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     step_list = []
     log_list = []
     json_list = ['front_front']
-    if int(jierushebei_radio[0]) <= int(jierushebei_radio[0]):
-        if int(jiechushebei_radio[2]) > int(jierushebei_radio[2]):
-            from_point = jierushebei_radio
-            to_point = jiechushebei_radio
-            from_slot_rows = jierushebei_slot_rows
-            from_slot_cols = jierushebei_slot_cols
-            to_slot_rows = jiechushebei_slot_rows
-            to_slot_cols = jiechushebei_slot_cols
-            from_name = jierushebei
-            to_name = jiechushebei
-        else:
-            from_point = jiechushebei_radio
-            to_point = jierushebei_radio
-            from_slot_rows = jiechushebei_slot_rows
-            from_slot_cols = jiechushebei_slot_cols
-            to_slot_rows = jierushebei_slot_rows
-            to_slot_cols = jierushebei_slot_cols
-            from_name = jiechushebei
-            to_name = jierushebei
-        print('from_point'+str(from_point))
-        print('to_point'+str(to_point))
-        json_list.append(from_point)  # [1]
-        json_list.append(from_point[0])  # [2]
-        # 1. 先往下走到小线环
-        distance_step_1 = (len(from_slot_rows) - int(from_point[1]) + 1) * 35
-        print('1. 先从'+from_name+'的#'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
-        log_list.append('1. 先从'+from_name+'的#'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环。')
-        pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
-        pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
-        step_list.append(pic_step1)
-        step_list.append(pic_step2)
-        print('pic_step1:'+str(pic_step1))
-        print('pic_step2:'+str(pic_step2))
+    from_point = jiechushebei_radio
+    to_point = jierushebei_radio
+    from_slot_rows = jiechushebei_slot_rows
+    from_slot_cols = jiechushebei_slot_cols
+    to_slot_rows = jierushebei_slot_rows
+    to_slot_cols = jierushebei_slot_cols
+    from_name = jiechushebei
+    to_name = jierushebei
+    print('from_point'+str(from_point))
+    print('to_point'+str(to_point))
+    json_list.append(from_point)  # [1]
+    json_list.append(from_point[0])  # [2]
+    # 1. 先往下走到小线环
+    distance_step_1 = (len(from_slot_rows) - int(from_point[1]) + 1) * 35
+    print('1. 先从'+from_name+'的#'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
+    log_list.append('1. 先从'+from_name+'的#'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环。')
+    pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
+    step_list.append(pic_step1)
+    step_list.append(pic_step2)
+    print('pic_step1:'+str(pic_step1))
+    print('pic_step2:'+str(pic_step2))
 
-        # 2. 往右穿过中线环，最后一个端口到slot边框/中线环是26mm，（到大线环1左边框是99mm，）,从中线环顶边到大线环2底边是190mm
-        if int(from_point[2]) < 12 :
-            distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 12 + 26 + 190
-        else:
-            distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 26 + 190
-        print('2. 再经过中线环到大线环2:' + str(distance_step_2))
-        log_list.append('2. 往右穿过中线环再到大线环2。')
-        pic_step3 = (pic_step2[0]+distance_step_2-190,pic_step2[1])
-        pic_step4 = (pic_step3[0]+80,pic_step3[1]+90)
-        step_list.append(pic_step3)
-        step_list.append(pic_step4)
-        print(pic_step3)
-        print(pic_step4)
+    # 2. 往右穿过中线环，最后一个端口到slot边框/中线环是26mm，（到大线环1左边框是99mm，）,从中线环顶边到大线环2底边是190mm
+    if int(from_point[2]) < 12 :
+        distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 12 + 26 + 190
+    else:
+        distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 26 + 190
+    print('2. 再经过中线环到大线环2:' + str(distance_step_2))
+    log_list.append('2. 往右穿过中线环再到大线环2。')
+    pic_step3 = (pic_step2[0]+distance_step_2-190,pic_step2[1])
+    pic_step4 = (pic_step3[0]+80,pic_step3[1]+90)
+    step_list.append(pic_step3)
+    step_list.append(pic_step4)
+    print(pic_step3)
+    print(pic_step4)
 
-        # 3. 往下走直到侧面最下面那个挂纤轮调头向上走
-        bigline2_distance = BIGLINE2_DISTANCE[from_point[0]] #正面第几个slot大线环2到底部的距离
-        wheel_distance = WHEEL_DISTANCE[-1] #最后一个挂纤轮到底部的距离
-        distance_step_3 = abs(bigline2_distance - wheel_distance)
-        print('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮：' + str(distance_step_3))
-        log_list.append('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮。')
-        pic_step5 = (240,550+(int(from_point[0])-1)*320)
-        pic_step6 = (280,550+(int(from_point[0])-1)*320)
-        pic_step7 = (650,2930)
-        pic_step8 = []
-        step_list.append(pic_step5)
-        step_list.append(pic_step6)
-        step_list.append(pic_step7)
-        step_list.append(pic_step8)
-        print('pic_step5'+str(pic_step5))
-        print('pic_step6'+str(pic_step6))
-        print('pic_step7'+str(pic_step7))
-        # 这里多余长度绕圈
-        log_list.append('[3]')
-        log_list.append('[4]')
-        json_list.append('[3]')
+    # 3. 往下走直到侧面最下面那个挂纤轮调头向上走
+    bigline2_distance = BIGLINE2_DISTANCE[from_point[0]] #正面第几个slot大线环2到底部的距离
+    wheel_distance = WHEEL_DISTANCE[-1] #最后一个挂纤轮到底部的距离
+    distance_step_3 = abs(bigline2_distance - wheel_distance)
+    print('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮：' + str(distance_step_3))
+    log_list.append('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮。')
+    pic_step5 = (240,550+(int(from_point[0])-1)*320)
+    pic_step6 = (280,550+(int(from_point[0])-1)*320)
+    pic_step7 = (650,2930)
+    pic_step8 = []
+    step_list.append(pic_step5)
+    step_list.append(pic_step6)
+    step_list.append(pic_step7)
+    step_list.append(pic_step8)
+    print('pic_step5'+str(pic_step5))
+    print('pic_step6'+str(pic_step6))
+    print('pic_step7'+str(pic_step7))
+    # 这里多余长度绕圈
+    log_list.append('[3]')
+    log_list.append('[4]')
+    json_list.append('[3]')
 
-        # 4. 调头向上进入端口所在slot的大线环2
-        distance_step_4 = BIGLINE2_DISTANCE[to_point[0]] - WHEEL_DISTANCE[-1]
-        if distance_step_4 >= 0:
-            print('调头向上进入端口所在slot的大线环2:' + str(distance_step_4))
-            pic_step9 = (670,550+(int(to_point[0])-1)*320)
-            step_list.append(pic_step9)
-            log_list.append('5. 调头向上进入'+to_name+'#'+to_point[0]+'的大线环2。')
-            print('pic_step9'+str(pic_step9))
-        else:
-            distance_step_4 = WHEEL_DISTANCE[-1] - BIGLINE2_DISTANCE[to_point[0]]
-            print('继续向下进入最下面那个大线环2:' + str(distance_step_4))
-            log_list.append('5. 继续向下进入最下面那个大线环2')
-            pic_step9 = (230,3120)
-            step_list.append(pic_step9)
-            print('pic_step9'+str(pic_step9))
-        json_list.append(to_point[0])  # [4]
+    # 4. 调头向上进入端口所在slot的大线环2
+    distance_step_4 = BIGLINE2_DISTANCE[to_point[0]] - WHEEL_DISTANCE[-1]
+    if distance_step_4 >= 0:
+        print('调头向上进入端口所在slot的大线环2:' + str(distance_step_4))
+        pic_step9 = (670,550+(int(to_point[0])-1)*320)
+        step_list.append(pic_step9)
+        log_list.append('5. 调头向上进入'+to_name+'#'+to_point[0]+'的大线环2。')
+        print('pic_step9'+str(pic_step9))
+    else:
+        distance_step_4 = WHEEL_DISTANCE[-1] - BIGLINE2_DISTANCE[to_point[0]]
+        print('继续向下进入最下面那个大线环2:' + str(distance_step_4))
+        log_list.append('5. 继续向下进入最下面那个大线环2')
+        pic_step9 = (230,3120)
+        step_list.append(pic_step9)
+        print('pic_step9'+str(pic_step9))
+    json_list.append(to_point[0])  # [4]
 
-        # 6. 往左进入slot的中线环，进入该端口邻近的8位小线环
-        if int(to_point[2]) < 12 :
-            distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 12 + 26 + 190
-        else:
-            distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 190
-        print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
-        log_list.append('6. 从大线环2出来后，往左进入'+to_name+'#'+to_point[0]+'的中线环，并将线嵌入与'+to_point[2]+'列相近的小线环。') #[6]
-        pic_step10 = (215+(int(to_point[2])-1)*17, 290+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
-        pic_step11 = (pic_step10[0] , pic_step10[1]+35*(5-int(to_point[1])))
-        pic_step12 = (pic_step11[0]+distance_step_6-190,pic_step11[1])
-        pic_step13 = (pic_step12[0]+80,pic_step12[1]+90)
-        step_list.append(pic_step10)
-        step_list.append(pic_step11)
-        step_list.append(pic_step12)
-        step_list.append(pic_step13)
-        print('pic_step13'+str(pic_step13))
-        print('pic_step12'+str(pic_step12))
-        print('pic_step11'+str(pic_step11))
-        print('pic_step10'+str(pic_step10))
+    # 6. 往左进入slot的中线环，进入该端口邻近的8位小线环
+    if int(to_point[2]) < 12 :
+        distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 12 + 26 + 190
+    else:
+        distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 190
+    print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
+    log_list.append('6. 从大线环2出来后，往左进入'+to_name+'#'+to_point[0]+'的中线环，并将线嵌入与'+to_point[2]+'列相近的小线环。') #[6]
+    pic_step10 = (215+(int(to_point[2])-1)*17, 290+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
+    pic_step11 = (pic_step10[0] , pic_step10[1]+35*(5-int(to_point[1])))
+    pic_step12 = (pic_step11[0]+distance_step_6-190,pic_step11[1])
+    pic_step13 = (pic_step12[0]+80,pic_step12[1]+90)
+    step_list.append(pic_step10)
+    step_list.append(pic_step11)
+    step_list.append(pic_step12)
+    step_list.append(pic_step13)
+    print('pic_step13'+str(pic_step13))
+    print('pic_step12'+str(pic_step12))
+    print('pic_step11'+str(pic_step11))
+    print('pic_step10'+str(pic_step10))
 
-        # 7. 往上插入端口
-        distance_step_7 = (len(to_slot_rows) - int(to_point[1]) + 1) * 35
-        print('往上插入端口:' + str(distance_step_7))
-        log_list.append('7. 最后往上将线插入'+to_name+'#'+to_point[0]+'('+to_point[1]+','+to_point[2]+')端口。') #[7]
-        used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7
-        print('总共需要线长：' + str(used_distance))
-        json_list.append(to_point)  # [5]
+    # 7. 往上插入端口
+    distance_step_7 = (len(to_slot_rows) - int(to_point[1]) + 1) * 35
+    print('往上插入端口:' + str(distance_step_7))
+    log_list.append('7. 最后往上将线插入'+to_name+'#'+to_point[0]+'('+to_point[1]+','+to_point[2]+')端口。') #[7]
+    used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7
+    print('总共需要线长：' + str(used_distance))
+    json_list.append(to_point)  # [5]
 
-        remaining_cable = 0
-        cable_list = []
-        for cable in CABLE_LENGTH:
-            if cable > used_distance:
-                # print('网线：'+ str(cable))
-                cable_list.append(cable)
-                raoquan_xianchang = (cable - used_distance)/328
-                if (int(raoquan_xianchang))%2 == 0:
-                    print('绕选网线：' + str(cable))
-                    log_list[3] = '请选择一根长度为：' + str(int(cable/1000)) + '米的网线。'
-                    print(raoquan_xianchang)
-                    cegualun_raoguo_geshu = int(int(raoquan_xianchang)/2+1)
-                    if cegualun_raoguo_geshu == 1:
-                        raoquan_real_changdu = 0
-                        print('不用再侧面绕圈')
-                        log_list[4] = '4. 绕过侧面最下面那个挂纤轮。'
-                        pic_step8_1 = ('','')
-                        pic_step8_2 = ('','')
-                        pic_step8_3 = ('','')
-                        pic_step8_4 = ('','')
-                        pic_step8_5 = ('','')
-                        step8_list = []
-                        step8_list.append(pic_step8_1)
-                        step8_list.append(pic_step8_2)
-                        step8_list.append(pic_step8_3)
-                        step8_list.append(pic_step8_4)
-                        step8_list.append(pic_step8_5)
-                        step_list[7] = step8_list
-                        json_list[3] = ['13']
-                    elif cegualun_raoguo_geshu > 13 :
-                        print('从侧面最下面那个挂纤轮开始经过13个侧挂轮绕1圈')
-                        print('再从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu-1-12+1)+'个侧挂轮绕1圈')
-                        log_list[4] = '4. 从侧面最下面那个挂纤轮开始经过13个侧挂轮绕1圈。<br />再从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu-1-12+1)+'个侧挂轮绕1圈。'
-                        raoquan_real_changdu = 12 * 2 * 328 + (cegualun_raoguo_geshu-1-12) * 2 * 328
-                        pic_step8_1 = (650,240)
-                        pic_step8_2 = (530,240)
-                        pic_step8_3 = (530,2950)
-                        pic_step8_4 = (670,2950)
-                        pic_step8_5 = (670,(2950-(cegualun_raoguo_geshu-1-12)*215)-110-20)
-                        step8_list = []
-                        step8_list.append(pic_step8_1)
-                        step8_list.append(pic_step8_2)
-                        step8_list.append(pic_step8_3)
-                        step8_list.append(pic_step8_4)
-                        step8_list.append(pic_step8_5)
-                        step_list[7] = step8_list
-                        json_list[3] = ['13', '1', '13', str(13-(cegualun_raoguo_geshu-1-12+1)+1), '13']
-                    else:
-                        raoquan_real_changdu = (cegualun_raoguo_geshu - 1 ) * 2 * 328
-                        print('从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu)+'个侧挂轮绕1圈')
-                        log_list[4] = '4. 从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu)+'个侧挂轮绕1圈。'
-                        pic_step8_1 = ('','')
-                        pic_step8_2 = ('','')
-                        pic_step8_3 = ('','')
-                        pic_step8_4 = ('','')
-                        pic_step8_5 = (650,(2930-(cegualun_raoguo_geshu-1)*215)-110)
-                        step8_list = []
-                        step8_list.append(pic_step8_1)
-                        step8_list.append(pic_step8_2)
-                        step8_list.append(pic_step8_3)
-                        step8_list.append(pic_step8_4)
-                        step8_list.append(pic_step8_5)
-                        step_list[7] = step8_list
-                        json_list[3] = ['13', str(13-cegualun_raoguo_geshu+1), '13']
-                    remaining_cable = cable - used_distance - raoquan_real_changdu
-                    print('剩余线长：' + str(remaining_cable))
-                    # print(int(raoquan_xianchang)*328)
-                    # print(raoquan_real_changdu)
-                    break
-        if remaining_cable == 0:
-            cable = cable_list[0]
+    remaining_cable = 0
+    cable_list = []
+    for cable in CABLE_LENGTH:
+        if cable > used_distance:
+            # print('网线：'+ str(cable))
+            cable_list.append(cable)
             raoquan_xianchang = (cable - used_distance)/328
-            if (int(raoquan_xianchang)-1)%2 == 0:
+            if (int(raoquan_xianchang))%2 == 0:
                 print('绕选网线：' + str(cable))
                 log_list[3] = '请选择一根长度为：' + str(int(cable/1000)) + '米的网线。'
                 print(raoquan_xianchang)
-                cegualun_raoguo_geshu = int((int(raoquan_xianchang)-1)/2+1)
+                cegualun_raoguo_geshu = int(int(raoquan_xianchang)/2+1)
                 if cegualun_raoguo_geshu == 1:
                     raoquan_real_changdu = 0
                     print('不用再侧面绕圈')
@@ -291,6 +215,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
                     step8_list.append(pic_step8_4)
                     step8_list.append(pic_step8_5)
                     step_list[7] = step8_list
+                    json_list[3] = ['13']
                 elif cegualun_raoguo_geshu > 13 :
                     print('从侧面最下面那个挂纤轮开始经过13个侧挂轮绕1圈')
                     print('再从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu-1-12+1)+'个侧挂轮绕1圈')
@@ -308,6 +233,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
                     step8_list.append(pic_step8_4)
                     step8_list.append(pic_step8_5)
                     step_list[7] = step8_list
+                    json_list[3] = ['13', '1', '13', str(13-(cegualun_raoguo_geshu-1-12+1)+1), '13']
                 else:
                     raoquan_real_changdu = (cegualun_raoguo_geshu - 1 ) * 2 * 328
                     print('从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu)+'个侧挂轮绕1圈')
@@ -324,12 +250,75 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
                     step8_list.append(pic_step8_4)
                     step8_list.append(pic_step8_5)
                     step_list[7] = step8_list
+                    json_list[3] = ['13', str(13-cegualun_raoguo_geshu+1), '13']
                 remaining_cable = cable - used_distance - raoquan_real_changdu
                 print('剩余线长：' + str(remaining_cable))
                 # print(int(raoquan_xianchang)*328)
                 # print(raoquan_real_changdu)
-        print(step_list)
-        return step_list, log_list, json_list
+                break
+    if remaining_cable == 0:
+        cable = cable_list[0]
+        raoquan_xianchang = (cable - used_distance)/328
+        if (int(raoquan_xianchang)-1)%2 == 0:
+            print('绕选网线：' + str(cable))
+            log_list[3] = '请选择一根长度为：' + str(int(cable/1000)) + '米的网线。'
+            print(raoquan_xianchang)
+            cegualun_raoguo_geshu = int((int(raoquan_xianchang)-1)/2+1)
+            if cegualun_raoguo_geshu == 1:
+                raoquan_real_changdu = 0
+                print('不用再侧面绕圈')
+                log_list[4] = '4. 绕过侧面最下面那个挂纤轮。'
+                pic_step8_1 = ('','')
+                pic_step8_2 = ('','')
+                pic_step8_3 = ('','')
+                pic_step8_4 = ('','')
+                pic_step8_5 = ('','')
+                step8_list = []
+                step8_list.append(pic_step8_1)
+                step8_list.append(pic_step8_2)
+                step8_list.append(pic_step8_3)
+                step8_list.append(pic_step8_4)
+                step8_list.append(pic_step8_5)
+                step_list[7] = step8_list
+            elif cegualun_raoguo_geshu > 13 :
+                print('从侧面最下面那个挂纤轮开始经过13个侧挂轮绕1圈')
+                print('再从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu-1-12+1)+'个侧挂轮绕1圈')
+                log_list[4] = '4. 从侧面最下面那个挂纤轮开始经过13个侧挂轮绕1圈。<br />再从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu-1-12+1)+'个侧挂轮绕1圈。'
+                raoquan_real_changdu = 12 * 2 * 328 + (cegualun_raoguo_geshu-1-12) * 2 * 328
+                pic_step8_1 = (650,240)
+                pic_step8_2 = (530,240)
+                pic_step8_3 = (530,2950)
+                pic_step8_4 = (670,2950)
+                pic_step8_5 = (670,(2950-(cegualun_raoguo_geshu-1-12)*215)-110-20)
+                step8_list = []
+                step8_list.append(pic_step8_1)
+                step8_list.append(pic_step8_2)
+                step8_list.append(pic_step8_3)
+                step8_list.append(pic_step8_4)
+                step8_list.append(pic_step8_5)
+                step_list[7] = step8_list
+            else:
+                raoquan_real_changdu = (cegualun_raoguo_geshu - 1 ) * 2 * 328
+                print('从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu)+'个侧挂轮绕1圈')
+                log_list[4] = '4. 从侧面最下面那个挂纤轮开始经过'+str(cegualun_raoguo_geshu)+'个侧挂轮绕1圈。'
+                pic_step8_1 = ('','')
+                pic_step8_2 = ('','')
+                pic_step8_3 = ('','')
+                pic_step8_4 = ('','')
+                pic_step8_5 = (650,(2930-(cegualun_raoguo_geshu-1)*215)-110)
+                step8_list = []
+                step8_list.append(pic_step8_1)
+                step8_list.append(pic_step8_2)
+                step8_list.append(pic_step8_3)
+                step8_list.append(pic_step8_4)
+                step8_list.append(pic_step8_5)
+                step_list[7] = step8_list
+            remaining_cable = cable - used_distance - raoquan_real_changdu
+            print('剩余线长：' + str(remaining_cable))
+            # print(int(raoquan_xianchang)*328)
+            # print(raoquan_real_changdu)
+    print(step_list)
+    return step_list, log_list, json_list
 
 
 # 计算同一设备、同side、背面，跳纤方式
@@ -638,7 +627,7 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
 
 
 # 计算同一设备、同side、正面，跳纤方式
-def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
+def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei_slot_rows,jiechushebei_slot_cols, \
                               jierushebei_slot_rows,jierushebei_slot_cols, \
                               jiechushebei,jierushebei):
@@ -673,8 +662,8 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
         distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 12 + 26 + 190
     else:
         distance_step_2 = (len(from_slot_cols) - int(from_point[2])) * 18 + 26 + 190
-    print('2. 再经过中线环到大线环2:' + str(distance_step_2))
-    log_list.append('2. 往右穿过中线环再到大线环2。')
+    print('2. 再经过中线环到1号架的大线环2:' + str(distance_step_2))
+    log_list.append('2. 往右穿过中线环再到'+from_name+'的大线环2。')
     pic_step3 = (pic_step2[0] + distance_step_2 - 190, pic_step2[1])
     pic_step4 = (pic_step3[0] + 80, pic_step3[1] + 90)
     step_list.append(pic_step3)
@@ -682,12 +671,17 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     print(pic_step3)
     print(pic_step4)
 
+    # 经过从水平线槽到2号架的大线环2
+    distance_step_2_1 = 103 + 709
+    print('经过水平线槽到2号架的大线环2：'+str(distance_step_2_1))
+    log_list[1] = log_list[1]+('然后经过水平线槽至'+to_name+'的大线环2')
+
     # 3. 往下走直到侧面最下面那个挂纤轮调头向上走
     bigline2_distance = BIGLINE2_DISTANCE[from_point[0]]  # 正面第几个slot大线环2到底部的距离
     wheel_distance = WHEEL_DISTANCE[-1]  # 最后一个挂纤轮到底部的距离
     distance_step_3 = abs(bigline2_distance - wheel_distance)
     print('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮：' + str(distance_step_3))
-    log_list.append('3. 从大线环2出去，向下直到侧面最下面那个挂纤轮。')
+    log_list.append('3. 从'+to_name+'的大线环2出去，向下直到侧面最下面那个挂纤轮。')
     pic_step5 = (240, 550 + (int(from_point[0]) - 1) * 320)
     pic_step6 = (280, 550 + (int(from_point[0]) - 1) * 320)
     pic_step7 = (650, 2930)
@@ -704,19 +698,19 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     log_list.append('[4]')
     json_list.append('[3]')
 
-    # 4. 调头向上进入端口所在slot的大线环2
-    distance_step_4 = BIGLINE2_DISTANCE[to_point[0]] - WHEEL_DISTANCE[-1]
+    # 4. 调头向上进入端口所在slot的大线环1
+    distance_step_4 = BIGLINE_DISTANCE[to_point[0]] - WHEEL_DISTANCE[-1]
     if distance_step_4 >= 0:
-        print('调头向上进入端口所在slot的大线环2:' + str(distance_step_4))
-        pic_step9 = (670, 550 + (int(to_point[0]) - 1) * 320)
+        print('调头向上进入端口所在slot的大线环1:' + str(distance_step_4))
+        pic_step9 = (670, 470 + (int(to_point[0]) - 1) * 320)
         step_list.append(pic_step9)
-        log_list.append('5. 调头向上进入' + to_name + '#' + to_point[0] + '的大线环2。')
+        log_list.append('5. 调头向上进入' + to_name + '#' + to_point[0] + '的大线环1。')
         print('pic_step9' + str(pic_step9))
     else:
-        distance_step_4 = WHEEL_DISTANCE[-1] - BIGLINE2_DISTANCE[to_point[0]]
-        print('继续向下进入最下面那个大线环2:' + str(distance_step_4))
-        log_list.append('5. 继续向下进入最下面那个大线环2')
-        pic_step9 = (230, 3120)
+        distance_step_4 = WHEEL_DISTANCE[-1] - BIGLINE_DISTANCE[to_point[0]]
+        print('继续向下进入最下面那个大线环1:' + str(distance_step_4))
+        log_list.append('5. 继续向下进入最下面那个大线环1')
+        pic_step9 = (255, 3040)
         step_list.append(pic_step9)
         print('pic_step9' + str(pic_step9))
     json_list.append(to_point[0])  # [4]
@@ -727,7 +721,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     else:
         distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 190
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
-    log_list.append('6. 从大线环2出来后，往左进入' + to_name + '#' + to_point[0] + '的中线环，并将线嵌入与' + to_point[2] + '列相近的小线环。')  # [6]
+    log_list.append('6. 从大线环1出来后，往左进入' + to_name + '#' + to_point[0] + '的中线环，并将线嵌入与' + to_point[2] + '列相近的小线环。')  # [6]
     pic_step10 = (215 + (int(to_point[2]) - 1) * 17, 290 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
     pic_step11 = (pic_step10[0], pic_step10[1] + 35 * (5 - int(to_point[1])))
     pic_step12 = (pic_step11[0] + distance_step_6 - 190, pic_step11[1])
@@ -745,7 +739,8 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     distance_step_7 = (len(to_slot_rows) - int(to_point[1]) + 1) * 35
     print('往上插入端口:' + str(distance_step_7))
     log_list.append('7. 最后往上将线插入' + to_name + '#' + to_point[0] + '(' + to_point[1] + ',' + to_point[2] + ')端口。')  # [7]
-    used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + distance_step_6 + distance_step_7
+    used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + distance_step_6 + distance_step_7 + \
+        distance_step_2_1
     print('总共需要线长：' + str(used_distance))
     json_list.append(to_point)  # [5]
 

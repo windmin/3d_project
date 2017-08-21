@@ -54,11 +54,13 @@ function draw() {
             ctx.lineTo(step3_x,step3_y);
             ctx.lineTo(step4_x,step4_y);
             ctx.fillText("2", Number(step4_x)+20, Number(step4_y)+20);
+            ctx.lineTo(Number(step4_x)+830, step4_y);
+            ctx.fillText("3", Number(step4_x)+850, Number(step4_y)+20);
             ctx.strokeStyle = "blue";
             ctx.lineWidth = 4;
             ctx.stroke();
         };
-        img.src = '/static/images/img-front.png'; // 设置图片源地址
+        img.src = '/static/images/two-front.png'; // 设置图片源地址
     }
 
 //    第二步
@@ -90,11 +92,11 @@ function draw() {
 ////                ctx2.lineTo(step8_4_x,step8_4_y);
 ////                ctx2.lineTo(step8_5_x,step8_5_y);
                 //如果不是最后一块多2步
-                if (step9_x != 230){
+                if (step9_x != 255){
                     ctx2.lineTo(670,2950); //(530,2950)
                 }
                 ctx2.lineTo(step9_x,step9_y);
-                if (step9_x != 230){
+                if (step9_x != 255){
                     ctx2.lineTo(240,step9_y);
                 }
             }
@@ -104,14 +106,14 @@ function draw() {
                 // ctx2.lineTo(step8_5_x-130,step8_5_y); //(530,)
                 // ctx2.lineTo(530,2950); //(530,2950)
                 //如果不是最后一块多2步
-                if (step9_x != 230){
+                if (step9_x != 255){
                     ctx2.bezierCurveTo(480,step8_5_y-20,450,2970,590,2950);
                     // ctx2.lineTo(670,2950); //(530,2950)
                     ctx2.quadraticCurveTo(830,2950,step9_x,Number(step9_y)+50);
                     ctx2.quadraticCurveTo(590,Number(step9_y)-50,240,step9_y);
                     ctx2.fillText("2", 260, Number(step9_y)+20);
                 }
-                else if (step9_x == 230){
+                else if (step9_x == 255){
                     ctx2.bezierCurveTo(480,step8_5_y-20,690,2970,step9_x,step9_y);
                     // ctx2.lineTo(step9_x,step9_y);
                     ctx2.fillText("2", Number(step9_x)+20, Number(step9_y)+20);
@@ -166,4 +168,5 @@ function draw() {
         };
         img3.src = '/static/images/img-front.png'; // 设置图片源地址
     }
+
 }

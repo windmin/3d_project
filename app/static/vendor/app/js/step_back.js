@@ -193,7 +193,7 @@ function draw() {
         img3.onload = function(){
             // 执行drawImage语句
             ctx3.scale(0.5, 0.5);
-            ctx3.drawImage(img,0,0);
+            ctx3.drawImage(img3,0,0);
             ctx3.font = "54px serif";
             ctx3.fillStyle = 'red';
             ctx3.beginPath();

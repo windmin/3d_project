@@ -9,7 +9,7 @@ from .. import db
 from ..models import ShebeiTable
 from flask_login import login_required,current_user
 from ..decorators import admin_required
-from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back
+from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, calculate_two_front_front
 
 import time
 import datetime
@@ -71,8 +71,10 @@ def index():
                 or jiechushebei_side == jierushebei_side == '72芯配线单元') \
                 and jiechushebei == jierushebei:
             return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        elif jiechushebei != jierushebei and jiechushebei_side == jierushebei_side == '96芯设备单元':
+            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
         else:
-            flash('目前只支持计算相同机架96芯设备单元间的跳纤计算')
+            flash('目前只支持计算相同机架相同单元；和不同机架的96芯设备单元间的跳纤计算')
 
     # elif form.reset.data:
     #     return redirect(url_for('main.index'))
@@ -186,9 +188,13 @@ def step(shebei_dict):
             flash('目前只支持计算相同机架96芯设备单元相连的计算')
     # 不同设备相连
     elif shebei_dict['jiechushebei'] != shebei_dict['jierushebei']:
-        print('2. 不同设备相连')
-        if shebei_dict['jiechushebei'] == shebei_dict['jierushebei'] and shebei_dict['jiechushebei_side'] == '96芯设备单元':
-            print('go')
+        if shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '96芯设备单元':
+            print('adfsdafsaf')
+            step_list, log_list, session['json_list'] = calculate_two_front_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
+                                          shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
+                                          shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+            return render_template('step_two_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
         else:
             flash('目前只支持计算相同机架96芯设备单元相连的计算')
 
