@@ -8,12 +8,17 @@ from .errors import forbidden
 
 @api.route('/render')
 def render():
-    if session.get('json_list')[0] == 'front_front':
-        return jsonify(front_1=session.get('json_list')[1],
-                       front_2=session.get('json_list')[2],
-                       side_3=session.get('json_list')[3],
-                       front_4=session.get('json_list')[4],
-                       front_5=session.get('json_list')[5])
+    if session.get('json_list')[0]:
+        return jsonify(program=session.get('json_list')[0],
+                       step1=session.get('json_list')[1],
+                       step2=session.get('json_list')[2],
+                       step3=session.get('json_list')[3],
+                       step4=session.get('json_list')[4],
+                       step5=session.get('json_list')[5],
+                       step6=session.get('json_list')[6],
+                       step7=session.get('json_list')[7],
+                       step8=session.get('json_list')[8],
+                       step9=session.get('json_list')[9])
 
 
 @api.route('/users')

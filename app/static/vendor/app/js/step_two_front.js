@@ -33,6 +33,8 @@ function draw() {
     var step12_y = $("#picStep12_y").val();
     var step13_x = $("#picStep13_x").val();
     var step13_y = $("#picStep13_y").val();
+    var from_name = $("#from_name").val();
+    var to_name = $("#to_name").val();
 //    alert(step1_y);
 
 //    第一步
@@ -47,6 +49,8 @@ function draw() {
             ctx.drawImage(img,0,0);
             ctx.font = "54px serif";
             ctx.fillStyle = 'red';
+            ctx.fillText(from_name, 370, 60);
+            ctx.fillText(to_name, 1200, 60);
             ctx.beginPath();
             ctx.moveTo(step1_x,step1_y);
             ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
@@ -75,6 +79,7 @@ function draw() {
             ctx2.drawImage(img2,0,0);
             ctx2.font = "54px serif";
             ctx2.fillStyle = 'red';
+            ctx2.fillText(to_name, 500, 70);
             ctx2.beginPath();
             ctx2.moveTo(step5_x,step5_y);
 
@@ -83,57 +88,21 @@ function draw() {
             // ctx2.lineTo(step6_x,step6_y);
             // ctx2.lineTo(550,2930)
             // ctx2.lineTo(step7_x,step7_y); //(650,2930)
-            ctx2.quadraticCurveTo(350,2950,590,step7_y);
-            //需要13个先绕一圈
-            if (step8_1_x != ''){
-                ctx2.lineTo(step8_1_x,step8_1_y);
-                ctx2.lineTo(step8_2_x,step8_2_y);
-                ctx2.lineTo(step8_3_x,step8_3_y);
-////                ctx2.lineTo(step8_4_x,step8_4_y);
-////                ctx2.lineTo(step8_5_x,step8_5_y);
-                //如果不是最后一块多2步
-                if (step9_x != 255){
-                    ctx2.lineTo(670,2950); //(530,2950)
-                }
-                ctx2.lineTo(step9_x,step9_y);
-                if (step9_x != 255){
-                    ctx2.lineTo(240,step9_y);
-                }
-            }
-            else if (step8_1_x == '' && step8_5_x != ''){
-                ctx2.bezierCurveTo(730,2950,720,step8_5_y-20,590,step8_5_y);
-                // ctx2.lineTo(step8_5_x,step8_5_y); //(650,)
-                // ctx2.lineTo(step8_5_x-130,step8_5_y); //(530,)
-                // ctx2.lineTo(530,2950); //(530,2950)
-                //如果不是最后一块多2步
-                if (step9_x != 255){
-                    ctx2.bezierCurveTo(480,step8_5_y-20,450,2970,590,2950);
-                    // ctx2.lineTo(670,2950); //(530,2950)
-                    ctx2.quadraticCurveTo(830,2950,step9_x,Number(step9_y)+50);
-                    ctx2.quadraticCurveTo(590,Number(step9_y)-50,240,step9_y);
-                    ctx2.fillText("2", 260, Number(step9_y)+20);
-                }
-                else if (step9_x == 255){
-                    ctx2.bezierCurveTo(480,step8_5_y-20,690,2970,step9_x,step9_y);
-                    // ctx2.lineTo(step9_x,step9_y);
-                    ctx2.fillText("2", Number(step9_x)+20, Number(step9_y)+20);
-                }
-                // if (step9_x != 230){
-                //     ctx2.lineTo(240,step9_y);
-                // }
-            }
-            //不用绕圈
-            else if (step8_1_x == '' && step8_5_x == ''){
-//                ctx2.lineTo(step7_x,step7_y-110);
-//                ctx2.lineTo(step7_x-100,step7_y-110);
-//                ctx2.lineTo(step7_x-100,2950);
-//                 ctx2.lineTo(step9_x,step9_y);
-                ctx2.bezierCurveTo(660,2950,660,2790,590,2810);
-                ctx2.quadraticCurveTo(300,Number(step9_y)-100,240,step9_y);
-                // ctx2.lineTo(240,step9_y);
+            ctx2.bezierCurveTo(350,Number(step6_y)+215,Number(step6_x)+30,Number(step6_y)-200,700,Number(step6_y)+100);
+            ctx2.quadraticCurveTo(850,2970,590,2950);
 
-                ctx2.fillText("2", 260, Number(step9_y)+20);
+
+            if (step7_y != 2605){
+                ctx2.bezierCurveTo(450,2920,630,2800,660,2600);
+                ctx2.bezierCurveTo(660,2600,Number(step7_x)+200,Number(step7_y)-80,step7_x,Number(step7_y)-50);
+                ctx2.quadraticCurveTo(Number(step7_x)-100,Number(step7_y)-100,step9_x,step9_y);
             }
+            else{
+                ctx2.bezierCurveTo(430,2920,630,2800,660,2700);
+                ctx2.bezierCurveTo(660,2690,Number(step7_x)+200,Number(step7_y)-80,step7_x,Number(step7_y)-50);
+                ctx2.quadraticCurveTo(Number(step7_x)-70,Number(step7_y)-70,step9_x,step9_y);
+            }
+            ctx2.fillText("2", Number(step9_x)+20, Number(step9_y)+20);
 
             ctx2.strokeStyle = "blue";
             ctx2.lineWidth = 4;
@@ -155,6 +124,7 @@ function draw() {
             ctx3.drawImage(img3,0,0);
             ctx3.font = "54px serif";
             ctx3.fillStyle = 'red';
+            ctx3.fillText(to_name, 370, 70);
             ctx3.beginPath();
             ctx3.moveTo(step13_x,step13_y);
             ctx3.fillText("1", Number(step13_x)+20, Number(step13_y)+20);

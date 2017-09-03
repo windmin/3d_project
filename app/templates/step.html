@@ -27,7 +27,7 @@
     <div class="col-md-8 col-md-offset-3">
         <article>
 {#            <p>第一步</p>#}
-            <p>{{ log_list[3] }}</p>
+            <p>{{ log_list[6] }}</p>
             <p>{{ log_list[0] }}</p>
             <p>{{ log_list[1] }}</p>
             <canvas id="canvas1" width="931" height="3298"></canvas>
@@ -41,8 +41,7 @@
         <article>
 {#            <p>第二步</p>#}
             <p>{{ log_list[2] }}</p>
-            <p>{{ log_list[4] }}</p>
-            <p>{{ log_list[5] }}</p>
+            <p>{{ log_list[3] }}</p>
             <canvas id="canvas2" width="1195" height="3298"></canvas>
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
@@ -54,8 +53,8 @@
     <div class="col-md-8 col-md-offset-3">
         <article>
 {#            <p>第三步</p>#}
-            <p>{{ log_list[6] }}</p>
-            <p>{{ log_list[7] }}</p>
+            <p>{{ log_list[4] }}</p>
+            <p>{{ log_list[5] }}</p>
             <canvas id="canvas3" width="931" height="3298"></canvas>
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
@@ -99,6 +98,8 @@
 <input class="result" id="picStep12_y" name="picStep12_y" type="hidden" value="{{ step_list[11][1] }}">
 <input class="result" id="picStep13_x" name="picStep13_x" type="hidden" value="{{ step_list[12][0] }}">
 <input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[12][1] }}">
+<input class="result" id="from_name" name="from_name" type="hidden" value="{{ shebei_dict['jiechushebei'] }}">
+<input class="result" id="to_name" name="to_name" type="hidden" value="{{ shebei_dict['jierushebei'] }}">
 
 {% endblock %}
 

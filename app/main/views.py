@@ -152,8 +152,17 @@ def slot(shebei_dict):
             else:
                 shebei_dict['jiechushebei_radio'] = jiechushebei_radio.split(',') #['1', '1', '24']
                 shebei_dict['jierushebei_radio'] = jierushebei_radio.split(',')
+                print('ymwu')
+                print(shebei_dict['jiechushebei_radio'][0])
+                print(shebei_dict['jierushebei_radio'][0])
                 if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio']:
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
+                elif int(shebei_dict['jiechushebei_radio'][0]) > int(shebei_dict['jierushebei_radio'][0]):
+                    flash('接出端口必需高于接入端口！')
+                elif shebei_dict['jiechushebei_radio'][0] == '12' and shebei_dict['jiechushebei_side'] == '72芯配线单元':
+                    flash('接出端口不能是最后一个单元！')
+                elif shebei_dict['jiechushebei_radio'][0] == '9' and shebei_dict['jiechushebei_side'] == '96芯设备单元':
+                    flash('接出端口不能是最后一个单元！')
                 else:
                     return redirect(url_for('main.step',shebei_dict=shebei_dict))
 
@@ -189,7 +198,6 @@ def step(shebei_dict):
     # 不同设备相连
     elif shebei_dict['jiechushebei'] != shebei_dict['jierushebei']:
         if shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '96芯设备单元':
-            print('adfsdafsaf')
             step_list, log_list, session['json_list'] = calculate_two_front_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\

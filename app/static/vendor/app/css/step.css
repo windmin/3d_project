@@ -1,0 +1,21 @@
+.navbar {
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.page-header {
+    margin-top: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background: #f6f6f6;
+}
+
+.page-header p {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+article>p>span {
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+}
