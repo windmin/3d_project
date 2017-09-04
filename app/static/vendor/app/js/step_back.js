@@ -150,10 +150,11 @@ function draw() {
             ctx3.beginPath();
             ctx3.moveTo(step10_x,step10_y);
             ctx3.fillText("1", Number(step10_x)-40, Number(step10_y)+20);
-            ctx3.lineTo(step11_x,step11_y);
+            ctx3.lineTo(step11_x,Number(step11_y)+25);
+            ctx3.arc(Number(step11_x)+25,Number(step11_y)+25,25,Math.PI,1.5*Math.PI,false);
             ctx3.lineTo(step12_x,step12_y);
             ctx3.fillText("2", Number(step12_x)+20, Number(step12_y)+20);
-            // ctx3.lineTo(step10_x,step10_y);
+//            // ctx3.lineTo(step10_x,step10_y);
             ctx3.strokeStyle = "#FFF200";
             ctx3.lineWidth = 4;
             ctx3.stroke();

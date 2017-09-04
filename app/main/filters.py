@@ -1,4 +1,6 @@
 def peixian_danyuan(s):
+    if isinstance(s, int):
+        s = str(s)
     PEIXIAN_DANYUAN = {
         '1': 'A',
         '2': 'B',

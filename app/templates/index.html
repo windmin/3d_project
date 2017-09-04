@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}跳纤计算{% endblock %}
+{% block navbar %}
+    {{ super() }}
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="step">1.选择机架</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block page_content %}
-<div class="page-header">
-{#<h1>泵选型报价列表</h1>#}
-</div>
+
 
 <div class="row">
     <div class="col-md-6 col-md-offset-3">{{ wtf.quick_form(form) }}</div>

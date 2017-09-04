@@ -1,19 +1,23 @@
 {% extends "bootstrap/base.html" %}
 {%- block metas %}<meta charset="UTF-8">{% endblock %}
-{% block title %}鲲九泵业 报价系统{% endblock %}
+{% block title %}3d_project{% endblock %}
 {% block styles %}
     {{ super() }}
     <!-- Bootstrap Core CSS -->
     <link href={{ url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
 
+    <link href={{ url_for('static', filename = 'vendor/app/css/normalize.css') }} rel="stylesheet">
+
+    <link href={{ url_for('static', filename = 'vendor/app/css/base.css') }} rel="stylesheet">
+
     <!-- MetisMenu CSS -->
-    <link href={{ url_for('static', filename = 'vendor/metisMenu/metisMenu.min.css') }} rel="stylesheet">
+{#    <link href={{ url_for('static', filename = 'vendor/metisMenu/metisMenu.min.css') }} rel="stylesheet">#}
 
     <!-- Custom CSS -->
-    <link href={{ url_for('static', filename = 'dist/css/sb-admin-2.css') }} rel="stylesheet">
+{#    <link href={{ url_for('static', filename = 'dist/css/sb-admin-2.css') }} rel="stylesheet">#}
 
     <!-- Morris Charts CSS -->
-    <link href={{ url_for('static', filename = 'vendor/morrisjs/morris.css') }} rel="stylesheet">
+{#    <link href={{ url_for('static', filename = 'vendor/morrisjs/morris.css') }} rel="stylesheet">#}
 
     <!-- Custom Fonts -->
     <link href={{ url_for('static', filename = 'vendor/font-awesome/css/font-awesome.min.css') }} rel="stylesheet" type="text/css">
@@ -46,6 +50,18 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/shebei">添加机架</a></li>
                     <li><a href="/">跳纤计算</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+{#                    {% if current_user.is_administrator() %}#}
+{#                        <li><a href="{{ url_for('auth.account') }}">Accounts</a></li>#}
+{#                    {% endif %}#}
+
+                    {% if current_user.is_authenticated %}
+                        <li><span>你好, {{ current_user.username }}</span></li>
+                        <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('auth.login') }}">登入</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

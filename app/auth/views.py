@@ -16,28 +16,21 @@ from urllib.error import HTTPError
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    #lock机制
-    try:
-        html = urlopen("http://116.62.23.7/user/access")
-    except HTTPError as e:
-        # return redirect(url_for('auth.lock'))
-        if form.validate_on_submit():
-            user = User.query.filter_by(username=form.username.data, status=True).first()
-            if user is None:
-                flash('Your accout is disabled. Please contact administrator.')
-            elif user is not None and user.verify_password(form.password.data):
-                login_user(user, form.remember_me.data)
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data, status=True).first()
+        if user is None:
+            flash('Your accout is disabled. Please contact administrator.')
+        elif user is not None and user.verify_password(form.password.data):
+            login_user(user, form.remember_me.data)
 
-                user.sid = session['_id']
-                db.session.add(user)
-                db.session.commit()
+            user.sid = session['_id']
+            db.session.add(user)
+            db.session.commit()
 
-                return redirect(request.args.get('next') or url_for('main.baojialiebiao'))
-            else:
-                flash('Invalid username or password.')
-        return render_template('auth/login.html',form=form) #templates/auth/login.html
-    else:
-        return redirect(url_for('auth.lock'))
+            return redirect(request.args.get('next') or url_for('main.index'))
+        else:
+            flash('Invalid username or password.')
+    return render_template('auth/login.html',form=form) #templates/auth/login.html
 
 
 @auth.route('/logout')
@@ -55,13 +48,13 @@ def logout():
 def account():
     if current_user.status == False:
         return redirect(url_for('auth.login'))
-    #判断是否有新登入
-    user_result = User.query.filter_by(username=current_user.username).first()
-    if user_result.sid != session['_id']:
-        del_account_id = session['_id']
-    else:
-        del_account_id = ''
-    #判断是否有新登入
+    # #判断是否有新登入
+    # user_result = User.query.filter_by(username=current_user.username).first()
+    # if user_result.sid != session['_id']:
+    #     del_account_id = session['_id']
+    # else:
+    #     del_account_id = ''
+    # #判断是否有新登入
     form = CreateuserForm()
     accounts = User.query.all()
     if form.validate_on_submit():
@@ -69,24 +62,17 @@ def account():
         password = form.password.data
         email = form.email.data
         type = form.type.data
-        rate = form.rate.data
-        group = form.group.data
-        code = form.code.data
-        if username != '' and password != '' and email != '' and type != '' and rate != '' :
-            code_list = [list.code for list in User.query.all()]
-            if (code_list != []) and (code in code_list):
-                flash('用户名称代码 ' + code + ' 已存在，请重新命名')
+        if username != '' and password != '' and email != '' and type != '' :
+            if User.query.filter_by(username=username).first():
+                flash(username+'已注册！请更换username重新注册！')
             else:
                 db.session.add(User(username = username, \
-                                           password = password, \
-                                           email = email, \
-                                           role_id = type, \
-                                           rate = rate, \
-                                           group = group, \
-                                           code = code))
+                                   password = password, \
+                                   email = email, \
+                                   role_id = type))
                 db.session.commit()
                 return redirect(url_for('auth.account'))
-    return render_template('auth/account.html',accounts=accounts,form=form,del_account_id=del_account_id)
+    return render_template('auth/account.html',accounts=accounts,form=form)
 
 
 @auth.route('/account/delete/<id>',methods=['GET','POST'])
@@ -107,13 +93,13 @@ def account_delete(id):
 def account_edit(id):
     if current_user.status == False:
         return redirect(url_for('auth.login'))
-    #判断是否有新登入
-    user_result = User.query.filter_by(username=current_user.username).first()
-    if user_result.sid != session['_id']:
-        del_account_id = session['_id']
-    else:
-        del_account_id = ''
-    #判断是否有新登入
+    # #判断是否有新登入
+    # user_result = User.query.filter_by(username=current_user.username).first()
+    # if user_result.sid != session['_id']:
+    #     del_account_id = session['_id']
+    # else:
+    #     del_account_id = ''
+    # #判断是否有新登入
     result = User.query.filter_by(id=id).first()
     form = EdituserForm()
     if form.validate_on_submit():
@@ -122,28 +108,17 @@ def account_edit(id):
             result.password = form.password.data
         result.email = form.email.data
         result.role_id = form.type.data
-        result.rate = form.rate.data
         result.status = form.status.data
-        result.group = form.group.data
 
-        code_list = [list.code for list in User.query.all()]
-        code_list.remove(User.query.filter_by(id=id).first().code)
-        if (code_list != []) and (form.code.data in code_list):
-            flash('用户名称代码 ' + form.code.data + ' 已存在，请重新命名')
-        else:
-            result.code = form.code.data
-            db.session.add(result)
-            db.session.commit()
-            return redirect(url_for('auth.account'))
+        db.session.add(result)
+        db.session.commit()
+        return redirect(url_for('auth.account'))
     form.username.data = result.username
     # form.password.data = ''
     form.email.data = result.email
     form.type.data = result.role_id
-    form.rate.data = result.rate
     form.status.data = result.status
-    form.group.data = result.group
-    form.code.data = result.code
-    return render_template('auth/account-edit.html',form=form,del_account_id=del_account_id)
+    return render_template('auth/account-edit.html',form=form)
 
 
 @auth.route('/reset', methods=['GET', 'POST'])

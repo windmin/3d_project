@@ -20,6 +20,14 @@ import os
 @main.route('/shebei',methods=['GET','POST'])
 def shebei():
     form = CreateShebeiForm()
+
+    form.front_slotNums.render_kw = {'disabled':'true'}
+    form.front_slot_rows.render_kw = {'disabled':'true'}
+    form.front_slot_cols.render_kw = {'disabled':'true'}
+    form.back_slotNums.render_kw = {'disabled':'true'}
+    form.back_slot_rows.render_kw = {'disabled':'true'}
+    form.back_slot_cols.render_kw = {'disabled':'true'}
+
     shebeiTables = ShebeiTable.query.all()
     if form.validate_on_submit():
         shebei_name = form.shebei_name.data

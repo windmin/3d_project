@@ -5,10 +5,10 @@ from ..models import User, Role
 
 class LoginForm(FlaskForm):
     # email = StringField('Email', validators=[DataRequired(), Length(1, 64),Email()])
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('用户名', validators=[DataRequired()])
+    password = PasswordField('密码', validators=[DataRequired()])
     remember_me = BooleanField('Remember me')
-    submit = SubmitField('Login')
+    submit = SubmitField('登录')
 
 
 class CreateuserForm(FlaskForm):
@@ -17,8 +17,6 @@ class CreateuserForm(FlaskForm):
     password2 = PasswordField('Confirm Password', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),Email()])
     type = SelectField('User type',coerce=int,default=2)
-    rate = FloatField('Rate', validators=[DataRequired()])
-    code = StringField('Code', validators=[DataRequired(), Regexp('^[A-Z]{3}$', 0,'Code只能是三位大写字母')])
     submit = SubmitField('Create')
 
     def __init__(self, *args, **kwargs):
@@ -40,16 +38,12 @@ class EdituserForm(FlaskForm):
     # password = PasswordField('密码', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Length(1, 64),Email()])
     type = SelectField('User type',coerce=int,default=2)
-    rate = FloatField('Rate',validators=[DataRequired()])
     password = PasswordField('Change Password')
     status = BooleanField('Enable Account')
-    group = SelectField('Group', validators=[DataRequired()])
-    code = StringField('Code', validators=[DataRequired(), Regexp('^[A-Z]{3}$', 0,'Code只能是三位大写字母')])
     submit = SubmitField('更新')
     def __init__(self, *args, **kwargs):
         super(EdituserForm, self).__init__(*args, **kwargs)
         self.type.choices = [(u.id,u.name) for u in Role.query.all()]
-        self.group.choices = [(group.GroupName,group.GroupName) for group in GroupTable.query.all()]
 
 
 class PasswordResetRequestForm(FlaskForm):

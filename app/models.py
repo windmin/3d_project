@@ -62,12 +62,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) #外键role_id = roles.id= roles表中的id
-    rate = db.Column(db.Float)
     status = db.Column(db.Boolean, default=True)
-    group = db.Column(db.String(16))
-    code = db.Column(db.String(3))
-    gerenliushuihao = db.Column(db.Integer, default=0)
-    sid = db.Column(db.String(256))
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
