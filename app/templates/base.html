@@ -57,7 +57,7 @@
 {#                    {% endif %}#}
 
                     {% if current_user.is_authenticated %}
-                        <li><span>你好, {{ current_user.username }}</span></li>
+                        <li class="hello-user"><span>你好, {{ current_user.username }}</span></li>
                         <li><a href="{{ url_for('auth.logout') }}">退出</a></li>
                     {% else %}
                         <li><a href="{{ url_for('auth.login') }}">登入</a></li>

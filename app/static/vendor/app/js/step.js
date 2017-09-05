@@ -13,16 +13,18 @@ function draw() {
     var step6_y = $("#picStep6_y").val();
     var step7_x = $("#picStep7_x").val();
     var step7_y = $("#picStep7_y").val();
-    var step8_1_x = $("#picStep8_1_x").val();
-    var step8_1_y = $("#picStep8_1_y").val();
-    var step8_2_x = $("#picStep8_2_x").val();
-    var step8_2_y = $("#picStep8_2_y").val();
-    var step8_3_x = $("#picStep8_3_x").val();
-    var step8_3_y = $("#picStep8_3_y").val();
-    var step8_4_x = $("#picStep8_4_x").val();
-    var step8_4_y = $("#picStep8_4_y").val();
-    var step8_5_x = $("#picStep8_5_x").val();
-    var step8_5_y = $("#picStep8_5_y").val();
+    var step8_x = $("#picStep8_x").val();
+    var step8_y = $("#picStep8_y").val();
+//    var step8_1_x = $("#picStep8_1_x").val();
+//    var step8_1_y = $("#picStep8_1_y").val();
+//    var step8_2_x = $("#picStep8_2_x").val();
+//    var step8_2_y = $("#picStep8_2_y").val();
+//    var step8_3_x = $("#picStep8_3_x").val();
+//    var step8_3_y = $("#picStep8_3_y").val();
+//    var step8_4_x = $("#picStep8_4_x").val();
+//    var step8_4_y = $("#picStep8_4_y").val();
+//    var step8_5_x = $("#picStep8_5_x").val();
+//    var step8_5_y = $("#picStep8_5_y").val();
     var step9_x = $("#picStep9_x").val();
     var step9_y = $("#picStep9_y").val();
     var step10_x = $("#picStep10_x").val();
@@ -31,8 +33,8 @@ function draw() {
     var step11_y = $("#picStep11_y").val();
     var step12_x = $("#picStep12_x").val();
     var step12_y = $("#picStep12_y").val();
-    var step13_x = $("#picStep13_x").val();
-    var step13_y = $("#picStep13_y").val();
+//    var step13_x = $("#picStep13_x").val();
+//    var step13_y = $("#picStep13_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
 //    alert(step1_y);
@@ -53,12 +55,14 @@ function draw() {
             ctx.beginPath();
             ctx.moveTo(step1_x,step1_y);
             ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
-            ctx.lineTo(step2_x,step2_y);
-            ctx.lineTo(step3_x,step3_y);
+            ctx.lineTo(step2_x,Number(step2_y)-25);
+            ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx.lineTo(Number(step4_x)-25,step3_y);
+            ctx.arc(Number(step4_x)-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
             ctx.lineTo(step4_x,step4_y);
             ctx.fillText("2", Number(step4_x)+20, Number(step4_y)+20);
-            ctx.strokeStyle = "blue";
-            ctx.lineWidth = 4;
+            ctx.strokeStyle = "#FFF200";
+            ctx.lineWidth = 6;
             ctx.stroke();
         };
         img.src = '/static/images/img-front.png'; // 设置图片源地址
@@ -79,30 +83,32 @@ function draw() {
             ctx2.fillText(to_name, 500, 70);
             ctx2.beginPath();
             ctx2.moveTo(step5_x,step5_y);
+            ctx2.fillText("1", Number(step5_x)+80, Number(step5_y)-20);
+            ctx2.lineTo(500-25,step5_y);
+            ctx2.arc(500-25,Number(step5_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(500,step6_y);
+            ctx2.arc(500+25,step6_y,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25,Number(step6_y)-25);
+            ctx2.arc(680-25,Number(step6_y)-25+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx2.lineTo(680,2930);
+            ctx2.arc(680-25,2930,25,0,0.5*Math.PI,false);
+            ctx2.lineTo(500+25,2930+25);
+            ctx2.arc(500+25,2930,25,0.5*Math.PI,Math.PI,false);
+            ctx2.lineTo(500,2810+25);
+            ctx2.arc(500+25,2810+25,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25-25,2810);
+            ctx2.arc(680-25-25,2810-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(680-25,Number(step7_y)+25);
+            ctx2.arc(680-25-25,Number(step7_y)+25,25,0,1.5*Math.PI,true);
+            ctx2.lineTo(525+25,step7_y);
+            ctx2.arc(525+25,Number(step7_y)+25,25,1.5*Math.PI,Math.PI,true);
+            ctx2.lineTo(525,Number(step8_y)-25);
+            ctx2.arc(525-25,Number(step8_y)-25,25,0,0.5*Math.PI,false);
+            ctx2.lineTo(step8_x,step8_y);
+            ctx2.fillText("2", Number(step8_x)+150, Number(step8_y)-20);
 
-            ctx2.fillText("1", Number(step5_x)+20, Number(step5_y)+20);
-
-            // ctx2.lineTo(step6_x,step6_y);
-            // ctx2.lineTo(550,2930)
-            // ctx2.lineTo(step7_x,step7_y); //(650,2930)
-            ctx2.bezierCurveTo(350,Number(step6_y)+215,Number(step6_x)+30,Number(step6_y)-200,700,Number(step6_y)+100);
-            ctx2.quadraticCurveTo(850,2970,590,2950);
-
-
-            if (step7_y != 2605){
-                ctx2.bezierCurveTo(450,2920,630,2800,660,2600);
-                ctx2.bezierCurveTo(660,2600,Number(step7_x)+200,Number(step7_y)-80,step7_x,Number(step7_y)-50);
-                ctx2.quadraticCurveTo(Number(step7_x)-100,Number(step7_y)-100,step9_x,step9_y);
-            }
-            else{
-                ctx2.bezierCurveTo(430,2920,630,2800,660,2700);
-                ctx2.bezierCurveTo(660,2690,Number(step7_x)+200,Number(step7_y)-80,step7_x,Number(step7_y)-50);
-                ctx2.quadraticCurveTo(Number(step7_x)-70,Number(step7_y)-70,step9_x,step9_y);
-            }
-            ctx2.fillText("2", Number(step9_x)+20, Number(step9_y)+20);
-
-            ctx2.strokeStyle = "blue";
-            ctx2.lineWidth = 4;
+            ctx2.strokeStyle = "#FFF200";
+            ctx2.lineWidth = 6;
             ctx2.stroke();
         };
         img2.src = '/static/images/img-side.png'; // 设置图片源地址
@@ -123,14 +129,16 @@ function draw() {
             ctx3.fillStyle = 'red';
             ctx3.fillText(to_name, 370, 70);
             ctx3.beginPath();
-            ctx3.moveTo(step13_x,step13_y);
-            ctx3.fillText("1", Number(step13_x)+20, Number(step13_y)+20);
-            ctx3.lineTo(step12_x,step12_y);
-            ctx3.lineTo(step11_x,step11_y);
-            ctx3.lineTo(step10_x,step10_y);
-            ctx3.fillText("2", Number(step10_x)+20, Number(step10_y)+20);
-            ctx3.strokeStyle = "blue";
-            ctx3.lineWidth = 4;
+            ctx3.moveTo(step12_x,step12_y);
+            ctx3.fillText("1", Number(step12_x)+20, Number(step12_y)+20);
+            ctx3.lineTo(step12_x,Number(step11_y)+25);
+            ctx3.arc(Number(step12_x)-25,Number(step11_y)+25,25,0,1.5*Math.PI,true);
+            ctx3.lineTo(Number(step10_x)+25,step10_y);
+            ctx3.arc(Number(step10_x)+25,Number(step10_y)-25,25,0.5*Math.PI,Math.PI,false);
+            ctx3.lineTo(step9_x,step9_y);
+            ctx3.fillText("2", Number(step9_x)+20, Number(step9_y)+20);
+            ctx3.strokeStyle = "#FFF200";
+            ctx3.lineWidth = 6;
             ctx3.stroke();
         };
         img3.src = '/static/images/img-front.png'; // 设置图片源地址

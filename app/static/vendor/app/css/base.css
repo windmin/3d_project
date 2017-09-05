@@ -19,6 +19,12 @@
     color: #000000;
 }
 
+.navbar-default .navbar-nav>li>a:hover {
+    color: gray;
+    /*color: rgba(0, 0, 0, 0.8);*/
+    /*background-color: transparent;*/
+}
+
 .navbar-default .navbar-right>li>a {
     font-size: 14px;
     font-weight: normal;
@@ -29,7 +35,7 @@
     border-left: 1px solid #000000;
 }
 
-.navbar-right>li:nth-child(1) {
+.navbar-right>li.hello-user {
     padding: 15px;
 }
 

@@ -17,8 +17,8 @@ def render():
                        step5=session.get('json_list')[5],
                        step6=session.get('json_list')[6],
                        step7=session.get('json_list')[7],
-                       step8=session.get('json_list')[8],
-                       step9=session.get('json_list')[9])
+                       step8=session.get('json_list')[8] if len(session.get('json_list')) > 8 else '',
+                       step9=session.get('json_list')[9] if len(session.get('json_list')) > 9 else '')
 
 
 @api.route('/users')

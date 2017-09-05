@@ -160,9 +160,6 @@ def slot(shebei_dict):
             else:
                 shebei_dict['jiechushebei_radio'] = jiechushebei_radio.split(',') #['1', '1', '24']
                 shebei_dict['jierushebei_radio'] = jierushebei_radio.split(',')
-                print('ymwu')
-                print(shebei_dict['jiechushebei_radio'][0])
-                print(shebei_dict['jierushebei_radio'][0])
                 if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio']:
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
                 elif int(shebei_dict['jiechushebei_radio'][0]) > int(shebei_dict['jierushebei_radio'][0]):
@@ -194,8 +191,6 @@ def step(shebei_dict):
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
             elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
                 step_list, log_list, session['json_list'] = calculate_one_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
-                                          shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
-                                          shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
                 # return redirect(url_for('main.step_back',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list))
                 return render_template('step_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)

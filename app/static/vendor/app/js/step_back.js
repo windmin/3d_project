@@ -96,8 +96,8 @@ function draw() {
             ctx2.lineTo(Number(step6_x)-65,Number(step6_y)-25);
             ctx2.arc(Number(step6_x)-65,Number(step6_y)+25-25,25,1.5*Math.PI,Math.PI,true);
             // ctx2.moveTo(Number(step6_x)-95,Number(step6_y)+25);
-            ctx2.lineTo(Number(step6_x)-96,2930);
-            ctx2.arc(Number(step6_x)-95+25,2930,25,Math.PI,0.5*Math.PI,true);
+            ctx2.lineTo(Number(step6_x)-90,2930);
+            ctx2.arc(Number(step6_x)-90+25,2930,25,Math.PI,0.5*Math.PI,true);
             // ctx2.moveTo(Number(step6_x)-95+25,2930+25);
             ctx2.lineTo(680-25,2930+25);
             ctx2.arc(680-25,2930,25,0.5*Math.PI,0,true);
