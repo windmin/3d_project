@@ -12,12 +12,12 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <h2>要连接的两个端口分别是：</h2>
-            <p><strong>{{ shebei_dict['jiechushebei'] }}</strong>的<strong>{{ shebei_dict['jiechushebei_side'] }}#{{ shebei_dict['jiechushebei_radio'][0] }}({{ shebei_dict['jiechushebei_radio'][1] }},{{ shebei_dict['jiechushebei_radio'][2] }})</strong> 和
-               <strong>{{ shebei_dict['jierushebei'] }}</strong>的<strong>{{ shebei_dict['jierushebei_side'] }}#{{ shebei_dict['jierushebei_radio'][0] }}({{ shebei_dict['jierushebei_radio'][1] }},{{ shebei_dict['jierushebei_radio'][2] }})</strong>
+            <p><strong>{{ shebei_dict['jiechushebei'] }}</strong>的<strong>{{ shebei_dict['jiechushebei_side'] }}{{ shebei_dict['jiechushebei_radio'][0] }}({{ shebei_dict['jiechushebei_radio'][1] }},{{ shebei_dict['jiechushebei_radio'][2] }})</strong> 和
+               <strong>{{ shebei_dict['jierushebei'] }}</strong>的<strong>{{ shebei_dict['jierushebei_side'] }}{{ shebei_dict['jierushebei_radio'][0] }}({{ shebei_dict['jierushebei_radio'][1] }},{{ shebei_dict['jierushebei_radio'][2] }})</strong>
             </p>
-{#            <button type="button" class="btn btn-primary" style="margin-left: 30%;" onclick="{location.href='/modf'}">3D演示</button>#}
-            <button type="button" class="btn btn-primary" style="margin-left: 15%;" onclick="{location.href='http://116.62.23.7:8083'}">3D演示</button>
-            <button type="button" class="btn btn-primary" style="margin-left: 10%;" onclick="{window.history.back(-1);}">返回重选</button>
+            <button type="button" class="btn btn-default" style="margin-left: 10%;" onclick="{window.history.back(-1);}">< 返回重选</button>
+{#            <button type="button" class="btn btn-primary" style="margin-left: 15%; width: 30%;" onclick="{location.href='http://116.62.23.7:8083'}">3D演示</button>#}
+            <button type="button" class="btn btn-primary" style="margin-left: 30%; width:30%;" onclick="{location.href='/modf'}">3D演示</button>
 {#            <input type="submit" name="submit" class="btn btn-default" value="3D演示" style="margin-left: 30%;">#}
         </div>
     </div>
@@ -27,6 +27,7 @@
     <div class="col-md-8 col-md-offset-3">
         <article>
 {#            <p>第一步</p>#}
+            <p><span>接线步骤</span></p>
             <p>{{ log_list[6] }}</p>
             <p>{{ log_list[0] }}</p>
             <p>{{ log_list[1] }}</p>
@@ -80,16 +81,18 @@
 <input class="result" id="picStep6_y" name="picStep6_y" type="hidden" value="{{ step_list[5][1] }}">
 <input class="result" id="picStep7_x" name="picStep7_x" type="hidden" value="{{ step_list[6][0] }}">
 <input class="result" id="picStep7_y" name="picStep7_y" type="hidden" value="{{ step_list[6][1] }}">
-<input class="result" id="picStep8_1_x" name="picStep8_1_x" type="hidden" value="{{ step_list[7][0][0] }}">
-<input class="result" id="picStep8_1_y" name="picStep8_1_y" type="hidden" value="{{ step_list[7][0][1] }}">
-<input class="result" id="picStep8_2_x" name="picStep8_2_x" type="hidden" value="{{ step_list[7][1][0] }}">
-<input class="result" id="picStep8_2_y" name="picStep8_2_y" type="hidden" value="{{ step_list[7][1][1] }}">
-<input class="result" id="picStep8_3_x" name="picStep8_3_x" type="hidden" value="{{ step_list[7][2][0] }}">
-<input class="result" id="picStep8_3_y" name="picStep8_3_y" type="hidden" value="{{ step_list[7][2][1] }}">
-<input class="result" id="picStep8_4_x" name="picStep8_4_x" type="hidden" value="{{ step_list[7][3][0] }}">
-<input class="result" id="picStep8_4_y" name="picStep8_4_y" type="hidden" value="{{ step_list[7][3][1] }}">
-<input class="result" id="picStep8_5_x" name="picStep8_5_x" type="hidden" value="{{ step_list[7][4][0] }}">
-<input class="result" id="picStep8_5_y" name="picStep8_5_y" type="hidden" value="{{ step_list[7][4][1] }}">
+<input class="result" id="picStep8_x" name="picStep8_x" type="hidden" value="{{ step_list[7][0] }}">
+<input class="result" id="picStep8_y" name="picStep8_y" type="hidden" value="{{ step_list[7][1] }}">
+{#<input class="result" id="picStep8_1_x" name="picStep8_1_x" type="hidden" value="{{ step_list[7][0][0] }}">#}
+{#<input class="result" id="picStep8_1_y" name="picStep8_1_y" type="hidden" value="{{ step_list[7][0][1] }}">#}
+{#<input class="result" id="picStep8_2_x" name="picStep8_2_x" type="hidden" value="{{ step_list[7][1][0] }}">#}
+{#<input class="result" id="picStep8_2_y" name="picStep8_2_y" type="hidden" value="{{ step_list[7][1][1] }}">#}
+{#<input class="result" id="picStep8_3_x" name="picStep8_3_x" type="hidden" value="{{ step_list[7][2][0] }}">#}
+{#<input class="result" id="picStep8_3_y" name="picStep8_3_y" type="hidden" value="{{ step_list[7][2][1] }}">#}
+{#<input class="result" id="picStep8_4_x" name="picStep8_4_x" type="hidden" value="{{ step_list[7][3][0] }}">#}
+{#<input class="result" id="picStep8_4_y" name="picStep8_4_y" type="hidden" value="{{ step_list[7][3][1] }}">#}
+{#<input class="result" id="picStep8_5_x" name="picStep8_5_x" type="hidden" value="{{ step_list[7][4][0] }}">#}
+{#<input class="result" id="picStep8_5_y" name="picStep8_5_y" type="hidden" value="{{ step_list[7][4][1] }}">#}
 <input class="result" id="picStep9_x" name="picStep9_x" type="hidden" value="{{ step_list[8][0] }}">
 <input class="result" id="picStep9_y" name="picStep9_y" type="hidden" value="{{ step_list[8][1] }}">
 <input class="result" id="picStep10_x" name="picStep10_x" type="hidden" value="{{ step_list[9][0] }}">
@@ -98,8 +101,8 @@
 <input class="result" id="picStep11_y" name="picStep11_y" type="hidden" value="{{ step_list[10][1] }}">
 <input class="result" id="picStep12_x" name="picStep12_x" type="hidden" value="{{ step_list[11][0] }}">
 <input class="result" id="picStep12_y" name="picStep12_y" type="hidden" value="{{ step_list[11][1] }}">
-<input class="result" id="picStep13_x" name="picStep13_x" type="hidden" value="{{ step_list[12][0] }}">
-<input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[12][1] }}">
+{#<input class="result" id="picStep13_x" name="picStep13_x" type="hidden" value="{{ step_list[12][0] }}">#}
+{#<input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[12][1] }}">#}
 <input class="result" id="from_name" name="from_name" type="hidden" value="{{ shebei_dict['jiechushebei'] }}">
 <input class="result" id="to_name" name="to_name" type="hidden" value="{{ shebei_dict['jierushebei'] }}">
 

@@ -9,7 +9,7 @@ from .. import db
 from ..models import ShebeiTable
 from flask_login import login_required,current_user
 from ..decorators import admin_required
-from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, calculate_two_front_front
+from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, calculate_two_front_front,calculate_two_back_back
 
 import time
 import datetime
@@ -18,6 +18,7 @@ import os
 
 
 @main.route('/shebei',methods=['GET','POST'])
+@login_required
 def shebei():
     form = CreateShebeiForm()
 
@@ -58,31 +59,42 @@ def shebei():
 
 # 选择设备、正背面、端口、计算
 @main.route('/', methods=['GET', 'POST'])
+@login_required
 def index():
     # return jsonify(username="username",
     #                email="email",
     #                id="id")
     form = SelectShebeiForm()
     if form.submit.data:
+        shebei_count = form.shebei_count.data
         jiechushebei = form.jiechushebei.data
         jiechushebei_side = form.jiechushebei_side.data
         jierushebei = form.jierushebei.data
         jierushebei_side = form.jierushebei_side.data
 
+        if shebei_count == 1:
+            if jiechushebei != jierushebei:
+                flash('跳纤机架数=1时，接出机架和接入机架必须是同一台！请重新选择！')
+                return redirect(url_for('main.index'))
         shebei_dict = {
+            'shebei_count': shebei_count,
             'jiechushebei': jiechushebei,
             'jiechushebei_side': jiechushebei_side,
             'jierushebei': jierushebei,
             'jierushebei_side': jierushebei_side
             }
-        if (jiechushebei_side == jierushebei_side == '96芯设备单元' \
-                or jiechushebei_side == jierushebei_side == '72芯配线单元') \
-                and jiechushebei == jierushebei:
-            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
-        elif jiechushebei != jierushebei and jiechushebei_side == jierushebei_side == '96芯设备单元':
-            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        # if (jiechushebei_side == jierushebei_side == '96芯设备单元' \
+        #         or jiechushebei_side == jierushebei_side == '72芯配线单元') \
+        #         and jiechushebei == jierushebei:
+        #     return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        # elif jiechushebei != jierushebei and jiechushebei_side == jierushebei_side == '96芯设备单元':
+        #     return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        # else:
+        #     flash('目前只支持计算相同机架相同单元；和不同机架的96芯设备单元间的跳纤计算')
+        if jiechushebei_side != jierushebei_side:
+            flash('目前不支持96芯设备单元和72芯配线单元间的跳纤')
         else:
-            flash('目前只支持计算相同机架相同单元；和不同机架的96芯设备单元间的跳纤计算')
+            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
 
     # elif form.reset.data:
     #     return redirect(url_for('main.index'))
@@ -189,6 +201,7 @@ def step(shebei_dict):
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
             elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
                 step_list, log_list, session['json_list'] = calculate_one_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
@@ -204,12 +217,17 @@ def step(shebei_dict):
             step_list, log_list, session['json_list'] = calculate_two_front_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
-                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
+                                          shebei_dict['shebei_count'])
             return render_template('step_two_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
+        elif shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '72芯配线单元':
+            step_list, log_list, session['json_list'] = calculate_two_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],shebei_dict['shebei_count'])
+            return render_template('step_two_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
         else:
             flash('目前只支持计算相同机架96芯设备单元相连的计算')
 
-    return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
+    # return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
 
 
 @main.route('/modf')

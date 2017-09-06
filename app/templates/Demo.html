@@ -1,0 +1,62 @@
+<html>
+<head>
+	<title>My first three.js app</title>
+	<style>
+            body { margin: 0; }
+            canvas { width: 100%; height: 100% }
+        </style>
+</head>
+<body>
+<script src="./build/three.js"></script>
+<script>
+            //创建一个场景对象
+            var scene = new THREE.Scene();
+            //创建一个相机对象
+            var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+            //创建一个渲染器对象
+            var renderer = new THREE.WebGLRenderer();
+            //设置画布尺寸
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            //设置画布色
+                        renderer.setClearColor(0x00AABB, 1.0);
+                        //将渲染画布添加到浏览器中，以便后面剩放相机拍下的景
+                document.body.appendChild( renderer.domElement );
+
+                //创建一个几何体长、宽、高分别为1几何体对象
+            var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+            //材料、皮肤
+            var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+            //将material材料添加到几何体geometry，产生新的对象几何体cube
+            var cube = new THREE.Mesh( geometry, material );
+            //将几何体添加至场景中
+            scene.add( cube );
+
+           // var geometry1 = new THREE.CylinderGeometry(1, 1, 1, 18, 1);
+            //var cube1 = new THREE.Mesh(geometry1, material);
+            //scene.add(cube1);
+
+            //线
+            var material = new THREE.LineBasicMaterial({color:0x0000ff});
+			        var geometry = new THREE.Geometry();
+        geometry.vertices.push(new THREE.Vector3(-10,0,0));
+        geometry.vertices.push(new THREE.Vector3(0,10,0));
+        geometry.vertices.push(new THREE.Vector3(0,5,0));
+        var line=new THREE.Line(geometry,material);
+        scene.add(line);
+
+            //设置相机z轴，垂直电脑屏幕位置
+            camera.position.z = 5;
+            camera.position.x = 1;
+            camera.position.y = 1;
+            camera.lookat
+            var render = function () {
+                requestAnimationFrame( render );  //循环渲染
+                //cube.rotation.x += 0.1; //x轴每秒旋转60次
+                cube.rotation.y += 0.1;//y轴每秒旋转60次
+                renderer.render(scene, camera); //实时将相机拍下的几何体渲染到场景中
+            };
+            render();
+</script>
+</body>
+</html>
