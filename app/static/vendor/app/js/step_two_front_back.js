@@ -15,16 +15,16 @@ function draw() {
     var step7_y = $("#picStep7_y").val();
     var step8_x = $("#picStep8_x").val();
     var step8_y = $("#picStep8_y").val();
-    // var step8_1_x = $("#picStep8_1_x").val();
-    // var step8_1_y = $("#picStep8_1_y").val();
-    // var step8_2_x = $("#picStep8_2_x").val();
-    // var step8_2_y = $("#picStep8_2_y").val();
-    // var step8_3_x = $("#picStep8_3_x").val();
-    // var step8_3_y = $("#picStep8_3_y").val();
-    // var step8_4_x = $("#picStep8_4_x").val();
-    // var step8_4_y = $("#picStep8_4_y").val();
-    // var step8_5_x = $("#picStep8_5_x").val();
-    // var step8_5_y = $("#picStep8_5_y").val();
+//    var step8_1_x = $("#picStep8_1_x").val();
+//    var step8_1_y = $("#picStep8_1_y").val();
+//    var step8_2_x = $("#picStep8_2_x").val();
+//    var step8_2_y = $("#picStep8_2_y").val();
+//    var step8_3_x = $("#picStep8_3_x").val();
+//    var step8_3_y = $("#picStep8_3_y").val();
+//    var step8_4_x = $("#picStep8_4_x").val();
+//    var step8_4_y = $("#picStep8_4_y").val();
+//    var step8_5_x = $("#picStep8_5_x").val();
+//    var step8_5_y = $("#picStep8_5_y").val();
     var step9_x = $("#picStep9_x").val();
     var step9_y = $("#picStep9_y").val();
     var step10_x = $("#picStep10_x").val();
@@ -33,11 +33,11 @@ function draw() {
     var step11_y = $("#picStep11_y").val();
     var step12_x = $("#picStep12_x").val();
     var step12_y = $("#picStep12_y").val();
-    // var step13_x = $("#picStep13_x").val();
-    // var step13_y = $("#picStep13_y").val();
+//    var step13_x = $("#picStep13_x").val();
+//    var step13_y = $("#picStep13_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
-   // alert(step1_y);
+//    alert(step1_y);
 
 //    第一步
     var canvas1 = document.getElementById("canvas1");
@@ -51,24 +51,25 @@ function draw() {
             ctx.drawImage(img,0,0);
             ctx.font = "54px serif";
             ctx.fillStyle = 'red';
-            ctx.fillText(from_name, 370, 70);
+            ctx.fillText(from_name, 370, 60);
+            ctx.fillText(to_name, 1200, 60);
             ctx.beginPath();
             ctx.moveTo(step1_x,step1_y);
             ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
-            ctx.lineTo(Number(step2_x)+25,step2_y);
-            ctx.arc(Number(step2_x)+25, Number(step2_y)+25, 25, 1.5*Math.PI, Math.PI, true);
-            // ctx.moveTo(step2_x, Number(step2_y)+25);
-            ctx.lineTo(step3_x,step3_y);
-            ctx.fillText("2", Number(step3_x)+20, Number(step3_y)+20);
-            ctx.lineTo(step4_x,step4_y);
-            ctx.fillText("3", Number(step4_x)+20, Number(step4_y)+20);
-            // ctx.lineTo(step5_x, step5_y);
-
+            ctx.lineTo(step2_x,Number(step2_y)-25);
+            ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx.lineTo(Number(step4_x)-70-25,step3_y);
+            ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx.lineTo(Number(step4_x)-70,Number(step4_y)-25);
+            ctx.arc(Number(step4_x)-70+25,Number(step4_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx.lineTo(Number(step4_x)+830-25, step4_y);
+            ctx.arc(Number(step4_x)+830-25,Number(step4_y)-25,25,0.5*Math.PI,0,true);
+            ctx.fillText("2", Number(step4_x)+830+20, Number(step4_y)+20);
             ctx.strokeStyle = "#FFF200";
             ctx.lineWidth = 6;
             ctx.stroke();
         };
-        img.src = '/static/images/img-back.png'; // 设置图片源地址
+        img.src = '/static/images/two-front.png'; // 设置图片源地址
     }
 
 //    第二步
@@ -86,45 +87,27 @@ function draw() {
             ctx2.fillText(to_name, 500, 70);
             ctx2.beginPath();
             ctx2.moveTo(step5_x,step5_y);
-            ctx2.fillText("1", Number(step5_x)-200, Number(step5_y));
-            ctx2.lineTo(680+25,step5_y);
-            ctx2.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
-            // ctx2.moveTo(680, Number(step5_y)-25);
-            ctx2.lineTo(680,Number(step6_y)+25-25);
-            ctx2.arc(680-25, Number(step6_y)+25-25, 25, 0, 1.5*Math.PI, true);
-            // ctx2.moveTo(680-25, step6_y);
-            ctx2.lineTo(Number(step6_x)-65,Number(step6_y)-25);
-            ctx2.arc(Number(step6_x)-65,Number(step6_y)+25-25,25,1.5*Math.PI,Math.PI,true);
-            // ctx2.moveTo(Number(step6_x)-95,Number(step6_y)+25);
-            ctx2.lineTo(Number(step6_x)-90,2930);
-            ctx2.arc(Number(step6_x)-90+25,2930,25,Math.PI,0.5*Math.PI,true);
-            // ctx2.moveTo(Number(step6_x)-95+25,2930+25);
-            ctx2.lineTo(680-25,2930+25);
-            ctx2.arc(680-25,2930,25,0.5*Math.PI,0,true);
-            ctx2.lineTo(680,2810+25);
-            ctx2.arc(680-25,2810+25,25,0,1.5*Math.PI,true);
-            ctx2.lineTo(525+25,2810);
-            ctx2.arc(525+25,2810-25,25,0.5*Math.PI,Math.PI,false);
-            ctx2.lineTo(525,Number(step7_y)+25);
-            ctx2.arc(525+25,Number(step7_y)+25,25,Math.PI,1.5*Math.PI,false);
-            ctx2.lineTo(655-25,step7_y);
-            ctx2.arc(655-25,Number(step7_y)+25,25,1.5*Math.PI,2*Math.PI,false);
-            ctx2.lineTo(655,Number(step8_y)-25);
-            ctx2.arc(655+25,Number(step8_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx2.fillText("1", Number(step5_x)+80, Number(step5_y)-20);
+            ctx2.lineTo(500-25,step5_y);
+            ctx2.arc(500-25,Number(step5_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(500,step6_y);
+            ctx2.arc(500+25,step6_y,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25,Number(step6_y)-25);
+            ctx2.arc(680-25,Number(step6_y)-25+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx2.lineTo(680,2930);
+            ctx2.arc(680-25,2930,25,0,0.5*Math.PI,false);
+            ctx2.lineTo(500+25+25,2930+25);
+            ctx2.arc(500+25+25,2930,25,0.5*Math.PI,Math.PI,false);
+            ctx2.lineTo(500+25,Number(step7_y)+25);
+            ctx2.arc(500+25+25,Number(step7_y)+25,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25-25,step7_y);
+            ctx2.arc(680-25-25,Number(step7_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx2.lineTo(680-25,Number(step8_y)-25);
+            ctx2.arc(680,Number(step8_y)-25,25,Math.PI,0.5*Math.PI,true);
             ctx2.lineTo(step8_x,step8_y);
-            ctx2.fillText("2", Number(step8_x)-170, Number(step8_y));
-            // ctx2.arc(Number(step8_x)-25,Number(step8_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.fillText("2", Number(step8_x)-200, Number(step8_y)-20);
             ctx2.lineTo(step9_x,step9_y);
-            // if (step8_y == step9_y){
-            //     ctx2.fillText(",3", Number(step9_x)+50, Number(step9_y)+20);
-            // }
-            // else if (step5_y == step9_y){
-            //     ctx2.fillText(",3", Number(step9_x)+50, Number(step9_y)+20);
-            // }
-            // else {
-            //     ctx2.fillText("3", Number(step9_x)+20, Number(step9_y)+20);
-            // }
-            ctx2.fillText("3", Number(step9_x), Number(step9_y)+50);
+            ctx2.fillText("3", Number(step9_x)+20, Number(step9_y)+20);
 
             ctx2.strokeStyle = "#FFF200";
             ctx2.lineWidth = 6;
@@ -132,8 +115,8 @@ function draw() {
         };
         img2.src = '/static/images/img-side.png'; // 设置图片源地址
     }
-//
-//
+
+
     //    第三步
     var canvas3 = document.getElementById("canvas3");
     if (canvas3.getContext) {
@@ -161,4 +144,5 @@ function draw() {
         };
         img3.src = '/static/images/img-back.png'; // 设置图片源地址
     }
+
 }

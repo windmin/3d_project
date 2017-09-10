@@ -9,7 +9,9 @@ from .. import db
 from ..models import ShebeiTable
 from flask_login import login_required,current_user
 from ..decorators import admin_required
-from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, calculate_two_front_front,calculate_two_back_back,calculate_one_back_front,calculate_two_back_front
+from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, \
+    calculate_two_front_front,calculate_two_back_back,calculate_one_back_front,calculate_two_back_front, \
+    calculate_one_front_back, calculate_two_front_back
 
 import time
 import datetime
@@ -91,10 +93,10 @@ def index():
         #     return redirect(url_for('main.slot', shebei_dict=shebei_dict))
         # else:
         #     flash('目前只支持计算相同机架相同单元；和不同机架的96芯设备单元间的跳纤计算')
-        if jiechushebei_side == '96芯设备单元' and jierushebei == '72芯配线单元':
-            flash('目前不支持96芯设备单元跳向72芯配线单元间！')
-        else:
-            return redirect(url_for('main.slot', shebei_dict=shebei_dict))
+        # if jiechushebei_side == '96芯设备单元' and jierushebei == '72芯配线单元':
+        #     flash('目前不支持96芯设备单元跳向72芯配线单元间！')
+        # else:
+        return redirect(url_for('main.slot', shebei_dict=shebei_dict))
 
     # elif form.reset.data:
     #     return redirect(url_for('main.index'))
@@ -205,7 +207,6 @@ def step(shebei_dict):
             elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
                 step_list, log_list, session['json_list'] = calculate_one_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
-                # return redirect(url_for('main.step_back',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list))
                 return render_template('step_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
         # 不同side相连
         elif shebei_dict['jiechushebei_side'] != shebei_dict['jierushebei_side']:
@@ -215,6 +216,12 @@ def step(shebei_dict):
                                                                                      shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                                                                      shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
                 return render_template('step_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
+            elif shebei_dict['jiechushebei_side'] == '96芯设备单元':
+                step_list, log_list, session['json_list'] = calculate_one_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
+                                          shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
+                                          shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                return render_template('step_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
     # 不同设备相连
     elif shebei_dict['jiechushebei'] != shebei_dict['jierushebei']:
         if shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '96芯设备单元':
@@ -234,7 +241,14 @@ def step(shebei_dict):
                                                                                  shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'], \
                                                                                  shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
                                                                                  shebei_dict['shebei_count'])
-            return render_template('step_two_back_front.html', shebei_dict=shebei_dict2, step_list=step_list)
+            return render_template('step_two_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
+        elif shebei_dict['jiechushebei_side'] == '96芯设备单元' and shebei_dict['jierushebei_side'] == '72芯配线单元':
+            step_list, log_list, session['json_list'] = calculate_two_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
+                                          shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
+                                          shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
+                                          shebei_dict['shebei_count'])
+            return render_template('step_two_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list)
 
     # return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
 

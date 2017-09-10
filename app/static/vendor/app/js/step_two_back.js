@@ -91,10 +91,10 @@ function draw() {
             ctx4.fillText("1", Number(step5_x)-200, Number(step5_y));
             ctx4.lineTo(680+25,step5_y);
             ctx4.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
-            ctx4.lineTo(680,Number(step6_y)+25-25);
-            ctx4.arc(680-25, Number(step6_y)+25-25, 25, 0, 1.5*Math.PI, true);
-            ctx4.lineTo(Number(step6_x)-65,Number(step6_y)-25);
-            ctx4.arc(Number(step6_x)-65,Number(step6_y)+25-25,25,1.5*Math.PI,Math.PI,true);
+            ctx4.lineTo(680,Number(step14_y)+25-25);
+            ctx4.arc(680-25, Number(step14_y)+25-25, 25, 0, 1.5*Math.PI, true);
+            ctx4.lineTo(Number(step14_x)-65,Number(step14_y)-25);
+            ctx4.arc(Number(step14_x)-65,Number(step14_y)+25-25,25,1.5*Math.PI,Math.PI,true);
             ctx4.lineTo(500,Number(step13_y)-25);
             ctx4.arc(500-25,Number(step13_y)-25,25,0,0.5*Math.PI,false);
             ctx4.lineTo(step13_x,step13_y);
@@ -136,7 +136,7 @@ function draw() {
             // ctx5.fillText("2", Number(step12_x)+20, Number(step12_y)+20);
 
             ctx5.strokeStyle = "#FFF200";
-            ctx5.lineWidth = 4;
+            ctx5.lineWidth = 6;
             ctx5.stroke();
         };
         img5.src = '/static/images/two-front.png'; // 设置图片源地址
@@ -157,10 +157,10 @@ function draw() {
             ctx2.fillStyle = 'red';
             ctx2.fillText(to_name, 500, 70);
             ctx2.beginPath();
-            ctx2.moveTo(step14_x,step14_y);
-            ctx2.fillText("1", Number(step14_x)+80, Number(step14_y)-20);
-            ctx2.lineTo(500-25,step14_y);
-            ctx2.arc(500-25,Number(step14_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.moveTo(step13_x,step13_y);
+            ctx2.fillText("1", Number(step13_x)+80, Number(step13_y)-20);
+            ctx2.lineTo(500-25,step13_y);
+            ctx2.arc(500-25,Number(step13_y)-25,25,0.5*Math.PI,0,true);
             ctx2.lineTo(500,step6_y);
             ctx2.arc(500+25,step6_y,25,Math.PI,1.5*Math.PI,false);
             ctx2.lineTo(680-25,Number(step6_y)-25);
@@ -213,7 +213,7 @@ function draw() {
             ctx3.fillText("2", Number(step12_x)+20, Number(step12_y)+20);
 //            // ctx3.lineTo(step10_x,step10_y);
             ctx3.strokeStyle = "#FFF200";
-            ctx3.lineWidth = 4;
+            ctx3.lineWidth = 6;
             ctx3.stroke();
         };
         img3.src = '/static/images/img-back.png'; // 设置图片源地址

@@ -28,11 +28,12 @@
         <article>
 {#            <p>第一步</p>#}
             <p><span>接线步骤</span></p>
-            <p>{{ log_list[8] }}</p>
             <p>{{ log_list[0] }}</p>
-            <p>{{ log_list[1] }}</p>
-            <p>{{ log_list[2] }}</p>
-            <p>{{ log_list[3] }}</p>
+            <ol>
+                <li>{{ log_list[1] }}</li>
+                <li>{{ log_list[2] }}</li>
+                <li>{{ log_list[3] }}</li>
+            </ol>
             <canvas id="canvas1" width="931" height="3298"></canvas>
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
@@ -43,8 +44,38 @@
     <div class="col-md-8 col-md-offset-3">
         <article>
 {#            <p>第二步</p>#}
-            <p>{{ log_list[4] }}</p>
-            <p>{{ log_list[5] }}</p>
+            <ol>
+                <li>{{ log_list[4] }}</li>
+                <li>{{ log_list[5] }}</li>
+            </ol>
+            <canvas id="canvas4" width="1195" height="3298"></canvas>
+            <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
+        </article>
+    </div>
+</div>
+
+<div class="row" style="position: relative; top: -3200px;">
+    <div class="col-md-8 col-md-offset-1">
+        <article>
+{#            <p>第三步</p>#}
+            <ol>
+                <li>{{ log_list[6] }}</li>
+                <li>{{ log_list[7] }}</li>
+            </ol>
+            <canvas id="canvas5" width="1854" height="3296"></canvas>
+            <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
+        </article>
+    </div>
+</div>
+
+<div class="row" style="position: relative; top: -4800px;">
+    <div class="col-md-8 col-md-offset-3">
+        <article>
+{#            <p>第四步</p>#}
+            <ol>
+                <li>{{ log_list[8] }}</li>
+                <li>{{ log_list[9] }}</li>
+            </ol>
             <canvas id="canvas2" width="1195" height="3298"></canvas>
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
@@ -52,12 +83,14 @@
 </div>
 
 
-<div class="row" style="position: relative; top: -3200px;">
+<div class="row" style="position: relative; top: -6400px;">
     <div class="col-md-8 col-md-offset-3">
         <article>
-{#            <p>第三步</p>#}
-            <p>{{ log_list[6] }}</p>
-            <p>{{ log_list[7] }}</p>
+{#            <p>第五步</p>#}
+            <ol>
+                <li>{{ log_list[10] }}</li>
+                <li>{{ log_list[11] }}</li>
+            </ol>
             <canvas id="canvas3" width="931" height="3298"></canvas>
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
@@ -79,12 +112,12 @@
 <input class="result" id="picStep5_y" name="picStep5_y" type="hidden" value="{{ step_list[4][1] }}">
 <input class="result" id="picStep6_x" name="picStep6_x" type="hidden" value="{{ step_list[5][0] }}">
 <input class="result" id="picStep6_y" name="picStep6_y" type="hidden" value="{{ step_list[5][1] }}">
-{#<input class="result" id="picStep7_x" name="picStep7_x" type="hidden" value="{{ step_list[6][0] }}">#}
-{#<input class="result" id="picStep7_y" name="picStep7_y" type="hidden" value="{{ step_list[6][1] }}">#}
-<input class="result" id="picStep8_x" name="picStep8_x" type="hidden" value="{{ step_list[7][0] }}">
-<input class="result" id="picStep8_y" name="picStep8_y" type="hidden" value="{{ step_list[7][1] }}">
-{#<input class="result" id="picStep8_1_x" name="picStep8_1_x" type="hidden" value="{{ step_list[4][0][0] }}">#}
-{#<input class="result" id="picStep8_1_y" name="picStep8_1_y" type="hidden" value="{{ step_list[4][0][1] }}">#}
+<input class="result" id="picStep7_x" name="picStep7_x" type="hidden" value="{{ step_list[6][0] }}">
+<input class="result" id="picStep7_y" name="picStep7_y" type="hidden" value="{{ step_list[6][1] }}">
+<input class="result" id="picStep8_x" name="picStep8_x" type="hidden" value="{{ step_list[8][0] }}">
+<input class="result" id="picStep8_y" name="picStep8_y" type="hidden" value="{{ step_list[8][1] }}">
+<input class="result" id="picStep8_1_x" name="picStep8_1_x" type="hidden" value="{{ step_list[7][0] }}">
+<input class="result" id="picStep8_1_y" name="picStep8_1_y" type="hidden" value="{{ step_list[7][1] }}">
 {#<input class="result" id="picStep8_2_x" name="picStep8_2_x" type="hidden" value="{{ step_list[4][1][0] }}">#}
 {#<input class="result" id="picStep8_2_y" name="picStep8_2_y" type="hidden" value="{{ step_list[4][1][1] }}">#}
 {#<input class="result" id="picStep8_3_x" name="picStep8_3_x" type="hidden" value="{{ step_list[4][2][0] }}">#}
@@ -93,16 +126,18 @@
 {#<input class="result" id="picStep8_4_y" name="picStep8_4_y" type="hidden" value="{{ step_list[4][3][1] }}">#}
 {#<input class="result" id="picStep8_5_x" name="picStep8_5_x" type="hidden" value="{{ step_list[4][4][0] }}">#}
 {#<input class="result" id="picStep8_5_y" name="picStep8_5_y" type="hidden" value="{{ step_list[4][4][1] }}">#}
-<input class="result" id="picStep9_x" name="picStep9_x" type="hidden" value="{{ step_list[8][0] }}">
-<input class="result" id="picStep9_y" name="picStep9_y" type="hidden" value="{{ step_list[8][1] }}">
-<input class="result" id="picStep10_x" name="picStep10_x" type="hidden" value="{{ step_list[9][0] }}">
-<input class="result" id="picStep10_y" name="picStep10_y" type="hidden" value="{{ step_list[9][1] }}">
-<input class="result" id="picStep11_x" name="picStep11_x" type="hidden" value="{{ step_list[10][0] }}">
-<input class="result" id="picStep11_y" name="picStep11_y" type="hidden" value="{{ step_list[10][1] }}">
-<input class="result" id="picStep12_x" name="picStep12_x" type="hidden" value="{{ step_list[11][0] }}">
-<input class="result" id="picStep12_y" name="picStep12_y" type="hidden" value="{{ step_list[11][1] }}">
-{#<input class="result" id="picStep13_x" name="picStep13_x" type="hidden" value="{{ step_list[12][0] }}">#}
-{#<input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[12][1] }}">#}
+<input class="result" id="picStep9_x" name="picStep9_x" type="hidden" value="{{ step_list[9][0] }}">
+<input class="result" id="picStep9_y" name="picStep9_y" type="hidden" value="{{ step_list[9][1] }}">
+<input class="result" id="picStep10_x" name="picStep10_x" type="hidden" value="{{ step_list[10][0] }}">
+<input class="result" id="picStep10_y" name="picStep10_y" type="hidden" value="{{ step_list[10][1] }}">
+<input class="result" id="picStep11_x" name="picStep11_x" type="hidden" value="{{ step_list[11][0] }}">
+<input class="result" id="picStep11_y" name="picStep11_y" type="hidden" value="{{ step_list[11][1] }}">
+<input class="result" id="picStep12_x" name="picStep12_x" type="hidden" value="{{ step_list[12][0] }}">
+<input class="result" id="picStep12_y" name="picStep12_y" type="hidden" value="{{ step_list[12][1] }}">
+<input class="result" id="picStep13_x" name="picStep13_x" type="hidden" value="{{ step_list[13][0] }}">
+<input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[13][1] }}">
+<input class="result" id="picStep14_x" name="picStep14_x" type="hidden" value="{{ step_list[14][0] }}">
+<input class="result" id="picStep14_y" name="picStep14_y" type="hidden" value="{{ step_list[14][1] }}">
 <input class="result" id="from_name" name="from_name" type="hidden" value="{{ shebei_dict['jiechushebei'] }}">
 <input class="result" id="to_name" name="to_name" type="hidden" value="{{ shebei_dict['jierushebei'] }}">
 

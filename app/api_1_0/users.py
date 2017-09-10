@@ -9,16 +9,20 @@ from .errors import forbidden
 @api.route('/render')
 def render():
     if session.get('json_list')[0]:
-        return jsonify(program=session.get('json_list')[0],
+        return jsonify(step0=session.get('json_list')[0],
                        step1=session.get('json_list')[1],
                        step2=session.get('json_list')[2],
                        step3=session.get('json_list')[3],
                        step4=session.get('json_list')[4],
                        step5=session.get('json_list')[5],
                        step6=session.get('json_list')[6],
-                       step7=session.get('json_list')[7],
+                       step7=session.get('json_list')[7] if len(session.get('json_list')) > 7 else '',
                        step8=session.get('json_list')[8] if len(session.get('json_list')) > 8 else '',
-                       step9=session.get('json_list')[9] if len(session.get('json_list')) > 9 else '')
+                       step9=session.get('json_list')[9] if len(session.get('json_list')) > 9 else '',
+                       step10=session.get('json_list')[10] if len(session.get('json_list')) > 10 else '',
+                       step11=session.get('json_list')[11] if len(session.get('json_list')) > 11 else '',
+                       step12=session.get('json_list')[12] if len(session.get('json_list')) > 12 else '',
+                       step13=session.get('json_list')[13] if len(session.get('json_list')) > 13 else '')
 
 
 @api.route('/users')
