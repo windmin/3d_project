@@ -19,6 +19,15 @@
     color: #000000;
 }
 
+.navbar-default .navbar-nav>li>a>span {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #073e87;
+    color: white;
+    border-radius: 5px;
+}
+
 .navbar-default .navbar-nav>li>a:hover {
     color: gray;
     /*color: rgba(0, 0, 0, 0.8);*/

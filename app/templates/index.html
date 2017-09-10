@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}跳纤计算{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href={{ url_for('static', filename = 'vendor/app/css/index.css') }} rel="stylesheet">
+{% endblock %}
 {% block navbar %}
     {{ super() }}
     <div class="page-header">
@@ -15,11 +19,57 @@
 {% endblock %}
 {% block page_content %}
 
-
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">{{ wtf.quick_form(form) }}</div>
+<form method="POST">
+<div class="row row-select row-select-1">
+    <div class="col-md-3">
+        {{ form.shebei_count.label }}
+    </div>
+    <div class="col-md-2">
+        {{ form.shebei_count }}
+    </div>
 </div>
 
+<div class="row row-select row-select-2">
+    <div class="col-md-6">
+        {{ form.jiechushebei.label }}
+    </div>
+    <div class="col-md-6">
+        {{ form.jierushebei.label }}
+    </div>
+</div>
 
+<div class="row row-select row-select-3">
+    <div class="col-md-6">
+        {{ form.jiechushebei }}
+    </div>
+    <div class="col-md-6">
+        {{ form.jierushebei }}
+    </div>
+</div>
+
+<div class="row row-select row-select-4">
+    <div class="col-md-6">
+        {{ form.jiechushebei_side.label }}
+    </div>
+    <div class="col-md-6">
+        {{ form.jierushebei_side.label }}
+    </div>
+</div>
+
+<div class="row row-select row-select-5">
+    <div class="col-md-6">
+        {{ form.jiechushebei_side }}
+    </div>
+    <div class="col-md-6">
+        {{ form.jierushebei_side }}
+    </div>
+</div>
+
+<div class="row row-select row-select-6">
+    <div class="col-md-4 col-md-offset-4">
+        {{ form.submit }}
+    </div>
+</div>
+</form>
 
 {% endblock %}

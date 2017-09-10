@@ -21,7 +21,7 @@ def login():
         if user is None:
             flash('Your accout is disabled. Please contact administrator.')
         elif user is not None and user.verify_password(form.password.data):
-            login_user(user, form.remember_me.data)
+            login_user(user)
 
             user.sid = session['_id']
             db.session.add(user)
@@ -37,7 +37,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('You have been logged out.')
     return redirect(url_for('auth.login'))
 
 

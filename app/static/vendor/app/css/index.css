@@ -1,0 +1,39 @@
+.row-select {
+    padding-left: 120px;
+    font-size: 16px;
+    margin-top: 40px;
+}
+
+html body>.page-header {
+    margin-bottom: 0;
+}
+
+#shebei_count {
+    min-width: 70%;
+}
+
+#jiechushebei, #jierushebei {
+    min-width: 60%;
+}
+
+.row-select-1 {
+    border-bottom: 1px solid #cbcbcb;
+    padding-bottom: 40px;
+}
+
+.row-select.row-select-3 {
+    margin-top: 10px;
+}
+
+.row-select.row-select-5 {
+    margin-top: 15px;
+    border-bottom: 1px solid #ececec;
+    padding-bottom: 40px;
+}
+
+.row-select.row-select-6 #submit {
+    width: 140px;
+    height: 40px;
+    background-color: white;
+    border: 1px solid black;
+}

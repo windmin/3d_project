@@ -63,10 +63,8 @@ def shebei():
 @main.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    # return jsonify(username="username",
-    #                email="email",
-    #                id="id")
     form = SelectShebeiForm()
+
     if form.submit.data:
         shebei_count = form.shebei_count.data
         jiechushebei = form.jiechushebei.data

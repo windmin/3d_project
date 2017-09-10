@@ -1,0 +1,53 @@
+body {
+    background-image: url("/static/images/bg-login.png");
+    background-repeat: no-repeat;
+    -webkit-background-size:;
+    background-size:100%;
+}
+
+body>.container {
+    margin-top: 50px;
+}
+
+.login-panel{
+    border: 1px solid white;
+    min-height: 400px;
+    background-color: rgba(0,0,0,0.75);
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+h1 {
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.control-label {
+    color: white;
+}
+
+.form-group .form-control {
+    background-color: #242424 !important;
+    color: white !important;
+    background-image: none;
+}
+
+.form-group.required {
+    margin-top: 35px;
+}
+
+.form .btn {
+    min-width: 100%;
+    margin-top: 50px;
+    background-color: #3d90ff;
+    color: white;
+    border: none;
+    height: 40px;
+}
+
+body .navbar-default.navbar {
+    border: none;
+    background-color: rgba(0,0,0,0);
+}
+
