@@ -124,7 +124,7 @@
 			  });
 			};
 
-			getJSON('http://116.62.23.7:8082/api/v1.0/render').then(function(data) {
+			getJSON('/api/v1.0/render').then(function(data) {
 				//Json解析
 				var parse_json_by_eval = function(str){
 					return eval('('+str+')');
