@@ -22,7 +22,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	this.rotateSpeed = 1.0;
 	this.zoomSpeed = 1.2;
 	this.panSpeed = 0.3;
-
+    this.rotateX = 0;
 	this.noRotate = false;
 	this.noZoom = false;
 	this.noPan = false;
@@ -133,7 +133,10 @@ THREE.TrackballControls = function ( object, domElement ) {
 		var vector = new THREE.Vector2();
 
 		return function getMouseOnCircle( pageX, pageY ) {
+            pageY = 0;
+            console.log("zlwu add for pageX ="+pageX);
 
+            //console.log("zlwu add for X change getMouseOnCircle"+( ( pageX - _this.screen.width * 0.5 - _this.screen.left ) / ( _this.screen.width * 0.5 ) ));
 			vector.set(
 				( ( pageX - _this.screen.width * 0.5 - _this.screen.left ) / ( _this.screen.width * 0.5 ) ),
 				( ( _this.screen.height + 2 * ( _this.screen.top - pageY ) ) / _this.screen.width ) // screen.width intentional
@@ -145,6 +148,24 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	}() );
 
+	var getMouseOnCircleEXT = ( function () {
+
+		var vector = new THREE.Vector2();
+
+		return function getMouseOnCircle( pageX, pageY ) {
+            pageY = 0;
+            console.log("zlwu add for pageX ="+pageX);
+            console.log("zlwu add for X change"+( ( pageX - _this.screen.width * 0.5 - _this.screen.left ) / ( _this.screen.width * 0.5 ) ));
+			vector.set(
+				( ( pageX - _this.screen.width * 0.5 - _this.screen.left ) / ( _this.screen.width * 0.5 ) ),
+				( ( _this.screen.height + 2 * ( _this.screen.top - pageY ) ) / _this.screen.width ) // screen.width intentional
+			);
+
+			return vector;
+
+		};
+
+	}() );
 	this.rotateCamera = ( function() {
 
 		var axis = new THREE.Vector3(),
@@ -353,7 +374,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	// listeners
 
 	function keydown( event ) {
-
+        console.log("zlwu add fro keydown");
 		if ( _this.enabled === false ) return;
 
 		window.removeEventListener( 'keydown', keydown );
@@ -391,7 +412,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	}
 
 	function mousedown( event ) {
-
+        console.log("zlwu add for mousedown");
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();
@@ -404,13 +425,14 @@ THREE.TrackballControls = function ( object, domElement ) {
 		}
 
 		if ( _state === STATE.ROTATE && ! _this.noRotate ) {
+		    //this.rotateX = 0;
 
-			_moveCurr.copy( getMouseOnCircle( event.pageX, event.pageY ) );
+            console.log("zlwu add for event.pageX = "+this.rotateX);
+			_moveCurr.copy( getMouseOnCircle(_this.rotateX, event.pageY ) );
 			_movePrev.copy( _moveCurr );
 
 		} else if ( _state === STATE.ZOOM && ! _this.noZoom ) {
-
-			_zoomStart.copy( getMouseOnScreen( event.pageX, event.pageY ) );
+			_zoomStart.copy( getMouseOnScreen(event.pageX, event.pageY ) );
 			_zoomEnd.copy( _zoomStart );
 
 		} else if ( _state === STATE.PAN && ! _this.noPan ) {
@@ -420,23 +442,24 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 		}
 
-		document.addEventListener( 'mousemove', mousemove, false );
-		document.addEventListener( 'mouseup', mouseup, false );
+		//document.addEventListener( 'mousemove', mousemove, false );
+		//document.addEventListener( 'mouseup', mouseup, false );
 
 		_this.dispatchEvent( startEvent );
 
 	}
 
 	function mousemove( event ) {
-
+        //console.log("zlwu add for mousemove");
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();
 		event.stopPropagation();
 
 		if ( _state === STATE.ROTATE && ! _this.noRotate ) {
-
+            //console.log("zlwu add for mousemove, pageX = "+event.pageX);
 			_movePrev.copy( _moveCurr );
+
 			_moveCurr.copy( getMouseOnCircle( event.pageX, event.pageY ) );
 
 		} else if ( _state === STATE.ZOOM && ! _this.noZoom ) {
@@ -451,8 +474,25 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	}
 
-	function mouseup( event ) {
+	this.rotate = function(rotateValue){
+	    //0~1680
+        if(rotateValue == 1){
+            this.rotateX += 20;
+            /*if(this.rotateX >= 1680){
+                this.rotateX = 0;
+            }*/
+        }else{
+            this.rotateX  -=20;
+            /*if(this.rotateX <= 0){
+                this.rotateX = 1680;
+            }*/
+        }
+	    _movePrev.copy( _moveCurr );
+		_moveCurr.copy( getMouseOnCircleEXT(this.rotateX, 0 ) );
+	}
 
+	function mouseup( event ) {
+        console.log("zlwu add for mouseup");
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();
@@ -467,7 +507,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 	}
 
 	function mousewheel( event ) {
-
+        console.log("zlwu add for mousewheel");
+        return;
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();
@@ -497,8 +538,29 @@ THREE.TrackballControls = function ( object, domElement ) {
 
 	}
 
-	function touchstart( event ) {
+	this.zoomAdjust =  function(zoomValue){
+	    console.log("zlwu add for zoomAdjust, zoomValue = "+zoomValue);
 
+        switch(zoomValue){
+            case 2:
+            // Zoom in pages
+            _zoomStart.y -= 1 * 0.025;
+            break;
+
+            case 1:
+            // Zoom in lines
+            _zoomStart.y -= -1 * 0.01;
+            break;
+
+            default:
+            // undefined, 0, assume pixels
+            _zoomStart.y -= -1 * 0.00025;
+            break;
+        }
+	}
+
+	function touchstart( event ) {
+        console.log("zlwu add for touchstart");
 		if ( _this.enabled === false ) return;
 
 		switch ( event.touches.length ) {
@@ -528,7 +590,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	}
 
 	function touchmove( event ) {
-
+        console.log("zlwu add for touchmove");
 		if ( _this.enabled === false ) return;
 
 		event.preventDefault();
@@ -556,7 +618,7 @@ THREE.TrackballControls = function ( object, domElement ) {
 	}
 
 	function touchend( event ) {
-
+        console.log("zlwu add for touchend");
 		if ( _this.enabled === false ) return;
 
 		switch ( event.touches.length ) {
@@ -602,10 +664,10 @@ THREE.TrackballControls = function ( object, domElement ) {
 		window.removeEventListener( 'keyup', keyup, false );
 
 	};
-
+    this.rotateX = 0;
 	this.domElement.addEventListener( 'contextmenu', contextmenu, false );
 	this.domElement.addEventListener( 'mousedown', mousedown, false );
-	this.domElement.addEventListener( 'wheel', mousewheel, false );
+	//this.domElement.addEventListener( 'wheel', mousewheel, false );
 
 	this.domElement.addEventListener( 'touchstart', touchstart, false );
 	this.domElement.addEventListener( 'touchend', touchend, false );

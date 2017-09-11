@@ -7,7 +7,7 @@
 		<style>
 			body {
 				font-family: Monospace;
-				background-color: #000;
+				background-color: #262626;
 				color: #fff;
 				margin: 0px;
 				overflow: hidden;
@@ -15,27 +15,67 @@
 			#info {
 				color: #fff;
 				position: absolute;
-				top: 10px;
+				top: 200px;
 				width: 100%;
 				text-align: center;
 				z-index: 100;
 				display:block;
 			}
+
+			left_rotate {
+				position: absolute;
+				top: 100px;
+				left: 100px;
+			}
 			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+
+			#wrapper {
+                background: #000000;
+                opacity: 1;
+                position: fixed;
+                z-index: 10;
+                top: 0px;
+                width: 100%;
+                height: 1600px;
+            }
+
+            #loader {
+                background: url('static/vendor/modf/images/loading.png') 50% 50% no-repeat;
+                width: 200px;
+                height: 200px;
+                margin: 300px auto;
+
+            }
+            <!--http://img5.duitang.com/uploads/blog/201406/26/20140626105654_aVuNR.gif-->
 		</style>
 	</head>
 
 	<body>
-		<!--<div id="info">
-		<a href="http://threejs.org" target="_blank" rel="noopener">MODF</a> - OBJLoader + MTLLoader
-		</div>-->
-		<div id="reset" style="text-align:right">
-			<button type="button" onclick="reset()">重置</button>
+		<div id="wrapper">
+			<div id="loader"></div>
 		</div>
-		<div id="line" style="text-align:right">
+		<div class="text" style="text-align:center;  color:#00ffff">
+			<table style=" align:center; valign=middle;  color:#00ffff; width:100%">
+				<tr>
+					<td></td>
+					<td style="width:30%;"><img id="left_icon" style="width:30px;" onclick="goto_left" src="static/vendor/modf/images/left.png" /></td>
+					<td ><p id="step_text">请选择一根长度为�?米的网线�?/p></td>
+					<td style="width:30%;"><img id="right_icon" style="width:30px;" onclick="goto_right" src="static/vendor/modf/images/right.png" /></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+		<div id="left_rotate" ><!--style="position:absolute; left:1150px; top:550px; color:#ff00ff; width:260px; height: 150px"-->
+			<img id="turnleft_icon" src="static/vendor/modf/images/btn-turnleft-normal.png"  style="position:absolute; left:1300px; top:600px;"/>
+			<img id="turnright_icon" src="static/vendor/modf/images/btn-turnright-normal.png" style="position:absolute; left:1340px; top:600px;"/>
+			<img id="zoomin_icon" src="static/vendor/modf/images/btn-zoomin-normal.png" style="position:absolute; left:1380px; top:600px;"/>
+			<img id="zoomout_icon" src="static/vendor/modf/images/btn-zoomout-normal.png" style="position:absolute; left:1420px; top:600px;"/>
+			<img id="reset_icon" src="static/vendor/modf/images/btn-reset-normal.png" style="position:absolute; left:1460px; top:600px;"/>
+		</div>
+	<!--	<div id="line" style="text-align:right">
 			<button type="button" onclick="line()">连线</button>
 		</div>
-
+-->
 		<script src="static/vendor/modf/build/three.js"></script>
 
 		<script src="static/vendor/modf/js/loaders/DDSLoader.js"></script>
@@ -52,15 +92,67 @@
 			var camera, scene, renderer;
 
 			var mouseX = 0, mouseY = 0;
-			var isDraw = 0;
+	t		var isDraw = 0;
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 			var cube1;
+			var json1;
+			var json_index = 0;
+			var geometry1 ; //圆柱�?			//getLineInfo();  //获取连线信息
 
-			var geometry1 ; //圆柱线
+
+            window.addEventListener("load", function() {
+                var wrapper = document.getElementById("wrapper");
+                document.body.removeChild(wrapper);
+            });
+
+			var getJSON = function(url) {
+			  return new Promise(function(resolve, reject) {
+				var xhr = new XMLHttpRequest();
+				xhr.open('get', url, true);
+				xhr.responseType = 'json';
+				xhr.onload = function() {
+				  var status = xhr.status;
+				  if (status == 200) {
+					resolve(xhr.response);
+				  } else {
+					reject(status);
+				  }
+				};
+				xhr.send();
+			  });
+			};
+
+			getJSON('http://116.62.23.7:8082/api/v1.0/render').then(function(data) {
+				//Json解析
+				var parse_json_by_eval = function(str){
+					return eval('('+str+')');
+				}
+				var value = 1;
+				var jsonstr = '{"step0": [{ "0": "请选择一根长度为�?米的网线�?},{ "1": "先从1#机架�?6芯设备单�?(1,1)端口出来往下经过下方邻近的8位小线环�?},{ "2": "往右穿过中线环再到设备单元1的大线环1" },{ "3": "穿过大线�?后，往上经�?#机架侧面�?个挂纤轮。再到最下面的挂纤轮，调头向上绕�?#机架侧面�?个挂纤轮�?},{ "4": "往下进�?#机架�?6芯设备单�?的大线环1�?},{ "5": "�?#机架�?6芯设备单�?的大线环1出来后，往左进�?#机架设备单元2的中线环，并将线嵌入邻近�?位小线环中�?},{ "6": "最后往上将线插�?#机架96芯设备单�?(1,1)的端口中�?}],"step1":"1(1,1)","step2":"1-大线�?","step3": "挂纤�?1","step4": "挂纤�?13","step5": "挂纤�?1","step6": "2-大线�?","step7": "2(1,1)","step8": ""}';
+				if(data){
+					//json1= parse_json_by_eval(data);
+					var result = data.step0;
+					if(result == "failed"){
+						json1= parse_json_by_eval(jsonstr);
+					}else{
+						json1= data;
+					}
+				}else{
+					json1= parse_json_by_eval(jsonstr);
+				}
+
+				//显示步骤
+				var x = json1.step0[0];
+				document.getElementById("step_text").innerHTML=x[0];
+
+				line();
+			}, function(status) { //error detection....
+			  alert('Something went wrong.');
+			});
+
 			init();
 			animate();
-
 
 			function init() {
 
@@ -95,16 +187,15 @@
 
 				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 
-				//添加第一个对象
-				var mtlLoader = new THREE.MTLLoader();
-				mtlLoader.setPath( 'static/vendor/modf/obj/3D/' );
+				//添加第一个对�?				var mtlLoader = new THREE.MTLLoader();
+				mtlLoader.setPath( 'obj/3D/' );
 				mtlLoader.load( '3DBuilder.mtl', function( materials ) {
 
 					materials.preload();
 
 					var objLoader = new THREE.OBJLoader();
 					objLoader.setMaterials( materials );
-					objLoader.setPath( 'static/vendor/modf/obj/3D/' );
+					objLoader.setPath( 'obj/3D/' );
 					objLoader.load( '3DBuilder.obj', function ( object ) {
 						object.position.x = -150
 						object.position.y = -250;
@@ -114,16 +205,15 @@
 
 				});
 
-				//添加第二个对象
-				var mtlLoader2 = new THREE.MTLLoader();
-				mtlLoader2.setPath('static/vendor/modf/obj/3D/');
+				//添加第二个对�?				var mtlLoader2 = new THREE.MTLLoader();
+				mtlLoader2.setPath('obj/3D/');
 								mtlLoader.load( '3DBuilder.mtl', function( materials ) {
 
 					materials.preload();
 
 					var objLoader2 = new THREE.OBJLoader();
 					objLoader2.setMaterials( materials );
-					objLoader2.setPath( 'static/vendor/modf/obj/3D/' );
+					objLoader2.setPath( 'obj/3D/' );
 					objLoader2.load( '3DBuilder.obj', function ( object2 ) {
 
 						object2.position.y = -250;
@@ -144,6 +234,7 @@
 				//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				//window.addEventListener( 'resize', onWindowResize, false );
 				//line();
+				initImageIcon();
 			}
 
 			function onWindowResize() {
@@ -173,33 +264,53 @@
 
 			}
 
-			function reset(){
-				controls.reset();
-			}
 
 			function line(){
+				//解析json的数据，进行绘画
+				var model_index, x_index, y_index;
+				var to_model_index, to_x_index, to_y_index;
+				var circle_index, to_circle_index;
+
+				//start
+				var start = json1.step1;
+				var r_index = start.indexOf(")");
+				model_index = parseInt(start.substr(0,1));
+				x_index = parseInt(start.substr(2,1));
+				y_index = parseInt(start.substring(4,r_index));
+
+				//to
+				var to = json1.step7;
+				r_index = to.indexOf(")");
+				to_model_index = parseInt(to.substr(0,1));
+				to_x_index = parseInt(to.substr(2,1));
+				to_y_index = parseInt(to.substring(4,r_index));
+
+				//start_circle
+				var startCircle = json1.step3;
+				var index1 = startCircle.indexOf("-");
+				circle_index = parseInt(startCircle.substring(index1+1));
+
+				var toCircle = json1.step4;
+				var index2 = startCircle.indexOf("-");
+				to_circle_index = parseInt(toCircle.substring(index2+1));
+
 				if(isDraw == 0){
-					//Point到边界的值
-					drawPointLine(1,1,1);
+					//Point到边界的�?					drawPointLine(model_index,x_index,y_index);
+					//drawPointLine(1,1,1);
+					//拐点到圆�?					drawLinePointToCircle(model_index,x_index);
 
-					//拐点到圆环
-					drawLinePointToCircle(1,1);
 
-					//画圆环
-					drawCircle(1);
+					//画圆�?					drawCircle(circle_index);
 
-					//圆环到另一个圆环
-					drawCircleToCircle();
+					//圆环到另一个圆�?					drawCircleToCircle(circle_index,to_circle_index);
 
-					//画圆环的圈
-					drawCircle(13);
+					//画圆环的�?					drawCircle(to_circle_index);
 
-					drawLine();
+					drawLine(model_index,to_model_index);
 
-					//目标点Point到边界的线
-					drawPointLine(2,1,1);
+					//目标点Point到边界的�?					drawPointLine(to_model_index,x_index,y_index);
 					//目标点拐点到圆环的线
-					drawLinePointToCircle(2,1);
+					drawLinePointToCircle(to_model_index,x_index);
 					isDraw = 1;
 				}else{
 					//do nothing
@@ -208,78 +319,275 @@
 
 			}
 
-
-			function drawPointLine(model_index, x_index, y_index){
-				//(0,0点的坐标)
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 30, 18, 1);
-				var pointCube = new THREE.Mesh(geometry1, material);
-				switch(model_index){
-					case 1:		//A块组
-					{
-						switch(x_index){
-							case 1:	//第一块
-							{
-								if(y_index == 1){	//第一列
-									pointCube.rotation.z = 1.58;
-									pointCube.position.x = -199;
-									pointCube.position.y = 232;
-									pointCube.position.z = 50;
-								}
-							}
-							break;
-						}
-					}
-					break;
-
-					case 2:		//B块组
-					{
-						switch(x_index){
-							case 1: //第一块
-							{
-								if(x_index == 1){
-									pointCube.rotation.z = 1.58;
-									pointCube.position.x = -199;
-									pointCube.position.y = 202;
-									pointCube.position.z = 50;
-								}
-							}
-							break;
-						}
-					}
-					break;
-				}
-
-				scene.add(pointCube);
-			}
-
-
-			function drawLinePointToCircle(model_index, x_index){
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 83, 18, 1);
-				var pointCube = new THREE.Mesh(geometry1, material);
-
+			function getPointCubeByModelIndex(model_index, x_index,pointCube){
 				switch(model_index){
 					case 1:
 					{
-						if(x_index == 1){
-							pointCube.rotation.x = 1.58;
-							pointCube.position.x = -214;
-							pointCube.position.y = 232;
-							pointCube.position.z = 9;
-						}
+						pointCube.position.y = 232 - (x_index - 1)*4;
 					}
 					break;
 
 					case 2:
 					{
-						if(x_index == 1){
-							pointCube.rotation.x = 1.58;
-							pointCube.position.x = -214;
-							pointCube.position.y = 202;
-							pointCube.position.z = 9;
-						}
+						pointCube.position.y = 202 - (x_index - 1)*4;
+
 					}
+					break;
+
+					case 3:
+					{
+						pointCube.position.y = 174 - (x_index - 1)*4;
+					}
+					break;
+					case 4:
+						pointCube.position.y = 144 - (x_index - 1)*4;
+					break;
+
+
+					case 5:
+						pointCube.position.y = 72 - (x_index - 1)*4;
+					break;
+
+					case 6:
+						pointCube.position.y = 44 - (x_index - 1)*4;
+
+					break;
+
+					case 7:
+						pointCube.position.y = 14 - (x_index - 1)*4;
+
+					break;
+
+					case 8:
+						pointCube.position.y = -15 - (x_index - 1)*4;
+					break;
+
+					case 9:
+						pointCube.position.y = -90 - (x_index - 1)*4;
+
+					break;
+
+					case 10:
+						pointCube.position.y = -120 - (x_index - 1)*4;
+
+					break;
+
+					case 11:
+						pointCube.position.y = -150 - (x_index - 1)*4;
+
+					break;
+					case 12:
+						pointCube.position.y = -178 - (x_index - 1)*4;
+					break;
+				}
+				return pointCube;
+			}
+			function drawPointLine(model_index, x_index, y_index){
+				//(0,0点的坐标)
+				var material = new THREE.MeshBasicMaterial( { color: 0xfdc534} );
+				switch(y_index){
+					case 1:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 30, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -199;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+
+					break;
+
+					case 2:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 35, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -197;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+
+					break;
+
+					case 3:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 39, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -195;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+					case 4:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 43, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -193;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+					case 5:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 47, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -191;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 6:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 50, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -190;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 7:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 53, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -188;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 8:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 56, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -186;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 9:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 59, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -185;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 10:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 62, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -183;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+
+					case 11:
+						var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 65, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -182;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+					case 12:
+											var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 68, 18, 1);
+						var pointCube = new THREE.Mesh(geometry1, material);
+
+						//只有y是不一样的
+						pointCube.rotation.z = 1.58;
+						pointCube.position.x = -180;
+						pointCube.position.z = 50;
+						getPointCubeByModelIndex(model_index, x_index, pointCube);
+					break;
+				}
+				scene.add(pointCube);
+			}
+
+
+			function drawLinePointToCircle(model_index, x_index){
+				var material = new THREE.MeshBasicMaterial( { color: 0xfdc534 } );
+				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 83, 18, 1);
+				var pointCube = new THREE.Mesh(geometry1, material);
+				pointCube.rotation.x = 1.58;
+				pointCube.position.x = -214;
+				pointCube.position.z = 9;
+
+				switch(model_index){
+					case 1:
+					{
+						pointCube.position.y = 232 - (x_index - 1)*4;
+					}
+					break;
+
+					case 2:
+					{
+						pointCube.position.y = 202 - (x_index - 1)*4;
+
+					}
+					break;
+
+					case 3:
+					{
+						pointCube.position.y = 174 - (x_index - 1)*4;
+					}
+					break;
+					case 4:
+						pointCube.position.y = 144 - (x_index - 1)*4;
+					break;
+
+
+					case 5:
+						pointCube.position.y = 72 - (x_index - 1)*4;
+					break;
+
+					case 6:
+						pointCube.position.y = 44 - (x_index - 1)*4;
+
+					break;
+
+					case 7:
+						pointCube.position.y = 14 - (x_index - 1)*4;
+
+					break;
+
+					case 8:
+						pointCube.position.y = -15 - (x_index - 1)*4;
+					break;
+
+					case 9:
+						pointCube.position.y = -90 - (x_index - 1)*4;
+
+					break;
+
+					case 10:
+						pointCube.position.y = -120 - (x_index - 1)*4;
+
+					break;
+
+					case 11:
+						pointCube.position.y = -150 - (x_index - 1)*4;
+
+					break;
+					case 12:
+						pointCube.position.y = -178 - (x_index - 1)*4;
+					break;
 				}
 
 				scene.add(pointCube);
@@ -287,47 +595,164 @@
 
 			function drawCircle(index){
 				var geometry = new THREE.TorusGeometry(10,1,12,18);
-		        var material = new THREE.MeshBasicMaterial({color: 0xffff00});
+		        var material = new THREE.MeshBasicMaterial({color: 0xfdc534});
 		        var torus = new THREE.Mesh(geometry,material);
-				//第一个环的坐标
-				switch(index){
-					case 1:
-						torus.rotation.y = 1.58;
-		        		torus.position.x = -214;
-						torus.position.y = 232;
-		        		torus.position.z = -41;
-					break;
-
-					case 13:
-						torus.rotation.y = 1.58;
-		        		torus.position.x = -214;
-						torus.position.y = -190;
-		        		torus.position.z = -41;
-					break;
-				}
+				//第一个环的坐�?				torus.rotation.y = 1.58;
+				torus.position.x = -214;
+				torus.position.z = -41;
+				torus.position.y = 232 - (index -1)*35;
 
 		        scene.add(torus);
 			}
 
-			function drawCircleToCircle(){
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 430, 18, 1);
+			function drawCircleToCircle(start_index, end_index){
+				var material = new THREE.MeshBasicMaterial( { color: 0xfdc534 } );
+				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 40 + (end_index -(start_index +1))*35, 18, 1);
 				var pointCube = new THREE.Mesh(geometry1, material);
 				pointCube.position.x = -214;
-				pointCube.position.y = 20;
 				pointCube.position.z = -51;
+				pointCube.position.y = (215 - (start_index - 1)*35) - (end_index -(start_index +1)) *17.5;
 				scene.add(pointCube);
 			}
 
-			function drawLine(){
-				var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 30, 18, 1);
+			function drawLine(start_index, end_index){
+				var material = new THREE.MeshBasicMaterial( { color: 0xfdc534 } );
+				var geometry1 = new THREE.CylinderGeometry(0.5, 0.5, 40 + (end_index -(start_index +1))*35, 18, 1);
 				var pointCube = new THREE.Mesh(geometry1, material);
 				pointCube.position.x = -214;
-				pointCube.position.y = 216;
 				pointCube.position.z = -32;
+				pointCube.position.y = (215 - (start_index - 1)*35) - (end_index -(start_index +1)) *17.5;
 				scene.add(pointCube);
 			}
+
+
+		/*
+		img icon function
+		(1)left rotation
+		(2)right rotation
+		(3)zoom in
+		(4)zoom out
+		(5)reset
+		*/
+		function initImageIcon(){
+			/*left rotation*/
+			var left_img_icon = document.getElementById('turnleft_icon');
+			left_img_icon.addEventListener("mousedown", left_down);
+			left_img_icon.addEventListener("mouseup", left_up);
+
+			/*right rotation*/
+			var right_img_icon = document.getElementById('turnright_icon');
+			right_img_icon.addEventListener("mousedown", right_down);
+			right_img_icon.addEventListener("mouseup", right_up);
+
+			/*zoom in*/
+			var zoomin_img_icon = document.getElementById('zoomin_icon');
+			zoomin_img_icon.addEventListener("mousedown", zoomIn_down);
+			zoomin_img_icon.addEventListener("mouseup", zoomIn_up);
+
+			/*zoom out*/
+			var zoomout_img_icon = document.getElementById('zoomout_icon');
+			zoomout_img_icon.addEventListener("mousedown", zoomOut_down);
+			zoomout_img_icon.addEventListener("mouseup", zoomOut_up);
+
+			/*reset icon*/
+			var img_icon = document.getElementById('reset_icon');
+			img_icon.addEventListener("mousedown", resetdown);
+			img_icon.addEventListener("mouseup", resetup);
+
+			/*left icon*/
+			var left_icon = document.getElementById('left_icon');
+			left_icon.addEventListener("click", goto_left);
+			/*right icon*/
+			var right_icon = document.getElementById('right_icon');
+			right_icon.addEventListener("click", goto_right);
+		}
+
+		/*left*/
+		function goto_left(){
+			console.log("zlwu add for goto left, json_index is"+json_index);
+			if(json_index >0){
+				json_index--;
+				var x = json1.step0[json_index];
+				document.getElementById("step_text").innerHTML=x[json_index];
+			}
+		}
+
+		/*right*/
+		function goto_right(){
+			console.log("zlwu add for goto right, json_index is"+json_index);
+			if(json_index < json1.step0.length){
+				json_index++;
+				var x = json1.step0[json_index];
+				document.getElementById("step_text").innerHTML=x[json_index];
+			}
+		}
+
+		/*left rotation*/
+		function left_down(){
+			var left_img_icon = document.getElementById('turnleft_icon');
+			left_img_icon.src = "static/vendor/modf/images/btn-turnleft-press.png";
+		}
+
+		function left_up(){
+			var left_img_icon = document.getElementById('turnleft_icon');
+			left_img_icon.src = "static/vendor/modf/images/btn-turnleft-normal.png";
+			controls.rotate(1);
+		}
+
+		/*right rotation*/
+		function right_down(){
+			var right_img_icon = document.getElementById('turnright_icon');
+			right_img_icon.src = "static/vendor/modf/images/btn-turnright-press.png";
+		}
+
+		function right_up(){
+			var right_img_icon = document.getElementById('turnright_icon');
+			right_img_icon.src = "static/vendor/modf/images/btn-turnright-normal.png";
+			controls.rotate(2);
+
+		}
+
+		/*zoom in*/
+		function zoomIn_down(){
+			var zoom_img_icon = document.getElementById('zoomin_icon');
+			zoom_img_icon.src = "static/vendor/modf/images/btn-zoomin-press.png";
+		}
+
+		function zoomIn_up(){
+			var zoom_img_icon = document.getElementById('zoomin_icon');
+			zoom_img_icon.src = "static/vendor/modf/images/btn-zoomin-normal.png";
+			zoomMode(1);
+		}
+		/*zoom out*/
+		function zoomOut_down(){
+			var zoom_img_icon = document.getElementById('zoomout_icon');
+			zoom_img_icon.src = "static/vendor/modf/images/btn-zoomout-press.png";
+		}
+
+		function zoomOut_up(){
+			var zoom_img_icon = document.getElementById('zoomout_icon');
+			zoom_img_icon.src = "static/vendor/modf/images/btn-zoomout-normal.png";
+			zoomMode(2);
+		}
+
+
+		/*reset*/
+		function resetdown(){
+			var img_icon = document.getElementById('reset_icon');
+			img_icon.src = "static/vendor/modf/images/btn-reset-press.png";
+		}
+		function resetup(){
+			var img_icon = document.getElementById('reset_icon');
+			img_icon.src = "static/vendor/modf/images/btn-reset-normal.png";
+			controls.reset();
+		}
+
+		/*zoom*/
+		function zoomMode(value){
+			controls.zoomAdjust(value);
+		}
+
 		</script>
 
 	</body>
