@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, IntegerField, SubmitField, SelectField, DateField
+from wtforms import StringField, FloatField, IntegerField, SubmitField, SelectField, DateField, BooleanField
 from wtforms.validators import DataRequired
 
 from ..models import ShebeiTable
@@ -22,12 +22,9 @@ class CreateShebeiForm(FlaskForm):
 class SelectShebeiForm(FlaskForm):
     shebei_count = SelectField('请选择需要跳纤的机架数', coerce=int)
     jiechushebei = SelectField('请选择此次跳纤的接出机架', coerce=str)
-    jiechushebei_side = SelectField('请选择接出单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
+    # jiechushebei_side = SelectField('请选择接出单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
     jierushebei = SelectField('请选择此次跳纤的接入机架', coerce=str)
-    jierushebei_side = SelectField('请选择接入单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
-    # submit = SubmitField('开始计算')
-    # reset = SubmitField('重新选择')
-    # step = SubmitField('跳纤步骤')
+    # jierushebei_side = SelectField('请选择接入单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
     submit = SubmitField('下一步')
 
     def __init__(self, *args, **kwargs):

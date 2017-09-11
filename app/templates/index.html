@@ -9,7 +9,7 @@
     {{ super() }}
     <div class="page-header">
         <div class="container">
-            <div class="row">
+            <div class="row row-select row-select-0">
                 <div class="col-md-6">
                     <span class="step">1.选择机架</span>
                 </div>
@@ -49,19 +49,43 @@
 
 <div class="row row-select row-select-4">
     <div class="col-md-6">
-        {{ form.jiechushebei_side.label }}
+        <label>请选择接出单元</label>
     </div>
     <div class="col-md-6">
-        {{ form.jierushebei_side.label }}
+        <label>请选择接入单元</label>
     </div>
 </div>
 
 <div class="row row-select row-select-5">
     <div class="col-md-6">
-        {{ form.jiechushebei_side }}
+        <div class="radio">
+            <label>
+                <input type="radio" name="jiechushebei_side" value="96芯设备单元" checked>
+                96芯设备单元
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="jiechushebei_side" value="72芯配线单元">
+                72芯配线单元
+            </label>
+        </div>
     </div>
     <div class="col-md-6">
-        {{ form.jierushebei_side }}
+        <div class="col-md-6">
+            <div class="radio">
+                <label>
+                    <input type="radio" name="jierushebei_side" value="96芯设备单元">
+                    96芯设备单元
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="jierushebei_side" value="72芯配线单元" checked>
+                    72芯配线单元
+                </label>
+            </div>
+        </div>
     </div>
 </div>
 

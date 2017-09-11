@@ -65,12 +65,18 @@ def shebei():
 def index():
     form = SelectShebeiForm()
 
+    if request.method == 'POST':
+        if request.form["submit"] == "下一步":
+            jiechushebei_side = request.form.get('jiechushebei_side')
+            jierushebei_side = request.form.get('jierushebei_side')
+            print('jiechushebei_side:'+str(jiechushebei_side))
+            print('jierushebei_side:'+str(jierushebei_side))
     if form.submit.data:
         shebei_count = form.shebei_count.data
         jiechushebei = form.jiechushebei.data
-        jiechushebei_side = form.jiechushebei_side.data
+        # jiechushebei_side = form.jiechushebei_side.data
         jierushebei = form.jierushebei.data
-        jierushebei_side = form.jierushebei_side.data
+        # jierushebei_side = form.jierushebei_side.data
 
         if shebei_count == 1:
             if jiechushebei != jierushebei:
@@ -182,7 +188,6 @@ def slot(shebei_dict):
                     flash('接出端口不能是最后一个单元！')
                 else:
                     return redirect(url_for('main.step',shebei_dict=shebei_dict))
-
     return render_template('slot.html', shebei_dict=shebei_dict)
 
 

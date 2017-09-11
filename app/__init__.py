@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import config
+from flask_cors import CORS
 
 
 
@@ -23,6 +24,7 @@ def create_app(config_name):
     # moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    CORS(app)
 
     #蓝本
     from .main import main as main_blueprint
