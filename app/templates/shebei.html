@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% block title %}设备列表{% endblock %}
+{% block title %}机架列表{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href={{ url_for('static', filename = 'vendor/app/css/shebei.css') }} rel="stylesheet">
+{% endblock %}
 {% block page_content %}
 <div class="page-header" style="background: #ffffff">
 {#<h1>Motor</h1>#}
@@ -10,7 +14,7 @@
     <div class="col-lg-9">
         <div class="panel panel-default">
             <div class="panel-heading">
-                设备列表
+                机架列表
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -26,7 +30,7 @@
 {#                                <th>背面每块Slot排数</th>#}
 {#                                <th>背面每块Slot列数</th>#}
 {#                                <th>已使用的Slot</th>#}
-{#                                <th></th>#}
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,14 +45,14 @@
 {#                                    <td>{{ shebeiTable.back_slot_cols }}</td>#}
 {#                                    <td>{{ shebeiTable.slot_used_list }}</td>#}
 
-{#                                    <td>#}
+                                    <td>
 {#                                        <a class="icon" href="/motor/edit/{{ motor.id }}" title="编辑">#}
 {#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}
 {#                                        </a>#}
-{#                                        <a class="icon" href="/motor/delete/{{ motor.id }}" title="删除" style="margin-left: 10px;">#}
-{#                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>#}
-{#                                        </a>#}
-{#                                    </td>#}
+                                        <a class="icon" href="/shebei/delete/{{ shebeiTable.id }}" title="删除" style="margin-left: 10px;">
+                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -63,7 +67,7 @@
     <div class="col-lg-3">
         <div class="panel panel-default">
             <div class="panel-heading">
-                新增设备
+                新增机架
             </div>
             <div class="panel-body">
                 {{ wtf.quick_form(form) }}

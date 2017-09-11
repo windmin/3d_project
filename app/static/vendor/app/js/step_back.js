@@ -86,7 +86,7 @@ function draw() {
             ctx2.fillText(to_name, 500, 70);
             ctx2.beginPath();
             ctx2.moveTo(step5_x,step5_y);
-            ctx2.fillText("1", Number(step5_x)-200, Number(step5_y));
+            ctx2.fillText("4", Number(step5_x)-200, Number(step5_y));
             ctx2.lineTo(680+25,step5_y);
             ctx2.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
             // ctx2.moveTo(680, Number(step5_y)-25);
@@ -112,7 +112,7 @@ function draw() {
             ctx2.lineTo(655,Number(step8_y)-25);
             ctx2.arc(655+25,Number(step8_y)-25,25,Math.PI,0.5*Math.PI,true);
             ctx2.lineTo(step8_x,step8_y);
-            ctx2.fillText("2", Number(step8_x)-170, Number(step8_y));
+            ctx2.fillText("5", Number(step8_x)-170, Number(step8_y));
             // ctx2.arc(Number(step8_x)-25,Number(step8_y)-25,25,0.5*Math.PI,0,true);
             ctx2.lineTo(step9_x,step9_y);
             // if (step8_y == step9_y){
@@ -124,7 +124,7 @@ function draw() {
             // else {
             //     ctx2.fillText("3", Number(step9_x)+20, Number(step9_y)+20);
             // }
-            ctx2.fillText("3", Number(step9_x), Number(step9_y)+50);
+            ctx2.fillText("6", Number(step9_x), Number(step9_y)+50);
 
             ctx2.strokeStyle = "#FFF200";
             ctx2.lineWidth = 6;
@@ -149,11 +149,11 @@ function draw() {
             ctx3.fillText(to_name, 370, 70);
             ctx3.beginPath();
             ctx3.moveTo(step10_x,step10_y);
-            ctx3.fillText("1", Number(step10_x)-40, Number(step10_y)+20);
+            ctx3.fillText("7", Number(step10_x)-40, Number(step10_y)+20);
             ctx3.lineTo(step11_x,Number(step11_y)+25);
             ctx3.arc(Number(step11_x)+25,Number(step11_y)+25,25,Math.PI,1.5*Math.PI,false);
             ctx3.lineTo(step12_x,step12_y);
-            ctx3.fillText("2", Number(step12_x)+20, Number(step12_y)+20);
+            ctx3.fillText("8", Number(step12_x)+20, Number(step12_y)+20);
 //            // ctx3.lineTo(step10_x,step10_y);
             ctx3.strokeStyle = "#FFF200";
             ctx3.lineWidth = 6;
@@ -162,3 +162,33 @@ function draw() {
         img3.src = '/static/images/img-back.png'; // 设置图片源地址
     }
 }
+
+
+jQuery(document).ready(function($){
+	// browser window scroll (in pixels) after which the "back to top" link is shown
+	var offset = 300,
+		//browser window scroll (in pixels) after which the "back to top" link opacity is reduced
+		offset_opacity = 1200,
+		//duration of the top scrolling animation (in ms)
+		scroll_top_duration = 700,
+		//grab the "back to top" link
+		$back_to_top = $('.cd-top');
+
+	//hide or show the "back to top" link
+	$(window).scroll(function(){
+		( $(this).scrollTop() > offset ) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+		if( $(this).scrollTop() > offset_opacity ) {
+			$back_to_top.addClass('cd-fade-out');
+		}
+	});
+
+	//smooth scroll to top
+	$back_to_top.on('click', function(event){
+		event.preventDefault();
+		$('body,html').animate({
+			scrollTop: 0 ,
+		 	}, scroll_top_duration
+		);
+	});
+
+});

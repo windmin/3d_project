@@ -31,7 +31,6 @@ def shebei():
     form.back_slot_rows.render_kw = {'disabled':'true'}
     form.back_slot_cols.render_kw = {'disabled':'true'}
 
-    shebeiTables = ShebeiTable.query.all()
     if form.validate_on_submit():
         shebei_name = form.shebei_name.data
         front_slotNums = form.front_slotNums.data
@@ -45,7 +44,7 @@ def shebei():
                 and front_slot_cols != '' and back_slotNums != '' and back_slot_rows != '' \
                 and back_slot_cols != '':
             if ShebeiTable.query.filter_by(shebei_name=shebei_name).first():
-                flash('M设备表中已存在该数据 - 设备名：%s，无法新增成功！' %(shebei_name))
+                flash('%s已存在，无法新增成功！' %(shebei_name))
             else:
                 db.session.add(ShebeiTable(shebei_name = shebei_name, \
                                           front_slotNums = front_slotNums, \
@@ -55,7 +54,13 @@ def shebei():
                                           back_slot_rows = back_slot_rows, \
                                           back_slot_cols = back_slot_cols))
                 db.session.commit()
-            return redirect(url_for('main.shebei'))
+            # return redirect(url_for('main.shebei'))
+
+    shebeiTables = ShebeiTable.query.all()
+    if shebeiTables[-1].shebei_name[1:2] == '#':
+        form.shebei_name.data = str(int(shebeiTables[-1].shebei_name[0:1]) + 1) + '#机架'
+    else:
+        form.shebei_name.data = ''
     return render_template('shebei.html',shebeiTables=shebeiTables,form=form)
 
 
@@ -66,11 +71,11 @@ def index():
     form = SelectShebeiForm()
 
     if request.method == 'POST':
-        if request.form["submit"] == "下一步":
+        if request.form["submit"] == "下一步 >":
             jiechushebei_side = request.form.get('jiechushebei_side')
             jierushebei_side = request.form.get('jierushebei_side')
-            print('jiechushebei_side:'+str(jiechushebei_side))
-            print('jierushebei_side:'+str(jierushebei_side))
+            print(jiechushebei_side)
+            print(jierushebei_side)
     if form.submit.data:
         shebei_count = form.shebei_count.data
         jiechushebei = form.jiechushebei.data
@@ -260,3 +265,10 @@ def step(shebei_dict):
 def modf():
     return render_template('webgl_loader_obj_mtl.html')
 
+@main.route('/shebei/delete/<id>',methods=['GET','POST'])
+@login_required
+def shebei_delete(id):
+    result = ShebeiTable.query.filter_by(id=id).first()
+    db.session.delete(result)
+    db.session.commit()
+    return redirect(url_for('main.shebei'))

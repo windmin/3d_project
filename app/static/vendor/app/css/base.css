@@ -19,7 +19,7 @@
     color: #000000;
 }
 
-.navbar-default .navbar-nav>li>a>span {
+.navbar-default .navbar-nav>li:nth-child(1)>a>span {
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;

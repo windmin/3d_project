@@ -16,7 +16,7 @@ class CreateShebeiForm(FlaskForm):
     back_slot_rows = IntegerField('每个72芯配线单元有几排', default=6) #96芯4排
     back_slot_cols = IntegerField('每个72芯配线单元有几列', default=12) #96芯4排
 
-    submit = SubmitField('新增机架')
+    submit = SubmitField('添加机架')
 
 # 选择设备 - 表单
 class SelectShebeiForm(FlaskForm):
@@ -25,7 +25,7 @@ class SelectShebeiForm(FlaskForm):
     # jiechushebei_side = SelectField('请选择接出单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
     jierushebei = SelectField('请选择此次跳纤的接入机架', coerce=str)
     # jierushebei_side = SelectField('请选择接入单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
-    submit = SubmitField('下一步')
+    submit = SubmitField('下一步 >')
 
     def __init__(self, *args, **kwargs):
         super(SelectShebeiForm, self).__init__(*args, **kwargs)
