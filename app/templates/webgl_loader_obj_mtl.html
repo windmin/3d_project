@@ -190,14 +190,14 @@
 
 				//添加第一个对象
 				var mtlLoader = new THREE.MTLLoader();
-				mtlLoader.setPath( 'obj/3D/' );
+				mtlLoader.setPath( 'static/vendor/modf/obj/3D/' );
 				mtlLoader.load( '3DBuilder.mtl', function( materials ) {
 
 					materials.preload();
 
 					var objLoader = new THREE.OBJLoader();
 					objLoader.setMaterials( materials );
-					objLoader.setPath( 'obj/3D/' );
+					objLoader.setPath( 'static/vendor/modf/obj/3D/' );
 					objLoader.load( '3DBuilder.obj', function ( object ) {
 						object.position.x = -150
 						object.position.y = -250;
@@ -209,14 +209,14 @@
 
 				//添加第二个对象
 				var mtlLoader2 = new THREE.MTLLoader();
-				mtlLoader2.setPath('obj/3D/');
+				mtlLoader2.setPath('static/vendor/modf/obj/3D/');
 								mtlLoader.load( '3DBuilder.mtl', function( materials ) {
 
 					materials.preload();
 
 					var objLoader2 = new THREE.OBJLoader();
 					objLoader2.setMaterials( materials );
-					objLoader2.setPath( 'obj/3D/' );
+					objLoader2.setPath( 'static/vendor/modf/obj/3D/' );
 					objLoader2.load( '3DBuilder.obj', function ( object2 ) {
 
 						object2.position.y = -250;
