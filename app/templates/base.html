@@ -49,12 +49,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/"><span>跳纤计算</span></a></li>
-                    <li><a href="/shebei"><span>添加机架</span></a></li>
+                    <li><a href="/shebei"><span>机架管理</span></a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-{#                    {% if current_user.is_administrator() %}#}
-{#                        <li><a href="{{ url_for('auth.account') }}">Accounts</a></li>#}
-{#                    {% endif %}#}
+                    {% if current_user.is_administrator() %}
+                        <li><a href="{{ url_for('auth.account') }}">账户管理</a></li>
+                    {% endif %}
 
                     {% if current_user.is_authenticated %}
                         <li class="hello-user"><span>你好, {{ current_user.username }}</span></li>
