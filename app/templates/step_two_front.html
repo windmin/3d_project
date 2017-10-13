@@ -12,11 +12,19 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-4">
                 <h2>要连接的两个端口分别是：</h2>
-                <p><strong>{{ shebei_dict['jiechushebei'] }}</strong>的<strong>{{ shebei_dict['jiechushebei_side'] }}{{ shebei_dict['jiechushebei_radio'][0] }}({{ shebei_dict['jiechushebei_radio'][1] }},{{ shebei_dict['jiechushebei_radio'][2] }})</strong> 和
-                   <strong>{{ shebei_dict['jierushebei'] }}</strong>的<strong>{{ shebei_dict['jierushebei_side'] }}{{ shebei_dict['jierushebei_radio'][0] }}({{ shebei_dict['jierushebei_radio'][1] }},{{ shebei_dict['jierushebei_radio'][2] }})</strong>
-                </p>
-                <button type="button" class="btn btn-default" onclick="{window.history.back(-1);}">< 返回重选</button>
-                <button type="button" class="btn btn-primary" style="margin-left: 10%; width:30%; background-color: #3d90ff;" onclick="{location.href='/modf'}">3D演示</button>
+                {% if shebei_dict['jiechushebei_side'] == '96芯设备单元' %}
+                    {% set jiechu_danyuan = 'H' %}
+                {% elif shebei_dict['jiechushebei_side'] == '72芯配线单元' %}
+                    {% set jiechu_danyuan = 'L' %}
+                {% endif %}
+                {% if shebei_dict['jierushebei_side'] == '96芯设备单元' %}
+                    {% set jieru_danyuan = 'H' %}
+                {% elif shebei_dict['jierushebei_side'] == '72芯配线单元' %}
+                    {% set jieru_danyuan = 'L' %}
+                {% endif %}
+                <p>接出端口：{{ shebei_dict['jiechushebei'] }}，{{ shebei_dict['jiechushebei_side'] }}{{ jiechu_danyuan }}{{ shebei_dict['jiechushebei_radio'][0] }}，端口({{ shebei_dict['jiechushebei_radio'][1] }},{{ shebei_dict['jiechushebei_radio'][2] }})
+                <p>接入端口：{{ shebei_dict['jierushebei'] }}，{{ shebei_dict['jierushebei_side'] }}{{ jieru_danyuan }}{{ shebei_dict['jierushebei_radio'][0] }}，端口({{ shebei_dict['jierushebei_radio'][1] }},{{ shebei_dict['jierushebei_radio'][2] }})</p>
+                <p>{{ log_list[0] }}</p>
             </div>
         </div>
     </div>
@@ -29,7 +37,7 @@
         <article>
 {#            <p>第一步</p>#}
             <p><span>接线步骤</span></p>
-            <p>{{ log_list[0] }}</p>
+{#            <p>{{ log_list[0] }}</p>#}
             <li>{{ log_list[1] }}</li>
             <li>{{ log_list[2] }}</li>
         </article>
@@ -66,7 +74,14 @@
 </div>
 </ol>
 
-
+<div class="row" style="position: relative; top: -4800px;">
+    <div class="col-md-4 col-md-offset-4">
+{#        <button type="button" class="btn btn-default" onclick="{window.history.back(-1);}">< 返回重选</button>#}
+{#        <button type="button" class="btn btn-primary" style="margin-left: 10%; width:30%; background-color: #3d90ff;" onclick="{location.href='/modf'}">3D演示</button>#}
+        <input type="submit" name="submit" class="btn btn-default class-prev" value="< 返回重选" onclick="{window.history.back(-1);}">
+        <input type="submit" name="submit" class="btn btn-primary class-submit" value="保存" style="float: right;">
+    </div>
+</div>
 
 <input class="result" id="picStep1_x" name="picStep1_x" type="hidden" value="{{ step_list[0][0] }}">
 <input class="result" id="picStep1_y" name="picStep1_y" type="hidden" value="{{ step_list[0][1] }}">

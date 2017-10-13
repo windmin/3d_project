@@ -18,7 +18,7 @@ import datetime
 import os
 
 
-
+# 机架管理
 @main.route('/shebei',methods=['GET','POST'])
 @login_required
 def shebei():
@@ -31,7 +31,9 @@ def shebei():
     form.back_slot_rows.render_kw = {'disabled':'true'}
     form.back_slot_cols.render_kw = {'disabled':'true'}
 
-    if form.validate_on_submit():
+    shebeiTables = ShebeiTable.query.order_by(ShebeiTable.shebei_name.asc()).all()
+
+    if form.submit.data:
         shebei_name = form.shebei_name.data
         front_slotNums = form.front_slotNums.data
         front_slot_rows = form.front_slot_rows.data
@@ -39,29 +41,43 @@ def shebei():
         back_slotNums = form.back_slotNums.data
         back_slot_rows = form.back_slot_rows.data
         back_slot_cols = form.back_slot_cols.data
+        shebei_place = form.shebei_place.data
 
         if shebei_name != '' and front_slotNums != '' and front_slot_rows != '' \
                 and front_slot_cols != '' and back_slotNums != '' and back_slot_rows != '' \
-                and back_slot_cols != '':
+                and back_slot_cols != '' and shebei_place != '':
             if ShebeiTable.query.filter_by(shebei_name=shebei_name).first():
                 flash('%s已存在，无法新增成功！' %(shebei_name))
             else:
-                db.session.add(ShebeiTable(shebei_name = shebei_name, \
-                                          front_slotNums = front_slotNums, \
-                                          front_slot_rows = front_slot_rows, \
-                                          front_slot_cols = front_slot_cols, \
-                                          back_slotNums = back_slotNums, \
-                                          back_slot_rows = back_slot_rows, \
-                                          back_slot_cols = back_slot_cols))
+                db.session.add(ShebeiTable(shebei_name=shebei_name, \
+                                           front_slotNums=front_slotNums, \
+                                           front_slot_rows=front_slot_rows, \
+                                           front_slot_cols=front_slot_cols, \
+                                           back_slotNums=back_slotNums, \
+                                           back_slot_rows=back_slot_rows, \
+                                           back_slot_cols=back_slot_cols, \
+                                           shebei_place=shebei_place))
                 db.session.commit()
-            # return redirect(url_for('main.shebei'))
+            return redirect(url_for('main.shebei'))
 
-    shebeiTables = ShebeiTable.query.all()
-    if shebeiTables[-1].shebei_name[1:2] == '#':
-        form.shebei_name.data = str(int(shebeiTables[-1].shebei_name[0:1]) + 1) + '#机架'
-    else:
-        form.shebei_name.data = ''
-    return render_template('shebei.html',shebeiTables=shebeiTables,form=form)
+    elif request.method == 'POST':
+        if request.form["search"] == "搜索":
+            number = request.form.get('Number')
+            if number !='':
+                shebeiTables = ShebeiTable.query.filter(ShebeiTable.shebei_name.like('%'+number+'%')).all()
+                if not shebeiTables:
+                    flash('未找到搜索结果！')
+            else:
+                return redirect(url_for('main.shebei'))
+
+
+    results = ShebeiTable.query.order_by(ShebeiTable.shebei_name.asc()).all()
+    if results:
+        if results[-1].shebei_name[1:2] == '号':
+            form.shebei_name.data = str(int(results[-1].shebei_name[0:1]) + 1) + '号机架'
+        else:
+            form.shebei_name.data = ''
+    return render_template('shebei.html', shebeiTables=shebeiTables, form=form)
 
 
 # 选择设备、正背面、端口、计算
@@ -74,8 +90,6 @@ def index():
         if request.form["submit"] == "下一步 >":
             jiechushebei_side = request.form.get('jiechushebei_side')
             jierushebei_side = request.form.get('jierushebei_side')
-            print(jiechushebei_side)
-            print(jierushebei_side)
     if form.submit.data:
         shebei_count = form.shebei_count.data
         jiechushebei = form.jiechushebei.data
@@ -86,6 +100,10 @@ def index():
         if shebei_count == 1:
             if jiechushebei != jierushebei:
                 flash('跳纤机架数=1时，接出机架和接入机架必须是同一台！请重新选择！')
+                return redirect(url_for('main.index'))
+        elif shebei_count > 1 :
+            if jiechushebei == jierushebei:
+                flash('跳纤机架数>1时，接出机架和接入机架必须时不同的！请重新选择！')
                 return redirect(url_for('main.index'))
         shebei_dict = {
             'shebei_count': shebei_count,

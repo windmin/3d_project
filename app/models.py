@@ -155,5 +155,6 @@ class ShebeiTable(db.Model):
     back_slot_rows = db.Column(db.Integer)
     back_slot_cols = db.Column(db.Integer)
     slot_used_list = db.Column(db.String()) #已被占用的端口 例：[1(1,4),3(2,3),4(3,1),7(3,24)]
+    shebei_place = db.Column(db.Integer) # 设备放置位置（第几排）
     def __repr__(self):
         return '<设备 %r>' % self.id

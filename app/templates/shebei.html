@@ -7,7 +7,40 @@
 {% endblock %}
 {% block page_content %}
 <div class="page-header" style="background: #ffffff">
-{#<h1>Motor</h1>#}
+<form class="form-inline" method="POST" action="{{ url_for('main.shebei') }}">
+        <div class="form-group">
+            <label for="Number">机架号</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="Number" name="Number">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit" name="search" value="搜索">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+{#        <div class="form-group">#}
+{#            <label for="authorID">书法家</label>#}
+{#            <input type="text" class="form-control" id="authorID" name="authorID">#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            <label for="dynastyID">朝代</label>#}
+{#            <input type="text" class="form-control" id="dynastyID" name="dynastyID">#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            <label for="fontID">字体</label>#}
+{#            <input type="text" class="form-control" id="fontID" name="fontID">#}
+{#        </div>#}
+{#        <div class="input-group col-lg-4">#}
+{#            <input type="text" class="form-control" placeholder="Search..." id="shuruzhi" name="shuruzhi">#}
+{#            <div class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit" name="search" value="搜索">#}
+{#                    <i class="fa fa-search"></i>#}
+{#                </button>#}
+{#            </div>#}
+{#        </div>#}
+    </form>
 </div>
 
 <div class="row">
@@ -26,11 +59,12 @@
                                 <th>96芯设备单元数</th>
 {#                                <th>正面每块Slot排数</th>#}
 {#                                <th>正面每块Slot列数</th>#}
-                                <th>72芯设备单元数</th>
+                                <th>72芯配线单元数</th>
 {#                                <th>背面每块Slot排数</th>#}
 {#                                <th>背面每块Slot列数</th>#}
 {#                                <th>已使用的Slot</th>#}
-                                <th></th>
+                                <th>放置位置（第几排）</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,7 +78,7 @@
 {#                                    <td>{{ shebeiTable.back_slot_rows }}</td>#}
 {#                                    <td>{{ shebeiTable.back_slot_cols }}</td>#}
 {#                                    <td>{{ shebeiTable.slot_used_list }}</td>#}
-
+                                    <td>{{ shebeiTable.shebei_place }}</td>
                                     <td>
 {#                                        <a class="icon" href="/motor/edit/{{ motor.id }}" title="编辑">#}
 {#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}

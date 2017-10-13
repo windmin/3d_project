@@ -255,7 +255,8 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     log3 = '穿过大线环1后，往上经过'+from_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。再到最下面的挂纤轮'+'，调头向上绕过'+from_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_bottom[0])+1)+'个挂纤轮。'
     pic_step6 = (590, 230+(WHEEL_DISTANCE.index(wheel_above[0])+1-1)*215) #高于from_point的挂纤轮 step_list[5] pic_step6
     pic_step7 = (590, 230+(WHEEL_DISTANCE.index(wheel_bottom[0])+1-1)*215) #高于to_point的挂纤轮 step_list[6] pic_step7
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     json3 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json5 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)
 
@@ -486,8 +487,8 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
 
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
-    print('请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。')
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json4 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json6 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)  # json[6]
@@ -665,7 +666,8 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     log3 = '从'+to_name+'96芯设备单元'+from_point[0]+'的大线环2穿出，往上经过'+to_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。再到最下面的挂纤轮'+'，调头向上绕过'+to_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_bottom[0])+1)+'个挂纤轮。'
     pic_step6 = (590, 230+(WHEEL_DISTANCE.index(wheel_above[0])+1-1)*215)  # wheel_above
     pic_step7 = (590, 230+(WHEEL_DISTANCE.index(wheel_bottom[0])+1-1)*215)  # wheel_bottom
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     json3 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json5 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)
 
@@ -930,8 +932,8 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
            to_name + '侧面第' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '个挂纤轮。'
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0]) + 1 - 1) * 215)  # wheel_above
     pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
-    print('请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。')
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json8 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json10 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)  # json[6]
@@ -1121,8 +1123,8 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     log4 = '从72芯配线单元'+PEIXIAN_DANYUAN[str(int(from_point[0])+1)]+'的大孔穿出后，往上经过'+from_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。'
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     # step_list[6] = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
-    print('请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。')
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json4 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     # json_list[5] = '挂纤轮-13'  # json[5]
@@ -1347,7 +1349,8 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
         to_name + '侧面第' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '个挂纤轮。'
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json8 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json10 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)
@@ -1545,7 +1548,8 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
     log3 = '穿过大线环1后，往上经过'+from_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。'
     pic_step6 = (590, 230+(WHEEL_DISTANCE.index(wheel_above[0])+1-1)*215) #高于from_point的挂纤轮 step_list[5] pic_step6
     # pic_step7 = (590, 230+(WHEEL_DISTANCE.index(wheel_bottom[0])+1-1)*215) #高于to_point的挂纤轮 step_list[6] pic_step7
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     json3 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     # json5 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)
 
@@ -1766,7 +1770,8 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     log3 = '从'+to_name+'96芯设备单元'+from_point[0]+'的大线环2穿出，往上经过'+to_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。再到最下面的挂纤轮'+'，调头向上绕过'+to_name+'侧面第'+str(WHEEL_DISTANCE.index(wheel_bottom[0])+1)+'个挂纤轮。'
     pic_step6 = (590, 230+(WHEEL_DISTANCE.index(wheel_above[0])+1-1)*215)  # wheel_above
     pic_step7 = (590, 230+(WHEEL_DISTANCE.index(wheel_bottom[0])+1-1)*215)  # wheel_bottom
-    log0 = '请选择一根长度为：' + str(int(cable_list[0] / 1000)) + '米的网线。'
+    log0 = '此次跳纤计算的长度为' + str(int(cable_list[0] / 1000)) + '米，请选择一根长度为' + \
+           str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     json3 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json5 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)
 

@@ -6,15 +6,17 @@ from ..models import ShebeiTable
 
 # 新增设备 - 表单
 class CreateShebeiForm(FlaskForm):
-    shebei_name = StringField('机架名', validators=[DataRequired()]) #设备1
+    shebei_name = StringField('机架名') #设备1
 
     front_slotNums = IntegerField('96芯设备单元数', default=9) #front_96_slotNums=range(1,10) #9
     front_slot_rows = IntegerField('每个96芯设备单元有几排', default=4) #96芯4排
     front_slot_cols = IntegerField('每个96芯设备单元有几列', default=24) #96芯24列
 
-    back_slotNums = IntegerField('72芯配线单元数', default=12) #96芯12块
-    back_slot_rows = IntegerField('每个72芯配线单元有几排', default=6) #96芯4排
-    back_slot_cols = IntegerField('每个72芯配线单元有几列', default=12) #96芯4排
+    back_slotNums = IntegerField('72芯配线单元数', default=12) #72芯12块
+    back_slot_rows = IntegerField('每个72芯配线单元有几排', default=6) #72芯6排
+    back_slot_cols = IntegerField('每个72芯配线单元有几列', default=12) #72芯12列
+
+    shebei_place = IntegerField('机架放置位置（第几排）')
 
     submit = SubmitField('添加机架')
 

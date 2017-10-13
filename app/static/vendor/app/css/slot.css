@@ -44,3 +44,15 @@ span.choose-radio {
     font-weight: bold;
     font-size: 20px;
 }
+
+.class-prev {
+    background-color: #3B3B3B;
+    border: 1px solid #3B3B3B;
+    color: white;
+    border-style: none;
+}
+
+.class-submit {
+    background-color: #5390F7;
+    border-style: none;
+}
