@@ -1,5 +1,5 @@
 # 网线长度 1m=100cm 1cm=10mm
-CABLE_LENGTH = [3000, 5000, 6000, 8000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000] #mm
+# CABLE_LENGTH = [3000, 5000, 6000, 8000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000] #mm
 
 
 # 挂纤轮本身直径
@@ -103,7 +103,7 @@ def calculate_slot(rows,cols,list):
 def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei_slot_rows,jiechushebei_slot_cols, \
                               jierushebei_slot_rows,jierushebei_slot_cols, \
-                              jiechushebei,jierushebei):
+                              jiechushebei,jierushebei,CABLE_LENGTH):
     # json0 = ['相同机架的96芯设备单元与96芯设备单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -276,7 +276,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
 
 # 计算同一设备、同side、背面，跳纤方式
 def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
-                              jiechushebei,jierushebei):
+                              jiechushebei,jierushebei,CABLE_LENGTH):
     # json0 = ['相同机架的72芯配线单元与72芯配线单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -509,7 +509,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei_slot_rows,jiechushebei_slot_cols, \
                               jierushebei_slot_rows,jierushebei_slot_cols, \
                               jiechushebei,jierushebei,\
-                              shebei_count):
+                              shebei_count,CABLE_LENGTH):
     # json0 = ['不同机架的96芯设备单元与96芯设备单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -691,7 +691,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
 # 计算不同设备、同side、背面，跳纤方式
 def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei,jierushebei,\
-                              shebei_count):
+                              shebei_count,CABLE_LENGTH):
     # json0 = ['不同机架的72芯配线单元与72芯配线单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -964,7 +964,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
 def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
                              jiechushebei_slot_rows,jiechushebei_slot_cols, \
                              jierushebei_slot_rows,jierushebei_slot_cols, \
-                             jiechushebei,jierushebei):
+                             jiechushebei,jierushebei,CABLE_LENGTH):
     # json0 = ['相同机架的72芯配线单元与796芯设备单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -1153,7 +1153,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
                              jiechushebei_slot_rows,jiechushebei_slot_cols, \
                              jierushebei_slot_rows,jierushebei_slot_cols, \
                              jiechushebei,jierushebei,\
-                             shebei_count):
+                             shebei_count,CABLE_LENGTH):
     # step_list = []
     # json0 ='不同机架的72芯配线单元与96芯设备单元跳纤'
     from_point = jiechushebei_radio
@@ -1378,7 +1378,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
 def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei_slot_rows,jiechushebei_slot_cols, \
                               jierushebei_slot_rows,jierushebei_slot_cols, \
-                              jiechushebei,jierushebei):
+                              jiechushebei,jierushebei,CABLE_LENGTH):
     # json0 = ['相同机架的96芯设备单元与96芯设备单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio
@@ -1578,7 +1578,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
                               jiechushebei_slot_rows,jiechushebei_slot_cols, \
                               jierushebei_slot_rows,jierushebei_slot_cols, \
                               jiechushebei,jierushebei,\
-                              shebei_count):
+                              shebei_count,CABLE_LENGTH):
     # json0 = ['不同机架的96芯设备单元与96芯设备单元跳纤']
     from_point = jiechushebei_radio
     to_point = jierushebei_radio

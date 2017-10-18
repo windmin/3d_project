@@ -37,6 +37,7 @@ function draw() {
     // var step13_y = $("#picStep13_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
+    var color = $("#color").val();
    // alert(step1_y);
 
 //    第一步
@@ -64,7 +65,7 @@ function draw() {
             ctx.fillText("3", Number(step4_x)+20, Number(step4_y)+20);
             // ctx.lineTo(step5_x, step5_y);
 
-            ctx.strokeStyle = "#FFF200";
+            ctx.strokeStyle = color;
             ctx.lineWidth = 6;
             ctx.stroke();
         };
@@ -98,7 +99,7 @@ function draw() {
             ctx2.lineTo(step8_x,step8_y);
             ctx2.fillText("5", Number(step8_x)+100, Number(step8_y)-20);
 
-            ctx2.strokeStyle = "#FFF200";
+            ctx2.strokeStyle = color;
             ctx2.lineWidth = 6;
             ctx2.stroke();
         };
@@ -128,7 +129,7 @@ function draw() {
             ctx3.arc(Number(step10_x)+25,Number(step10_y)-25,25,0.5*Math.PI,Math.PI,false);
             ctx3.lineTo(step9_x,step9_y);
             ctx3.fillText("7", Number(step9_x)+20, Number(step9_y)+20);
-            ctx3.strokeStyle = "#FFF200";
+            ctx3.strokeStyle = color;
             ctx3.lineWidth = 6;
             ctx3.stroke();
         };

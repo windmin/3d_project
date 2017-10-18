@@ -253,6 +253,14 @@ def step(shebei_dict):
     shebei_dict2 = shebei_dict.copy()
     del shebei_dict2['jiechushebei_slot']
     del shebei_dict2['jierushebei_slot']
+
+    list = [list.line*1000 for list in LineTable.query.all()]
+    list.sort()
+    if list:
+        CABLE_LENGTH = list
+    else:
+        CABLE_LENGTH = [3000, 5000, 6000, 8000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000] #mm
+
     # 同一个设备相连
     if shebei_dict['jiechushebei'] == shebei_dict['jierushebei']:
         # 同side相连
@@ -261,34 +269,49 @@ def step(shebei_dict):
                 step_list, log_list, session['json_list'], line =calculate_one_front_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
-                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],CABLE_LENGTH)
                 jiechu_duankou = format_radio_96(shebei_dict2['jiechushebei_radio'][1],
                                                  shebei_dict2['jiechushebei_radio'][2])
                 jieru_duankou = format_radio_96(shebei_dict2['jierushebei_radio'][1],
                                                 shebei_dict2['jierushebei_radio'][2])
-                return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list, line=line, jiechu_duankou=jiechu_duankou, jieru_duankou=jieru_duankou)
+                result_line = LineTable.query.filter_by(line=line).first()
+                if result_line:
+                    color = result_line.line_color
+                return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list, line=line, \
+                                       jiechu_duankou=jiechu_duankou, jieru_duankou=jieru_duankou, color=color)
             elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
                 step_list, log_list, session['json_list'], line = calculate_one_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
-                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
-                return render_template('step_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line)
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],CABLE_LENGTH)
+                result_line = LineTable.query.filter_by(line=line).first()
+                if result_line:
+                    color = result_line.line_color
+                return render_template('step_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, color=color)
         # 不同side相连
         elif shebei_dict['jiechushebei_side'] != shebei_dict['jierushebei_side']:
             if shebei_dict['jiechushebei_side'] == '72芯配线单元':
                 step_list, log_list, session['json_list'], line = calculate_one_back_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                                                                      shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'], \
                                                                                      shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
-                                                                                     shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                                                                                     shebei_dict['jiechushebei'],shebei_dict['jierushebei'],CABLE_LENGTH)
                 jieru_duankou = format_radio_96(shebei_dict2['jierushebei_radio'][1],
                                                 shebei_dict2['jierushebei_radio'][2])
-                return render_template('step_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, jieru_duankou=jieru_duankou)
+                result_line = LineTable.query.filter_by(line=line).first()
+                if result_line:
+                    color = result_line.line_color
+                return render_template('step_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, \
+                                       log_list=log_list, line=line, jieru_duankou=jieru_duankou, color=color)
             elif shebei_dict['jiechushebei_side'] == '96芯设备单元':
                 step_list, log_list, session['json_list'], line = calculate_one_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
-                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'])
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],CABLE_LENGTH)
                 jiechu_duankou = format_radio_96(shebei_dict2['jiechushebei_radio'][1],
                                                  shebei_dict2['jiechushebei_radio'][2])
-                return render_template('step_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, jiechu_duankou=jiechu_duankou)
+                result_line = LineTable.query.filter_by(line=line).first()
+                if result_line:
+                    color = result_line.line_color
+                return render_template('step_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
+                                       line=line, jiechu_duankou=jiechu_duankou, color=color)
     # 不同设备相连
     elif shebei_dict['jiechushebei'] != shebei_dict['jierushebei']:
         if shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '96芯设备单元':
@@ -296,34 +319,49 @@ def step(shebei_dict):
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
-                                          shebei_dict['shebei_count'])
+                                          shebei_dict['shebei_count'],CABLE_LENGTH)
             jiechu_duankou = format_radio_96(shebei_dict2['jiechushebei_radio'][1],
                                              shebei_dict2['jiechushebei_radio'][2])
             jieru_duankou = format_radio_96(shebei_dict2['jierushebei_radio'][1],
                                             shebei_dict2['jierushebei_radio'][2])
-            return render_template('step_two_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, jiechu_duankou=jiechu_duankou, jieru_duankou=jieru_duankou)
+            result_line = LineTable.query.filter_by(line=line).first()
+            if result_line:
+                color = result_line.line_color
+            return render_template('step_two_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
+                                   line=line, jiechu_duankou=jiechu_duankou, jieru_duankou=jieru_duankou, color=color)
         elif shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side'] and shebei_dict['jiechushebei_side'] == '72芯配线单元':
             step_list, log_list, session['json_list'], line = calculate_two_back_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
-                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],shebei_dict['shebei_count'])
-            return render_template('step_two_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line)
+                                          shebei_dict['jiechushebei'],shebei_dict['jierushebei'],shebei_dict['shebei_count'],CABLE_LENGTH)
+            result_line = LineTable.query.filter_by(line=line).first()
+            if result_line:
+                color = result_line.line_color
+            return render_template('step_two_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, color=color)
         elif shebei_dict['jiechushebei_side'] == '72芯配线单元' and shebei_dict['jierushebei_side'] == '96芯设备单元':
             step_list, log_list, session['json_list'], line = calculate_two_back_front(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                                                                  shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'], \
                                                                                  shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'], \
                                                                                  shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
-                                                                                 shebei_dict['shebei_count'])
+                                                                                 shebei_dict['shebei_count'],CABLE_LENGTH)
             jieru_duankou = format_radio_96(shebei_dict2['jierushebei_radio'][1],
                                             shebei_dict2['jierushebei_radio'][2])
-            return render_template('step_two_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, jieru_duankou=jieru_duankou)
+            result_line = LineTable.query.filter_by(line=line).first()
+            if result_line:
+                color = result_line.line_color
+            return render_template('step_two_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
+                                   line=line, jieru_duankou=jieru_duankou, color=color)
         elif shebei_dict['jiechushebei_side'] == '96芯设备单元' and shebei_dict['jierushebei_side'] == '72芯配线单元':
             step_list, log_list, session['json_list'], line = calculate_two_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
-                                          shebei_dict['shebei_count'])
+                                          shebei_dict['shebei_count'],CABLE_LENGTH)
             jiechu_duankou = format_radio_96(shebei_dict2['jiechushebei_radio'][1],
                                              shebei_dict2['jiechushebei_radio'][2])
-            return render_template('step_two_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, line=line, jiechu_duankou=jiechu_duankou)
+            result_line = LineTable.query.filter_by(line=line).first()
+            if result_line:
+                color = result_line.line_color
+            return render_template('step_two_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
+                                   line=line, jiechu_duankou=jiechu_duankou, color=color)
     # return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
 
 
