@@ -40,6 +40,15 @@ PEIXIAN_DANYUAN = {
 def format_radio_96(row, col):
     return 1+24*(int(row)-1)+(int(col)-1)
 
+
+def format_duankou(side, row, col):
+    if side == '96芯设备单元':
+        result = str(1+24*(int(row)-1)+(int(col)-1))
+    elif side == '72芯配线单元':
+        result = str(row)+','+str(col)
+    return result
+
+
 # 机架管理
 @main.route('/shebei',methods=['GET','POST'])
 @login_required
@@ -383,11 +392,11 @@ def save(shebei_dict2, line):
             # 删除日志
             db.session.add(Log(updated_time=updated_time,
                                type='删除跳纤',
-                               content='删除' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + jieru_row + ',' + jieru_col + '）',
+                               content='删除' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
                                user_id=current_user.id))
             db.session.add(Log(updated_time=updated_time,
                                type='删除跳纤',
-                               content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + str(mubiao.jieru_slotnum) + '端口（' + str(mubiao.jieru_row) + ',' + str(mubiao.jieru_col) + '）',
+                               content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + str(mubiao.jieru_slotnum) + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）',
                                user_id=current_user.id))
 
         # 新增跳纤
@@ -420,13 +429,13 @@ def save(shebei_dict2, line):
 
         db.session.add(Log(updated_time=updated_time,
                            type='新增跳纤',
-                           content='新增从' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + jiechu_row + ',' + jiechu_col + '）' + \
-                                   '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + jieru_row + ',' + jieru_col + '）',
+                           content='新增从' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）' + \
+                                   '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
                            user_id=current_user.id))
         db.session.add(Log(updated_time=updated_time,
                            type='新增跳纤',
-                           content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + jieru_row + ',' + jieru_col + '）' + \
-                                   '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + jiechu_row + ',' + jiechu_col + '）',
+                           content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）' + \
+                                   '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）',
                            user_id=current_user.id))
         db.session.commit()
 
@@ -444,7 +453,7 @@ def save(shebei_dict2, line):
         # 删除日志
         db.session.add(Log(updated_time=updated_time,
                            type='删除跳纤',
-                           content='删除' + qidian.jieru_jijia + qidian.jieru_side + str(qidian.jieru_slotnum) + '端口（' + str(qidian.jieru_row) + ',' + str(qidian.jieru_col) + '）',
+                           content='删除' + qidian.jieru_jijia + qidian.jieru_side + str(qidian.jieru_slotnum) + '端口（' + format_duankou(qidian.jieru_side, qidian.jieru_row, qidian.jieru_col) + '）',
                            user_id=current_user.id))
         # 目标有连接
         if mubiao:
@@ -460,11 +469,11 @@ def save(shebei_dict2, line):
             # 删除日志
             db.session.add(Log(updated_time=updated_time,
                                type='删除跳纤',
-                               content='删除' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + jieru_row + ',' + jieru_col + '）',
+                               content='删除' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
                                user_id=current_user.id))
             db.session.add(Log(updated_time=updated_time,
                                type='删除跳纤',
-                               content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + mubiao.jieru_slotnum + '端口（' + mubiao.jieru_row + ',' + mubiao.jieru_col + '）',
+                               content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + mubiao.jieru_slotnum + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）',
                                user_id=current_user.id))
 
         # 更新跳纤
@@ -492,12 +501,12 @@ def save(shebei_dict2, line):
         # 写入日志
         db.session.add(Log(updated_time=updated_time,
                            type='修改跳纤',
-                           content=jiechu_jijia+jiechu_side+jiechu_slotname+'端口（'+jiechu_row+','+jiechu_col+'）',
+                           content=jiechu_jijia+jiechu_side+jiechu_slotname+'端口（'+format_duankou(jiechu_side, jiechu_row, jiechu_col)+'）',
                            user_id=current_user.id))
         db.session.add(Log(updated_time=updated_time,
                            type='新增跳纤',
-                           content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + jieru_row + ',' + jieru_col + '）' + \
-                                   '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + jiechu_row + ',' + jiechu_col + '）',
+                           content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）' + \
+                                   '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）',
                            user_id=current_user.id))
         db.session.commit()
 
@@ -556,14 +565,27 @@ def delete_jumping(id):
         slotnum = result.jieru_slotnum
         row = result.jieru_row
         col = result.jieru_col
+
+        updated_time = datetime.now()
+
         db.session.delete(result)
         result2 = DuankouTable.query.filter_by(jiechu_jijia=jijiahao,
                                                jiechu_side=side,
                                                jiechu_slotnum=slotnum,
                                                jiechu_row=row,
                                                jiechu_col=col).first()
+        db.session.add(Log(updated_time=updated_time,
+                           type='删除跳纤',
+                           content='删除' + jijiahao + side + str(slotnum) + '端口（' + format_duankou(side, row, col) + '）',
+                           user_id=current_user.id))
         if result2:
             db.session.delete(result2)
+            # 删除日志
+
+            db.session.add(Log(updated_time=updated_time,
+                               type='删除跳纤',
+                               content='删除' + result2.jiechu_jijia + result2.jiechu_side + str(result2.jiechu_slotnum) + '端口（' + format_duankou(result2.jiechu_side, result2.jiechu_row, result2.jiechu_col) + '）',
+                               user_id=current_user.id))
         db.session.commit()
     else:
         flash('删除失败')
