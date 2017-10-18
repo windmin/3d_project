@@ -27,10 +27,10 @@ def login():
             db.session.add(user)
             db.session.commit()
 
-            return redirect(request.args.get('next') or url_for('main.index'))
+            return redirect(request.args.get('next') or url_for('main.manage_jumping'))
         else:
             flash('Invalid username or password.')
-    return render_template('auth/login.html',form=form) #templates/auth/login.html
+    return render_template('auth/login.html', form=form) #templates/auth/login.html
 
 
 @auth.route('/logout')

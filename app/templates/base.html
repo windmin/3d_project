@@ -3,6 +3,7 @@
 {% block title %}3d_project{% endblock %}
 {% block styles %}
     {{ super() }}
+
     <!-- Bootstrap Core CSS -->
     <link href={{ url_for('static', filename = 'vendor/bootstrap/css/bootstrap.min.css') }} rel="stylesheet">
 
@@ -48,8 +49,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/"><span>新增跳纤</span></a></li>
+                    <li><a href="/"><span>跳纤管理</span></a></li>
+                    <li><a href="/new-jumping"><span>新增跳纤</span></a></li>
+                    <li><a href="/interface"><span>端口查询</span></a></li>
                     <li><a href="/shebei"><span>机架管理</span></a></li>
+                    <li><a href="/setting"><span>基础设置</span></a></li>
+                    <li><a href="/log"><span>日志表</span></a></li>
+{#                    <li><a href="/help"><span>帮助</span></a></li>#}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_administrator() %}

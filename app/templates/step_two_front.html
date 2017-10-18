@@ -22,8 +22,8 @@
                 {% elif shebei_dict['jierushebei_side'] == '72芯配线单元' %}
                     {% set jieru_danyuan = 'L' %}
                 {% endif %}
-                <p>接出端口：{{ shebei_dict['jiechushebei'] }}，{{ shebei_dict['jiechushebei_side'] }}{{ jiechu_danyuan }}{{ shebei_dict['jiechushebei_radio'][0] }}，端口({{ shebei_dict['jiechushebei_radio'][1] }},{{ shebei_dict['jiechushebei_radio'][2] }})
-                <p>接入端口：{{ shebei_dict['jierushebei'] }}，{{ shebei_dict['jierushebei_side'] }}{{ jieru_danyuan }}{{ shebei_dict['jierushebei_radio'][0] }}，端口({{ shebei_dict['jierushebei_radio'][1] }},{{ shebei_dict['jierushebei_radio'][2] }})</p>
+                <p>接出端口：{{ shebei_dict['jiechushebei'] }}，{{ shebei_dict['jiechushebei_side'] }}{{ jiechu_danyuan }}{{ shebei_dict['jiechushebei_radio'][0] }}，端口({{ jiechu_duankou }})
+                <p>接入端口：{{ shebei_dict['jierushebei'] }}，{{ shebei_dict['jierushebei_side'] }}{{ jieru_danyuan }}{{ shebei_dict['jierushebei_radio'][0] }}，端口({{ jieru_duankou }})</p>
                 <p>{{ log_list[0] }}</p>
             </div>
         </div>
@@ -79,7 +79,7 @@
 {#        <button type="button" class="btn btn-default" onclick="{window.history.back(-1);}">< 返回重选</button>#}
 {#        <button type="button" class="btn btn-primary" style="margin-left: 10%; width:30%; background-color: #3d90ff;" onclick="{location.href='/modf'}">3D演示</button>#}
         <input type="submit" name="submit" class="btn btn-default class-prev" value="< 返回重选" onclick="{window.history.back(-1);}">
-        <input type="submit" name="submit" class="btn btn-primary class-submit" value="保存" style="float: right;">
+        <input type="submit" name="submit" class="btn btn-primary class-submit" value="保存" style="float: right;" onclick="go()">
     </div>
 </div>
 
@@ -121,7 +121,8 @@
 {#<input class="result" id="picStep13_y" name="picStep13_y" type="hidden" value="{{ step_list[12][1] }}">#}
 <input class="result" id="from_name" name="from_name" type="hidden" value="{{ shebei_dict['jiechushebei'] }}">
 <input class="result" id="to_name" name="to_name" type="hidden" value="{{ shebei_dict['jierushebei'] }}">
-
+<input class="result" id="dict" name="dict" type="hidden" value="{{ shebei_dict }}">
+<input class="result" id="line" name="line" type="hidden" value="{{ line }}">
 <a href="#0" class="cd-top">Top</a>
 
 {% endblock %}
@@ -129,4 +130,9 @@
 {% block scripts %}
     {{ super() }}
     <script src={{ url_for('static', filename = 'vendor/app/js/step_two_front.js') }} type="text/javascript"></script>
+    <script  type="text/javascript">
+        function go() {
+            window.location.href="/step/save/"+$("#dict").val()+"/"+$("#line").val();
+        }
+    </script>
 {% endblock %}

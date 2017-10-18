@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{#{% import "bootstrap/wtf.html" as wtf %}#}
+{% import "_macros.html" as macros %}
+{% block title %}端口查询{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href={{ url_for('static', filename = 'vendor/app/css/manage_jumping.css') }} rel="stylesheet">
+{% endblock %}
+{% block page_content %}
+<div class="page-header" style="background: #ffffff">
+{#    <form class="form-inline" method="POST" action="{{ url_for('main.duankou') }}">#}
+{#        <div class="form-group">#}
+{#            <label for="jijiahao">机架号</label>#}
+{#            <input type="text" class="form-control" id="jijiahao" name="jijiahao" placeholder="输入数字">#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            <label for="side">单元类型</label>#}
+{#            <select class="form-control" id="side" name="side">#}
+{#                {% if side == '96芯设备单元' %}#}
+{#                    <option value ="96芯设备单元" selected>96芯设备单元</option>#}
+{#                {% else %}#}
+{#                    <option value ="96芯设备单元">96芯设备单元</option>#}
+{#                {% endif %}#}
+{#                {% if side == '72芯配线单元' %}#}
+{#                    <option value ="72芯配线单元" selected>72芯配线单元</option>#}
+{#                {% else %}#}
+{#                    <option value ="72芯配线单元">72芯配线单元</option>#}
+{#                {% endif %}#}
+{#            </select>#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            <label for="slotnum">单元号（数字）</label>#}
+{#            <input type="text" class="form-control" id="slotnum" name="slotnum" placeholder="输入数字">#}
+{#        </div>#}
+{#        <div class="form-group">#}
+{#            <label for="status">端口状态</label>#}
+{#            <select class="form-control" id="status" name="status">#}
+{#                {% if side == '在用' %}#}
+{#                    <option value ="在用" selected>在用</option>#}
+{#                {% else %}#}
+{#                    <option value ="在用">在用</option>#}
+{#                {% endif %}#}
+{#                {% if side == '未用' %}#}
+{#                    <option value ="未用" selected>未用</option>#}
+{#                {% else %}#}
+{#                    <option value ="未用">未用</option>#}
+{#                {% endif %}#}
+{#            </select>#}
+{#        </div>#}
+{#        <button class="btn btn-default" type="submit" name="search" value="搜索">#}
+{#            <i class="fa fa-search"></i>#}
+{#        </button>#}
+{#        <div class="input-group col-lg-4">#}
+{#            <input type="text" class="form-control" placeholder="Search..." id="shuruzhi" name="shuruzhi">#}
+{#            <div class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit" name="search" value="搜索">#}
+{#                    <i class="fa fa-search"></i>#}
+{#                </button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </form>#}
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                端口列表
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>时间</th>
+                                <th>操作<br>人员</th>
+                                <th>接出<br>机架号</th>
+                                <th>接出单元<br>类型</th>
+                                <th>接出<br>单元号</th>
+                                <th>接出<br>端口</th>
+                                <th>接入<br>机架号</th>
+                                <th>接入单元<br>类型</th>
+                                <th>接入<br>单元号</th>
+                                <th>接入<br>端口</th>
+                                <th>跳纤<br>长度</th>
+                                <th>审核<br>确认</th>
+                                <th>备注</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for duankouTable in duankouTables %}
+                                <tr>
+                                    {% if duankouTables %}
+                                        <td>{{ duankouTables.index(duankouTable)+1 }}</td>
+                                    {% endif %}
+                                    <td>{{ duankouTable.updated_time | format_time }}</td>
+                                    <td>{{ duankouTable.username }}</td>
+                                    <td>{{ duankouTable.jiechu_jijia }}</td>
+                                    <td>{{ duankouTable.jiechu_side }}</td>
+                                    {% if duankouTable.jiechu_side == '72芯配线单元' %}
+                                        <td>L{{ duankouTable.jiechu_slotnum | peixian_danyuan }}</td>
+                                    {% else %}
+                                        <td>H{{ duankouTable.jiechu_slotnum }}</td>
+                                    {% endif %}
+                                    {% if duankouTable.jiechu_side == '96芯设备单元' %}
+                                        <td>({{ 1+24*(duankouTable.jiechu_row-1)+(duankouTable.jiechu_col-1) }})</td>
+                                    {% else %}
+                                        <td>({{ duankouTable.jiechu_row }},{{ duankouTable.jiechu_col }})</td>
+                                    {% endif %}
+                                    <td>{{ duankouTable.jieru_jijia }}</td>
+                                    <td>{{ duankouTable.jieru_side }}</td>
+                                    {% if duankouTable.jieru_side == '72芯配线单元' %}
+                                        <td>L{{ duankouTable.jieru_slotnum | peixian_danyuan }}</td>
+                                    {% else %}
+                                        <td>H{{ duankouTable.jieru_slotnum }}</td>
+                                    {% endif %}
+                                    {% if duankouTable.jieru_side == '96芯设备单元' %}
+                                        <td>({{ 1+24*(duankouTable.jieru_row-1)+(duankouTable.jieru_col-1) }})</td>
+                                    {% else %}
+                                        <td>({{ duankouTable.jieru_row }},{{ duankouTable.jieru_col }})</td>
+                                    {% endif %}
+                                    <td>{{ duankouTable.line }}米</td>
+                                    <td>{{ macros.format_confirm(duankouTable.confirm) }}</td>
+                                    <td></td>
+                                    <td>
+{#                                        <a class="icon" href="/jumping/edit/{{ duankouTable.id }}" title="编辑">#}
+{#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}
+{#                                        </a>#}
+                                        <a class="icon" href="/jumping/delete/{{ duankouTable.id }}" title="删除" style="margin-left: 10px;">
+                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        {{ macros.pagination_widget(pagination, 'main.manage_jumping') }}
+    </div>
+</div>
+
+{% endblock %}

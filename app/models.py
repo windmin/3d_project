@@ -4,6 +4,8 @@ from flask_login import UserMixin, AnonymousUserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, url_for
 
+from datetime import datetime
+
 
 class Permission:
     # FOLLOW = 0x01
@@ -56,23 +58,24 @@ class Role(db.Model):
 
 
 class User(UserMixin, db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'User'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64))
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) #外键role_id = roles.id= roles表中的id
     status = db.Column(db.Boolean, default=True)
+    logs = db.relationship('Log', backref='user', lazy='dynamic')
 
 
-    def __init__(self, **kwargs):
-        super(User, self).__init__(**kwargs)
-        if self.role is None:
-            # if self.email == current_app.config['FLASKY_ADMIN']:
-            if self.username == 'admin':
-                self.role = Role.query.filter_by(permissions=0xff).first()
-            if self.role is None:
-                self.role = Role.query.filter_by(default=True).first()
+    # def __init__(self, **kwargs):
+    #     super(User, self).__init__(**kwargs)
+    #     if self.role is None:
+    #         # if self.email == current_app.config['FLASKY_ADMIN']:
+    #         if self.username == 'admin':
+    #             self.role = Role.query.filter_by(permissions=0xff).first()
+    #         if self.role is None:
+    #             self.role = Role.query.filter_by(default=True).first()
 
     @property
     def password(self):
@@ -158,3 +161,66 @@ class ShebeiTable(db.Model):
     shebei_place = db.Column(db.Integer) # 设备放置位置（第几排）
     def __repr__(self):
         return '<设备 %r>' % self.id
+
+
+# 端口使用记录
+class DuankouTable(db.Model):
+    __tablename__ = '端口'
+    id = db.Column(db.Integer, primary_key=True)
+    jiechu_jijia = db.Column(db.String(64))
+    jiechu_side = db.Column(db.String(32))
+    jiechu_slotnum = db.Column(db.Integer)
+    jiechu_row = db.Column(db.Integer)
+    jiechu_col = db.Column(db.Integer)
+    jieru_jijia = db.Column(db.String(64))
+    jieru_side = db.Column(db.String(32))  # slot块数
+    jieru_slotnum = db.Column(db.Integer)  # 每块slot有几排
+    jieru_row = db.Column(db.Integer)  # 每块slot有几列
+    jieru_col = db.Column(db.Integer)
+    line = db.Column(db.Integer)
+    updated_time = db.Column(db.DateTime, default=datetime.now())
+    username = db.Column(db.String(64))
+    confirm = db.Column(db.Boolean, default=False)
+    remark = db.Column(db.String(128))  # 备注
+
+    def __repr__(self):
+        return '<端口 %r>' % self.id
+
+
+# 操作日志
+class Log(db.Model):
+    __tablename__ = 'Log'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    updated_time = db.Column(db.DateTime)
+    type = db.Column(db.String(32))  # 操作类型
+    content = db.Column(db.String(256))  # 操作内容
+
+    def __repr__(self):
+        return '<Log %r>' % self.id
+
+
+# 基础设置(线)
+class LineTable(db.Model):
+    __tablename__ = 'Line'
+    id = db.Column(db.Integer, primary_key=True)
+    line_name = db.Column(db.String(16))  # 线材名
+    line = db.Column(db.Integer)  # 线材长度
+    line_color = db.Column(db.String(16))
+    line_place = db.Column(db.String(32))  # 放置位置
+    # kuapai_buchang = db.Column(db.Integer)  # 机架跨排补偿
+
+    def __repr__(self):
+        return '<Line %r>' % self.id
+
+
+# 基础设置（公司）
+class CompanyTable(db.Model):
+    __tablename__ = 'Company'
+    id = db.Column(db.Integer, primary_key=True)
+    company_name = db.Column(db.String(128))
+    company_address = db.Column(db.String(128))
+    company_tel = db.Column(db.String(16))
+
+    def __repr__(self):
+        return '<Company %r>' % self.id

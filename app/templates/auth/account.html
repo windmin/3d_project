@@ -13,7 +13,7 @@
     <div class="col-lg-8">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Account
+                用户列表
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -23,8 +23,9 @@
                             <tr>
                                 <th>用户名</th>
                                 <th>邮箱</th>
-                                <th>管理员／普通用户</th>
-                                <th></th>
+                                <th>用户类型</th>
+                                <th>用户权限</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,6 +35,11 @@
                                         <td>{{ account.username }}</td>
                                         <td>{{ account.email }}</td>
                                         <td>{{ account.role.name }}</td>
+                                        {% if account.role.name == '普通用户' %}
+                                            <td>查看</td>
+                                        {% else %}
+                                            <td>查看，新增，修改，删除</td>
+                                        {% endif %}
                                         <td>
                                             <a class="icon" href="/auth/account/edit/{{ account.id }}" title="编辑">
                                                 <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>
@@ -59,7 +65,7 @@
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Create Account
+                创建用户
             </div>
             <div class="panel-body">
                 {{ wtf.quick_form(form) }}

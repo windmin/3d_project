@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, FloatField, IntegerField, SubmitField, SelectField, DateField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Regexp
 
 from ..models import ShebeiTable
 
@@ -22,7 +22,7 @@ class CreateShebeiForm(FlaskForm):
 
 # 选择设备 - 表单
 class SelectShebeiForm(FlaskForm):
-    shebei_count = SelectField('请选择需要跳纤的机架数', coerce=int)
+    # shebei_count = SelectField('请选择需要跳纤的机架数', coerce=int)
     jiechushebei = SelectField('请选择此次跳纤的接出机架', coerce=str)
     # jiechushebei_side = SelectField('请选择接出单元', choices=[('96芯设备单元','96芯设备单元'),('72芯配线单元','72芯配线单元')])
     jierushebei = SelectField('请选择此次跳纤的接入机架', coerce=str)
@@ -33,4 +33,21 @@ class SelectShebeiForm(FlaskForm):
         super(SelectShebeiForm, self).__init__(*args, **kwargs)
         self.jiechushebei.choices = [(shebei.shebei_name,shebei.shebei_name) for shebei in ShebeiTable.query.all()]
         self.jierushebei.choices = [(shebei.shebei_name,shebei.shebei_name) for shebei in ShebeiTable.query.all()]
-        self.shebei_count.choices = [(count,count) for count in range(1,ShebeiTable.query.count()+1)]
+        # self.shebei_count.choices = [(count,count) for count in range(1,ShebeiTable.query.count()+1)]
+
+
+# 基础设置 - 表单
+class SettingForm(FlaskForm):
+    company_name = StringField('公司名称')
+    company_address = StringField('公司地址')
+    company_tel = StringField('联系电话')
+    line_name = StringField('线材名')
+    line = IntegerField('线材长度（米）')
+    line_color = StringField('线材颜色', default='#FFF200')
+    line_place = StringField('放置位置（第几排）')
+    kuapai_buchang = IntegerField('机架跨排补偿')
+
+    submit1 = SubmitField('保存更新')
+    submit2 = SubmitField('添加线材')
+    submit3 = SubmitField('保存修改')
+

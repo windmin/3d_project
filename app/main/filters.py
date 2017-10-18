@@ -16,3 +16,12 @@ def peixian_danyuan(s):
         '12': '1'
     }
     return PEIXIAN_DANYUAN[s]
+
+
+def format_time(time):
+    time = time.strftime("%Y-%m-%d")
+    return time
+
+def format_time_seconds(time):
+    time = time.strftime("%Y-%m-%d %H:%M")
+    return time
