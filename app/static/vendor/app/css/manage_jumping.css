@@ -20,5 +20,11 @@
     max-width: 80px;
 }
 
-th {text-overflow:ellipsis;white-space:nowrap;}
+/*th {text-overflow:ellipsis;white-space:nowrap;}*/
+table {
+    table-layout: fixed;
+}
 
+td {
+    word-wrap:break-word;
+}

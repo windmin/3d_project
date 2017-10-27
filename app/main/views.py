@@ -12,13 +12,13 @@ from ..decorators import admin_required
 from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, \
     calculate_two_front_front,calculate_two_back_back,calculate_one_back_front,calculate_two_back_front, \
     calculate_one_front_back, calculate_two_front_back
+from .process_excel import export_excel_jumping
 
 import time
 import datetime
 import os
 
 from datetime import datetime
-
 
 # 72芯配线单元ABCD EFGH IJKL
 PEIXIAN_DANYUAN = {
@@ -586,7 +586,7 @@ def duankou():
 
 
 # 跳纤管理
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/', methods=['GET'])
 @login_required
 def manage_jumping():
     page = request.args.get('page', 1, type=int)
@@ -756,3 +756,29 @@ def delete_line(id):
     else:
         flash('删除失败')
     return redirect(url_for('main.setting'))
+
+
+# export excel
+@main.route('/export', methods=['GET', 'POST'])
+@login_required
+def export_excel():
+    exportdir = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.pardir, os.path.pardir, 'export_file'))
+    del_files = os.listdir(exportdir)
+    if del_files != []:
+        for file in del_files:
+            os.remove(os.path.join(exportdir, file))
+
+    # 生成export file
+    filename = export_excel_jumping(exportdir)
+
+    # 下载export file
+    try:
+        if os.path.exists(os.path.join(exportdir, filename)):
+            return send_from_directory(exportdir, filename, as_attachment=True)
+        else:
+            flash('文件导出失败！请重新尝试！')
+    except:
+        os.remove(os.path.join(os.path.join(exportdir, filename)))
+        flash('导出表格发生异常，请重新尝试！')
+
+    return redirect(url_for('main.manage_jumping'))

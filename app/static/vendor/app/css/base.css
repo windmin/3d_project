@@ -50,3 +50,8 @@ span.step {
     font-weight: bold;
     font-size: 24px;
 }
+
+th {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
