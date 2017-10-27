@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {#{% import "bootstrap/wtf.html" as wtf %}#}
 {% import "_macros.html" as macros %}
-{% block title %}端口查询{% endblock %}
+{% block title %}跳纤管理{% endblock %}
 {% block styles %}
     {{ super() }}
     <link href={{ url_for('static', filename = 'vendor/app/css/manage_jumping.css') }} rel="stylesheet">
@@ -124,11 +124,11 @@
                                     {% endif %}
                                     <td>{{ duankouTable.line }}米</td>
                                     <td>{{ macros.format_confirm(duankouTable.confirm) }}</td>
-                                    <td></td>
+                                    <td>{{ duankouTable.remark }}</td>
                                     <td>
-{#                                        <a class="icon" href="/jumping/edit/{{ duankouTable.id }}" title="编辑">#}
-{#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}
-{#                                        </a>#}
+                                        <a class="icon" href="/jumping/edit/{{ duankouTable.id }}" title="编辑">
+                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>
+                                        </a>
                                         <a class="icon" href="/jumping/delete/{{ duankouTable.id }}" title="删除" style="margin-left: 10px;">
                                             <span class="fa fa-trash glyphicon glyphicon-trash"></span>
                                         </a>

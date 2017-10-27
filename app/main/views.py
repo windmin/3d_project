@@ -3,7 +3,7 @@ from flask import render_template,session,redirect,url_for,flash,request,jsonify
 #蓝本
 from . import main
 #表单
-from .forms import SelectShebeiForm, CreateShebeiForm, SettingForm
+from .forms import SelectShebeiForm, CreateShebeiForm, SettingForm, EditJumpingForm
 from .. import db
 #数据表
 from ..models import ShebeiTable, DuankouTable, Log, LineTable, CompanyTable
@@ -628,6 +628,24 @@ def delete_jumping(id):
     else:
         flash('删除失败')
     return redirect(url_for('main.manage_jumping'))
+
+
+# 编辑跳纤
+@main.route('/jumping/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_jumping(id):
+    result = DuankouTable.query.filter_by(id=id).first()
+    form = EditJumpingForm()
+    if form.validate_on_submit():
+        result.confirm = form.confirm.data
+        result.remark = form.remark.data
+
+        db.session.add(result)
+        db.session.commit()
+        return redirect(url_for('main.manage_jumping'))
+    form.confirm.data = result.confirm
+    form.remark.data = result.remark
+    return render_template('manage_jumping_edit.html', form=form)
 
 
 # 操作日志

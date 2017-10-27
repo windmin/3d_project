@@ -51,3 +51,11 @@ class SettingForm(FlaskForm):
     submit2 = SubmitField('添加线材')
     submit3 = SubmitField('保存修改')
 
+
+# 跳纤管理 - 表单
+class EditJumpingForm(FlaskForm):
+    confirm = BooleanField('审核确认')
+    remark = StringField('备注')
+
+    submit = SubmitField('更新')
+
