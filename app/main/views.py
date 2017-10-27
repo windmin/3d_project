@@ -128,7 +128,11 @@ def index():
         jierushebei = form.jierushebei.data
         # jierushebei_side = form.jierushebei_side.data
 
-        shebei_count = abs(int(jierushebei[0])-int(jiechushebei[0])) + 1
+        if '号' not in jierushebei or '号' not in jiechushebei:
+            flash('所选择的机架命名有误！机架名命名规则：「xx号机架」')
+            return redirect(url_for('main.new-jumping'))
+        else:
+            shebei_count = abs(int(jierushebei.split('号')[0]) - int(jiechushebei.split('号')[0])) + 1
         # if shebei_count == 1:
         #     if jiechushebei != jierushebei:
         #         flash('跳纤机架数=1时，接出机架和接入机架必须是同一台！请重新选择！')
