@@ -106,7 +106,7 @@ function draw() {
             ctx2.lineTo(525,Number(step8_y)-25);
             ctx2.arc(525-25,Number(step8_y)-25,25,0,0.5*Math.PI,false);
             ctx2.lineTo(step8_x,step8_y);
-            ctx2.fillText("4", Number(step8_x)+150, Number(step8_y)-20);
+            ctx2.fillText("4", Number(step8_x)+150, Number(step8_y)+50);
 
             ctx2.strokeStyle = color;
             ctx2.lineWidth = 6;

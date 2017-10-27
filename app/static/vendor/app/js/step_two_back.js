@@ -127,9 +127,9 @@ function draw() {
             ctx5.moveTo(step8_1_x,step8_1_y);
             ctx5.fillText("6", Number(step8_1_x)-40, Number(step8_1_y)+20);
             ctx5.arc(Number(step8_1_x)+25,Number(step8_1_y),25,Math.PI,0.5*Math.PI,true);
-            ctx5.lineTo(Number(step8_1_x)+830-25,Number(step8_1_y)+25);
-            ctx5.arc(Number(step8_1_x)+830-25,Number(step8_1_y),25,0.5*Math.PI,0,true);
-            ctx5.fillText("7", Number(step8_1_x)+830+20, Number(step8_1_y)+20);
+            ctx5.lineTo(Number(step8_1_x)+930-25,Number(step8_1_y)+25);
+            ctx5.arc(Number(step8_1_x)+930-25,Number(step8_1_y),25,0.5*Math.PI,0,true);
+            ctx5.fillText("7", Number(step8_1_x)+930+20, Number(step8_1_y)+20);
             // ctx5.fillText("1", Number(step10_x)-40, Number(step10_y)+20);
             // ctx5.lineTo(step11_x,Number(step11_y)+25);
             // ctx5.arc(Number(step11_x)+25,Number(step11_y)+25,25,Math.PI,1.5*Math.PI,false);

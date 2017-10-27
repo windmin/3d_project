@@ -63,9 +63,9 @@ function draw() {
             ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
             ctx.lineTo(Number(step4_x)-70,Number(step4_y)-25);
             ctx.arc(Number(step4_x)-70+25,Number(step4_y)-25,25,Math.PI,0.5*Math.PI,true);
-            ctx.lineTo(Number(step4_x)+830-25, step4_y);
-            ctx.arc(Number(step4_x)+830-25,Number(step4_y)-25,25,0.5*Math.PI,0,true);
-            ctx.fillText("2", Number(step4_x)+830+20, Number(step4_y)+20);
+            ctx.lineTo(Number(step4_x)+930-25, step4_y);
+            ctx.arc(Number(step4_x)+930-25,Number(step4_y)-25,25,0.5*Math.PI,0,true);
+            ctx.fillText("2", Number(step4_x)+930+20, Number(step4_y)+20);
             ctx.strokeStyle = color;
             ctx.lineWidth = 6;
             ctx.stroke();

@@ -1,4 +1,4 @@
-#coding=utf8
+# coding=utf8
 from flask import render_template,session,redirect,url_for,flash,request,jsonify,send_from_directory
 #蓝本
 from . import main
@@ -238,10 +238,10 @@ def slot(shebei_dict):
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
                 # elif int(shebei_dict['jiechushebei_radio'][0]) > int(shebei_dict['jierushebei_radio'][0]):
                 #     flash('接出端口必需高于接入端口！')
-                elif shebei_dict['jiechushebei_radio'][0] == '12' and shebei_dict['jiechushebei_side'] == '72芯配线单元':
-                    flash('接出端口不能是最后一个单元！')
-                elif shebei_dict['jiechushebei_radio'][0] == '9' and shebei_dict['jiechushebei_side'] == '96芯设备单元':
-                    flash('接出端口不能是最后一个单元！')
+                # elif shebei_dict['jiechushebei_radio'][0] == '12' and shebei_dict['jiechushebei_side'] == '72芯配线单元':
+                #     flash('接出端口不能是最后一个单元！')
+                # elif shebei_dict['jiechushebei_radio'][0] == '9' and shebei_dict['jiechushebei_side'] == '96芯设备单元':
+                #     flash('接出端口不能是最后一个单元！')
                 else:
                     return redirect(url_for('main.step',shebei_dict=shebei_dict))
     return render_template('slot.html', shebei_dict=shebei_dict)
