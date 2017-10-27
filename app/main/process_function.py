@@ -234,11 +234,11 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -254,11 +254,11 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0]-used_distance
             print('剩余线长2：'+ str(shengyu_xianchang))
 
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 - 500 > 0:
                     index_bottom = i
                     break
                 else:
@@ -476,11 +476,11 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -500,11 +500,11 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长2：' + str(shengyu_xianchang))
 
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 - 500 > 0:
                     index_bottom = i
                     break
                 else:
@@ -675,11 +675,11 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -695,11 +695,11 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0]-used_distance
             print('剩余线长2：'+ str(shengyu_xianchang))
 
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 - 500 > 0:
                     index_bottom = i
                     break
                 else:
@@ -987,11 +987,11 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above2[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above2[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above2[0]) * 2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above2[0]) * 2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -1011,11 +1011,11 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长2：' + str(shengyu_xianchang))
 
-    # if shengyu_xianchang > 456:
+    # if shengyu_xianchang > 456+500:
     #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
     #         i = 0
     #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 > 0:
+    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 -500 > 0:
     #                 index_bottom = i
     #                 break
     #             else:
@@ -1212,11 +1212,11 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     # index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -1235,11 +1235,11 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长2：' + str(shengyu_xianchang))
 
-    # if shengyu_xianchang > 456:
+    # if shengyu_xianchang > 456+500:
     #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
     #         i = 0
     #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 > 0:
+    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 -500 > 0:
     #                 index_bottom = i
     #                 break
     #             else:
@@ -1467,11 +1467,11 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -1488,11 +1488,11 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长2：' + str(shengyu_xianchang))
 
-    # if shengyu_xianchang > 456:
+    # if shengyu_xianchang > 456+500:
     #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
     #         i = 0
     #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 > 0:
+    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0]) * 2 - 500 > 0:
     #                 index_bottom = i
     #                 break
     #             else:
@@ -1511,6 +1511,10 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     # log8 = '从大线环2穿出，往上到' + to_name + '侧面第' + str(12-WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。再到最下面的挂纤轮。调头向上经过' + \
     #     to_name + '侧面第' + str(12-WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '个挂纤轮。'
     # log8 = '从大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮'
+    if int(from_point[0]) < 12:
+        log4 = '从' + from_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。'
+    elif int(from_point[0]) == 12:
+        log4 = '从' + from_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。'
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above 水平走线前
     # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
     pic_step7 = (590 , 230)
@@ -1673,11 +1677,11 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     # index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -1695,11 +1699,11 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0]-used_distance
             print('剩余线长2：'+ str(shengyu_xianchang))
 
-    # if shengyu_xianchang > 456:
+    # if shengyu_xianchang > 456+500:
     #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
     #         i = 0
     #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 > 0:
+    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 - 500 > 0:
     #                 index_bottom = i
     #                 break
     #             else:
@@ -1902,11 +1906,11 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     # 调整上下挂纤轮
     index_above = ''
     index_bottom = ''
-    if shengyu_xianchang > 456:
+    if shengyu_xianchang > 456+500:
         if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
             i = 0
             while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 > 0:
+                if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 - 500 > 0:
                     index_above = i
                     break
                 else:
@@ -1923,11 +1927,11 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
             shengyu_xianchang = cable_list[0]-used_distance
             print('剩余线长2：'+ str(shengyu_xianchang))
 
-    # if shengyu_xianchang > 456:
+    # if shengyu_xianchang > 456+500:
     #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
     #         i = 0
     #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 > 0:
+    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 - 500 > 0:
     #                 index_bottom = i
     #                 break
     #             else:
