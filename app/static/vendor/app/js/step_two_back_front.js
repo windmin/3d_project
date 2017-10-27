@@ -160,13 +160,13 @@ function draw() {
             ctx3.fillText(to_name, 370, 70);
             ctx3.beginPath();
             ctx3.moveTo(step12_x,step12_y);
-            ctx3.fillText("10", Number(step12_x)+20, Number(step12_y)+20);
+            ctx3.fillText("8", Number(step12_x)+20, Number(step12_y)+20);
             ctx3.lineTo(step12_x,Number(step11_y)+25);
             ctx3.arc(Number(step12_x)-25,Number(step11_y)+25,25,0,1.5*Math.PI,true);
             ctx3.lineTo(Number(step10_x)+25,step10_y);
             ctx3.arc(Number(step10_x)+25,Number(step10_y)-25,25,0.5*Math.PI,Math.PI,false);
             ctx3.lineTo(step9_x,step9_y);
-            ctx3.fillText("11", Number(step9_x)+20, Number(step9_y)+20);
+            ctx3.fillText("9", Number(step9_x)+20, Number(step9_y)+20);
             ctx3.strokeStyle = color;
             ctx3.lineWidth = 6;
             ctx3.stroke();
