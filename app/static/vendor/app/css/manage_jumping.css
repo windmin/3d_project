@@ -28,3 +28,10 @@ table {
 td {
     word-wrap:break-word;
 }
+
+footer.text-center {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #F6F6F6;
+    margin-top: 50px;
+}

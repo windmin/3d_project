@@ -63,6 +63,7 @@ def shebei():
     form.back_slot_cols.render_kw = {'disabled':'true'}
 
     shebeiTables = ShebeiTable.query.order_by(ShebeiTable.shebei_name.asc()).all()
+    company = CompanyTable.query.first()
 
     if form.submit.data:
         shebei_name = form.shebei_name.data
@@ -108,7 +109,7 @@ def shebei():
             form.shebei_name.data = str(int(results[-1].shebei_name[0:1]) + 1) + '号机架'
         else:
             form.shebei_name.data = ''
-    return render_template('shebei.html', shebeiTables=shebeiTables, form=form)
+    return render_template('shebei.html', shebeiTables=shebeiTables, form=form, company=company)
 
 
 # 选择设备、正背面、端口、计算
@@ -116,6 +117,7 @@ def shebei():
 @login_required
 def index():
     form = SelectShebeiForm()
+    company = CompanyTable.query.first()
 
     if request.method == 'POST':
         if request.form["submit"] == "下一步 >":
@@ -165,7 +167,7 @@ def index():
     #     return redirect(url_for('main.index'))
     # elif form.step.data:
     #     print('step')
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, company=company)
 
 
 # 选择slot端口
@@ -562,6 +564,7 @@ def duankou():
     page = request.args.get('page', 1, type=int)
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
+    company = CompanyTable.query.first()
 
     if request.method == 'POST':
         if request.form["search"] == "搜索":
@@ -582,7 +585,7 @@ def duankou():
                 if not jijiahao and not slotnum:
                     flash('搜索「未用」端口时必须输入「机架号」和「单元数」后搜索才生效')
 
-    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination)
+    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company)
 
 
 # 跳纤管理
@@ -592,8 +595,8 @@ def manage_jumping():
     page = request.args.get('page', 1, type=int)
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
-
-    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination)
+    company = CompanyTable.query.first()
+    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company)
 
 
 # 删除跳纤
@@ -659,8 +662,9 @@ def log():
     page = request.args.get('page', 1, type=int)
     pagination = Log.query.paginate(page, per_page=100, error_out=False)
     LogTables = pagination.items
+    company = CompanyTable.query.first()
 
-    return render_template('log.html', LogTables=LogTables, pagination=pagination)
+    return render_template('log.html', LogTables=LogTables, pagination=pagination, company=company)
 
 
 # 删除跳纤日志

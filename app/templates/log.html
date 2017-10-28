@@ -120,3 +120,10 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+<footer class="text-center">
+    <span class="footer">{{ company.company_name }} | 地址：{{ company.company_address }} | 联系电话：{{ company.company_tel }}</span>
+</footer>
+{{ super() }}
+{% endblock %}
