@@ -1268,7 +1268,7 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
         log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。'
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     # step_list[6] = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
-    log0 = '此次跳纤计算的长度为' + str(int(used_distance / 1000)) + '米，请选择一根长度为' + \
+    log0 = '此次跳纤计算的长度为' + str(round(used_distance / 1000, 1)) + '米，请选择一根长度为' + \
            str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json4 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
@@ -1527,7 +1527,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above 水平走线前
     # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
     pic_step7 = (590 , 230)
-    log0 = '此次跳纤计算的长度为' + str(int(used_distance / 1000)) + '米，请选择一根长度为' + \
+    log0 = '此次跳纤计算的长度为' + str(round(used_distance / 1000, 1)) + '米，请选择一根长度为' + \
            str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
 
     json8 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
