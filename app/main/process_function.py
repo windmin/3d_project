@@ -137,7 +137,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     print('1. 先从'+from_name+'的'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
 
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
-    pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    pic_step1 = (230+(int(from_point[2])-1)*18, 315+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
     pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
 
     json1 = from_point[0]+'('+from_point[1]+','+from_point[2]+')'
@@ -151,7 +151,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
 
     log2 = '往右穿过中线环再到设备单元H'+from_point[0]+'的大线环1。'
     pic_step3 = (pic_step2[0]+distance_step_2-140,pic_step2[1])
-    pic_step4 = (pic_step3[0]+80,pic_step3[1]+50)
+    pic_step4 = (pic_step3[0]+80,pic_step3[1]+30)
 
     json2 = from_point[0]+'-大线环1'
 
@@ -206,10 +206,10 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
 
     log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的大线环1出来后，往左进入'+to_name+'设备单元'+to_point[0]+'的中线环，并将线嵌入邻近的8位小线环中。'
-    pic_step9 = (215+(int(to_point[2])-1)*17, 290+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
+    pic_step9 = (230+(int(to_point[2])-1)*18, 315+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
     pic_step10 = (pic_step9[0] , pic_step9[1]+35*(5-int(to_point[1])))
     pic_step11 = (pic_step10[0]+distance_step_6-140,pic_step10[1])
-    pic_step12 = (pic_step11[0]+80,pic_step11[1]+50)
+    pic_step12 = (pic_step11[0]+80,pic_step11[1]+30)
 
     json6 = to_point[0] + '-大线环1'
     json7 = to_point[0] + '(' + to_point[1] + ',' + to_point[2] + ')'
@@ -568,7 +568,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     print('1. 先从'+from_name+'的'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
     # log[0]
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
-    pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    pic_step1 = (230+(int(from_point[2])-1)*18, 315+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
     pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
 
     json1 = from_point[0]+'('+from_point[1]+','+from_point[2]+')'
@@ -582,7 +582,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
 
     log2 = '往右穿过中线环再到设备单元H' + from_point[0] + '的大线环1。'
     pic_step3 = (pic_step2[0] + distance_step_2 - 140, pic_step2[1])
-    pic_step4 = (pic_step3[0] + 80, pic_step3[1] + 50)
+    pic_step4 = (pic_step3[0] + 80, pic_step3[1] + 30)
 
     json2 = from_point[0] + '-大线环1'
 
@@ -648,10 +648,10 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
 
     log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的大线环1出来后，往左进入'+to_name+'设备单元'+to_point[0]+'的中线环，并将线嵌入邻近的8位小线环中。'
-    pic_step9 = (215+(int(to_point[2])-1)*17, 290+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
-    pic_step10 = (pic_step9[0] , pic_step9[1]+35*(5-int(to_point[1])))
+    pic_step9 = (230+(int(to_point[2])-1)*18, 315+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
+    pic_step10 = (pic_step9[0], pic_step9[1]+35*(5-int(to_point[1])))
     pic_step11 = (pic_step10[0]+distance_step_6-140,pic_step10[1])
-    pic_step12 = (pic_step11[0]+80,pic_step11[1]+50)
+    pic_step12 = (pic_step11[0]+80, pic_step11[1]+30)
 
     json6 = to_point[0] + '-大线环1'
     json7 = to_point[0] + '(' + to_point[1] + ',' + to_point[2] + ')'
@@ -1186,10 +1186,10 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
     # log[6]
     log6 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的大线环1出来后，往左进入中线环，并将线嵌入邻近的8位小线环中。'
-    pic_step9 = (215 + (int(to_point[2]) - 1) * 17, 290 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
+    pic_step9 = (230 + (int(to_point[2]) - 1) * 18, 315 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
     pic_step10 = (pic_step9[0], pic_step9[1] + 35 * (5 - int(to_point[1])))
     pic_step11 = (pic_step10[0] + distance_step_6 - 140, pic_step10[1])
-    pic_step12 = (pic_step11[0] + 80, pic_step11[1] + 50)
+    pic_step12 = (pic_step11[0] + 80, pic_step11[1] + 30)
 
     json5 = to_point[0] + '-大线环1'
     json6 = to_point[0] + '(' + to_point[1] + ',' + to_point[2] + ')'
@@ -1438,10 +1438,10 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
         distance_step_7 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 140
     # log[10] 五
     log10 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的大线环1出来后，往左进入' + to_name + '设备单元' + to_point[0] + '的中线环，并将线嵌入邻近的小线环中。'
-    pic_step9 = (215 + (int(to_point[2]) - 1) * 17, 290 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
+    pic_step9 = (230 + (int(to_point[2]) - 1) * 18, 315 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
     pic_step10 = (pic_step9[0], pic_step9[1] + 35 * (5 - int(to_point[1])))
     pic_step11 = (pic_step10[0] + distance_step_7 - 140, pic_step10[1])
-    pic_step12 = (pic_step11[0] + 80, pic_step11[1] + 50)
+    pic_step12 = (pic_step11[0] + 80, pic_step11[1] + 30)
 
     json11 = to_point[0] + '-大线环1'
     json12 = to_point[0] + '(' + to_point[1] + ',' + to_point[2] + ')'
@@ -1558,7 +1558,7 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
     print('1. 先从'+from_name+'的'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
 
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
-    pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    pic_step1 = (230+(int(from_point[2])-1)*18, 315+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
     pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
 
     json1 = from_point[0]+'('+from_point[1]+','+from_point[2]+')'
@@ -1572,7 +1572,7 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
 
     log2 = '往右穿过中线环再到设备单元H'+from_point[0]+'的大线环1。'
     pic_step3 = (pic_step2[0]+distance_step_2-140,pic_step2[1])
-    pic_step4 = (pic_step3[0]+80,pic_step3[1]+50)
+    pic_step4 = (pic_step3[0]+80,pic_step3[1]+30)
 
     json2 = from_point[0]+'-大线环1'
 
@@ -1758,7 +1758,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     print('1. 先从'+from_name+'的'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
     # log[0]
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
-    pic_step1 = (215+(int(from_point[2])-1)*17, 290+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    pic_step1 = (230+(int(from_point[2])-1)*18, 315+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
     pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
 
     json1 = from_point[0]+'('+from_point[1]+','+from_point[2]+')'
