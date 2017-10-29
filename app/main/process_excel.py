@@ -1,4 +1,5 @@
 from ..models import DuankouTable
+from flask import session
 
 import xlsxwriter
 import time, os
@@ -58,7 +59,7 @@ def format_duankou(side, row, col):
         return '(' + str(row) + ',' + str(col) + ')'
 
 
-def export_excel_jumping(exportdir):
+def export_excel_jumping(exportdir, table):
     localtime = time.strftime("%Y-%m-%d", time.localtime())
     filename = localtime + ".xlsx"
     # return excel.make_response_from_query_sets(query_sets, column_names, "xls", file_name=filename, sheet_name="泵选型报价条目")
@@ -129,7 +130,8 @@ def export_excel_jumping(exportdir):
     jieru_jijia_list, jieru_side_list, jieru_slotnum_list, jieru_row_col_list, \
     line_list, confirm_list, remark_list = [],[],[],[],[],[],[],[],[],[],[],[],[],[]
     xuhao = 1
-    for result in DuankouTable.query.all():
+
+    for result in table:
         worksheet.set_row(xuhao, 29, rowsformat) #30是行高
         worksheet.write(xuhao,0,xuhao)
         xuhao_list.append(xuhao)

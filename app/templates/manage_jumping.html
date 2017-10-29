@@ -8,9 +8,68 @@
 {% endblock %}
 {% block page_content %}
 <div class="page-header" style="background: #ffffff">
-    <button class="btn btn-default" type="submit" name="export" value="export" onclick="{location.href='/export'}">
-        导出Excel
-    </button>
+    <form class="form-inline" method="POST" action="{{ url_for('main.manage_jumping') }}">
+        <div class="form-group">
+            <label for="jijiahao">机架号</label>
+            <input type="text" class="form-control" id="jijiahao" name="jijiahao" placeholder="输入数字">
+        </div>
+        <div class="form-group">
+{#            <label for="side">单元类型</label>#}
+            <select class="form-control" id="side" name="side">
+                {% if side == '' %}
+                    <option value ="" selected></option>
+                {% else %}
+                    <option value =""></option>
+                {% endif %}
+                {% if side == '96芯设备单元' %}
+                    <option value ="96芯设备单元" selected>96芯设备单元</option>
+                {% else %}
+                    <option value ="96芯设备单元">96芯设备单元</option>
+                {% endif %}
+                {% if side == '72芯配线单元' %}
+                    <option value ="72芯配线单元" selected>72芯配线单元</option>
+                {% else %}
+                    <option value ="72芯配线单元">72芯配线单元</option>
+                {% endif %}
+            </select>
+        </div>
+        <div class="form-group">
+{#            <label for="slotnum">单元号</label>#}
+            <input type="text" class="form-control" id="slotnum" name="slotnum" placeholder="输入数字">
+        </div>
+        <div class="form-group">
+            <label for="rowcol">端口</label>
+            <input type="text" class="form-control" id="rowcol" name="rowcol" placeholder="(1,2)或(2)">
+        </div>
+        <div class="form-group">
+            <label for="updated_time">时间</label>
+            <input type="text" class="form-control" id="updated_time" name="updated_time" placeholder="2017-10-31">
+        </div>
+        <div class="form-group">
+            <label for="username">操作人员</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="remark">备注</label>
+            <input type="text" class="form-control" id="remark" name="remark">
+        </div>
+        <button class="btn btn-default" type="submit" name="search" value="搜索">
+            <i class="fa fa-search"></i>
+        </button>
+{#        <button class="btn btn-default" type="submit" name="export" value="export" onclick="{location.href='/export'}">#}
+        <button class="btn btn-default" type="submit" name="export" value="export">
+            导出Excel
+        </button>
+{#        <div class="input-group col-lg-4">#}
+{#            <input type="text" class="form-control" placeholder="Search..." id="shuruzhi" name="shuruzhi">#}
+{#            <div class="input-group-btn">#}
+{#                <button class="btn btn-default" type="submit" name="search" value="搜索">#}
+{#                    <i class="fa fa-search"></i>#}
+{#                </button>#}
+{#            </div>#}
+{#        </div>#}
+    </form>
+
 </div>
 
 <div class="row">

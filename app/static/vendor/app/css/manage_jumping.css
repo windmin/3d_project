@@ -16,8 +16,8 @@
     border-radius: 5px;
 }
 
-#jijiahao, #slotnum, #status {
-    max-width: 80px;
+#jijiahao, #slotnum, #rowcol, #time, #username, #remark {
+    max-width: 85px;
 }
 
 /*th {text-overflow:ellipsis;white-space:nowrap;}*/

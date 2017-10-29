@@ -6,7 +6,7 @@ from . import main
 from .forms import SelectShebeiForm, CreateShebeiForm, SettingForm, EditJumpingForm
 from .. import db
 #数据表
-from ..models import ShebeiTable, DuankouTable, Log, LineTable, CompanyTable
+from ..models import ShebeiTable, DuankouTable, Log, LineTable, CompanyTable, User
 from flask_login import login_required,current_user
 from ..decorators import admin_required
 from .process_function import calculate_slot, calculate_one_front_front, calculate_one_back_back, \
@@ -15,10 +15,9 @@ from .process_function import calculate_slot, calculate_one_front_front, calcula
 from .process_excel import export_excel_jumping
 
 import time
-import datetime
 import os
-
 from datetime import datetime
+import re
 
 # 72芯配线单元ABCD EFGH IJKL
 PEIXIAN_DANYUAN = {
@@ -589,13 +588,168 @@ def duankou():
 
 
 # 跳纤管理
-@main.route('/', methods=['GET'])
+@main.route('/', methods=['GET', 'POST'])
 @login_required
 def manage_jumping():
     page = request.args.get('page', 1, type=int)
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
     company = CompanyTable.query.first()
+
+    if request.method == 'POST':
+        # if request.form["search"] == "搜索":
+        # if 'search' in request.form:
+        jijiahao = request.form.get('jijiahao')
+        side = request.form.get('side')
+        slotnum = request.form.get('slotnum')
+        rowcol = request.form.get('rowcol')
+        updated_time = request.form.get('updated_time')
+        username = request.form.get('username')
+        remark = request.form.get('remark')
+
+        # print('jijiahao:', jijiahao, 'side:', side, 'slotnum:', slotnum, 'rowcol:', rowcol,\
+        #       'updated_time:', updated_time, 'username:', username, 'remark:', remark)
+
+        # jijiahao
+        if jijiahao:
+            jijiahao_list = [ShebeiTable.query.filter(ShebeiTable.shebei_name.like('%' + jijiahao + '%')).first().shebei_name]
+        else:
+            jijiahao_list = [result.shebei_name for result in ShebeiTable.query.all()]
+        # print('jijiahao_list:', jijiahao_list)
+
+        # side
+        if side:
+            side_list = [side]
+        else:
+            side_list = ['72芯配线单元', '96芯设备单元']
+        # print(side_list)
+
+        # slotnum
+        if slotnum:
+            if side == '72芯配线单元':
+                slotnum = PEIXIAN_DANYUAN[slotnum]
+            slotnum_list = [slotnum]
+        else:
+            slotnum_list = list(range(1, 13))
+        # print(slotnum_list)
+
+        # 计算row和col
+        if rowcol:
+            if '(' in rowcol:
+                rowcol = rowcol.lstrip('(')
+            if ')' in rowcol:
+                rowcol = rowcol.strip(')')
+            if '（' in rowcol:
+                rowcol = rowcol.lstrip('（')
+            if '）' in rowcol:
+                rowcol = rowcol.rstrip('）')
+
+            if ',' in rowcol:
+                rowcol = rowcol.split(',')
+            elif '，' in rowcol:
+                rowcol = rowcol.split('，')
+
+            if len(rowcol) == 2:
+                row = int(rowcol[0])
+                col = int(rowcol[1])
+                if row > 6 or col > 12:
+                    flash('输入的端口数字有误，请确认')
+                    return redirect(url_for('main.manage_jumping'))
+            elif len(rowcol) == 1:
+                if int(rowcol[0]) <= 24:
+                    row = 1
+                elif (int(rowcol[0]) > 24) and (int(rowcol[0]) <= 48):
+                    row = 2
+                elif (int(rowcol[0]) > 48) and (int(rowcol[0]) <= 72):
+                    row = 3
+                elif (int(rowcol[0]) > 72) and (int(rowcol[0]) <= 96):
+                    row = 4
+                else:
+                    flash('输入的端口数字有误，请确认')
+                    return redirect(url_for('main.manage_jumping'))
+                col = int(rowcol[0]) - 24 * (row - 1)
+            else:
+                flash('输入的端口数字有误，请确认')
+                return redirect(url_for('main.manage_jumping'))
+            row_list = [row]
+            col_list = [col]
+        else:
+            row_list = list(range(1, 7))
+            col_list = list(range(1, 25))
+        # print(row_list)
+        # print(col_list)
+        # 计算row和col - END
+
+        # 计算时间
+        if updated_time:
+            if not re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', updated_time):
+                flash('输入的时间格式有误，请按此格式输入「XXXX-XX-XX」')
+                return redirect(url_for('main.manage_jumping'))
+            else:
+                # updated_time = datetime.strptime(updated_time, "%Y-%m-%d").date()
+                updated_time_list = [result.updated_time for result in DuankouTable.query.filter(DuankouTable.updated_time.like('%' + updated_time + '%')).all()]
+                # print(updated_time.date())
+        else:
+            updated_time_list = [result.updated_time for result in DuankouTable.query.all()]
+        # print(updated_time_list)
+        # 计算时间 - END
+
+        # username
+        if username:
+            username_list = [result.username for result in User.query.filter(User.username.like('%' + username + '%')).all()]
+        else:
+            username_list = [result.username for result in User.query.all()]
+        # print('username_list:', username_list)
+
+        # remark
+        if remark:
+            remark_list = [result.remark for result in DuankouTable.query.filter(DuankouTable.remark.like('%' + remark + '%')).all()]
+        else:
+            remark_list = []
+        # print('remark_list:', remark_list)
+
+        pagination = DuankouTable.query.filter_by(jiechu_jijia='NONE').paginate(page, per_page=20, error_out=False)
+        if remark_list:
+            duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.in_(jijiahao_list),
+                                                      DuankouTable.jiechu_side.in_(side_list),
+                                                      DuankouTable.jiechu_slotnum.in_(slotnum_list),
+                                                      DuankouTable.jiechu_row.in_(row_list),
+                                                      DuankouTable.jiechu_col.in_(col_list),
+                                                      DuankouTable.updated_time.in_(updated_time_list),
+                                                      DuankouTable.username.in_(username_list),
+                                                      DuankouTable.remark.in_(remark_list)).all()
+        else:
+            duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.in_(jijiahao_list),
+                                                      DuankouTable.jiechu_side.in_(side_list),
+                                                      DuankouTable.jiechu_slotnum.in_(slotnum_list),
+                                                      DuankouTable.jiechu_row.in_(row_list),
+                                                      DuankouTable.jiechu_col.in_(col_list),
+                                                      DuankouTable.updated_time.in_(updated_time_list),
+                                                      DuankouTable.username.in_(username_list)).all()
+        table = duankouTables
+        if 'export' in request.form:
+            exportdir = os.path.realpath(
+                os.path.join(os.path.dirname(os.path.realpath(__file__)), os.path.pardir, os.path.pardir, 'export_file'))
+            del_files = os.listdir(exportdir)
+            if del_files != []:
+                for file in del_files:
+                    os.remove(os.path.join(exportdir, file))
+
+            # 生成export file
+            filename = export_excel_jumping(exportdir, table)
+
+            # 下载export file
+            try:
+                if os.path.exists(os.path.join(exportdir, filename)):
+                    return send_from_directory(exportdir, filename, as_attachment=True)
+                else:
+                    flash('文件导出失败！请重新尝试！')
+            except:
+                os.remove(os.path.join(os.path.join(exportdir, filename)))
+                flash('导出表格发生异常，请重新尝试！')
+
+            return redirect(url_for('main.manage_jumping'))
+
     return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company)
 
 
@@ -697,7 +851,7 @@ def setting():
     form.kuapai_buchang.render_kw = {'class': 'form-control'}
 
 
-    lineTables = LineTable.query.all()
+    lineTables = LineTable.query.order_by(LineTable.line.asc()).all()
     companyTables = CompanyTable.query.all()
 
     if request.method == 'POST':
@@ -706,13 +860,11 @@ def setting():
             company_address = form.company_address.data
             company_tel = form.company_tel.data
             if not companyTables:
-                print('this way')
                 db.session.add(CompanyTable(company_name=company_name,
                                             company_address=company_address,
                                             company_tel=company_tel))
                 db.session.commit()
             else:
-                print(company_name,company_address,company_tel)
                 companyTables[0].company_name = company_name
                 companyTables[0].company_address = company_address
                 companyTables[0].company_tel = company_tel
