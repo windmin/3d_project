@@ -23,5 +23,6 @@ def format_time(time):
     return time
 
 def format_time_seconds(time):
-    time = time.strftime("%Y-%m-%d %H:%M")
-    return time
+    if time:
+        time = time.strftime("%Y-%m-%d %H:%M")
+        return time

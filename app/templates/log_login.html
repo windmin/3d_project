@@ -9,8 +9,8 @@
 {% block page_content %}
 <div class="page-header" style="background: #ffffff">
     <ul class="nav nav-tabs">
-        <li role="presentation"><a href="/log-login">登录日志</a></li>
-        <li role="presentation" class="active"><a href="#">操作日志</a></li>
+        <li role="presentation" class="active"><a href="#">登录日志</a></li>
+        <li role="presentation"><a href="/log">操作日志</a></li>
     </ul>
 </div>
 
@@ -18,7 +18,7 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                操作日志
+                登录日志
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -28,31 +28,29 @@
                             <tr>
                                 <th>用户名</th>
                                 <th>邮箱</th>
-                                <th>时间</th>
-                                <th>操作类型</th>
-                                <th>操作内容</th>
-                                <th>操作</th>
+                                <th>登录时间</th>
+                                <th>退出时间</th>
+{#                                <th>操作</th>#}
                             </tr>
                         </thead>
                         <tbody>
-                            {% for LogTable in LogTables %}
+                            {% for UserTable in UserTables %}
                                 <tr>
 {#                                    {% if duankouTables %}#}
 {#                                        <td>{{ duankouTables.index(duankouTable)+1 }}</td>#}
 {#                                    {% endif %}#}
-                                    <td>{{ LogTable.updated_time | format_time_seconds }}</td>
-                                    <td>{{ LogTable.user.username }}</td>
-                                    <td>{{ LogTable.user.email }}</td>
-                                    <td>{{ LogTable.type }}</td>
-                                    <td>{{ LogTable.content }}</td>
-                                    <td>
+                                    <td>{{ UserTable.username }}</td>
+                                    <td>{{ UserTable.email }}</td>
+                                    <td>{{ UserTable.login_time | format_time_seconds }}</td>
+                                    <td>{{ UserTable.logout_time | format_time_seconds }}</td>
+{#                                    <td>#}
 {#                                        <a class="icon" href="/log/edit/{{ LogTable.id }}" title="编辑">#}
 {#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}
 {#                                        </a>#}
-                                        <a class="icon" href="/log/delete/{{ LogTable.id }}" title="删除" style="margin-left: 10px;">
-                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>
-                                        </a>
-                                    </td>
+{#                                        <a class="icon" href="/log/delete/{{ LogTable.id }}" title="删除" style="margin-left: 10px;">#}
+{#                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>#}
+{#                                        </a>#}
+{#                                    </td>#}
                                 </tr>
                             {% endfor %}
                         </tbody>

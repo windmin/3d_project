@@ -8,6 +8,8 @@ from flask_login import login_user,login_required,logout_user,current_user
 from ..decorators import admin_required
 # from ..email import send_email
 
+from datetime import datetime
+
 
 from urllib.request import urlopen,Request
 from urllib.error import HTTPError
@@ -23,7 +25,7 @@ def login():
         elif user is not None and user.verify_password(form.password.data):
             login_user(user)
 
-            user.sid = session['_id']
+            user.login_time = datetime.now()
             db.session.add(user)
             db.session.commit()
 
@@ -36,6 +38,10 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    user = User.query.filter_by(username=current_user.username).first()
+    user.logout_time = datetime.now()
+    db.session.add(user)
+    db.session.commit()
     logout_user()
     return redirect(url_for('auth.login'))
 

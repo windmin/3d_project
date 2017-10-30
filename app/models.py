@@ -65,6 +65,8 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) #外键role_id = roles.id= roles表中的id
     status = db.Column(db.Boolean, default=True)
+    login_time = db.Column(db.DateTime)
+    logout_time = db.Column(db.DateTime)
     logs = db.relationship('Log', backref='user', lazy='dynamic')
 
 

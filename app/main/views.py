@@ -938,3 +938,14 @@ def export_excel():
         flash('导出表格发生异常，请重新尝试！')
 
     return redirect(url_for('main.manage_jumping'))
+
+
+# 登录日志
+@main.route('/log-login', methods=['GET', 'POST'])
+@login_required
+def log_login():
+    page = request.args.get('page', 1, type=int)
+    pagination = User.query.paginate(page, per_page=100, error_out=False)
+    UserTables = pagination.items
+    company = CompanyTable.query.first()
+    return render_template('log_login.html', UserTables=UserTables, pagination=pagination, company=company)
