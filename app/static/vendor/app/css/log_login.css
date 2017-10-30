@@ -1,0 +1,15 @@
+.navbar-default .navbar-nav>li:nth-child(6)>a>span {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #5390F7;
+    color: white;
+    border-radius: 5px;
+}
+
+footer.text-center {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #F6F6F6;
+    margin-top: 80px;
+}

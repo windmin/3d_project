@@ -949,3 +949,11 @@ def log_login():
     UserTables = pagination.items
     company = CompanyTable.query.first()
     return render_template('log_login.html', UserTables=UserTables, pagination=pagination, company=company)
+
+
+# 帮助
+@main.route('/help', methods=['GET', 'POST'])
+@login_required
+def help():
+    company = CompanyTable.query.first()
+    return render_template('help.html', company=company)

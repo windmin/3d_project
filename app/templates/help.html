@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{#{% import "bootstrap/wtf.html" as wtf %}#}
+{% import "_macros.html" as macros %}
+{% block title %}端口查询{% endblock %}
+{% block styles %}
+    {{ super() }}
+    <link href={{ url_for('static', filename = 'vendor/app/css/help.css') }} rel="stylesheet">
+{% endblock %}
+{% block page_content %}
+{#<div class="page-header" style="background: #ffffff">#}
+{#    <ul class="nav nav-tabs">#}
+{#        <li role="presentation" class="active"><a href="#">登录日志</a></li>#}
+{#        <li role="presentation"><a href="/log">操作日志</a></li>#}
+{#    </ul>#}
+{#</div>#}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>帮助</h1>
+        <p>乐通通信跳纤管理网站是一个为光纤设备而定制的管理网站。</p>
+        <p>它主要有以下几个功能：</p>
+        <ul>
+            <li>跳纤管理</li>
+            <li>新增跳纤（跳纤计算及跳纤步骤）</li>
+            <li>端口查询</li>
+        </ul>
+        <p>如需要帮助请联系Email: support@letel.com.cn 或电话 {{ company.company_tel }} </p>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<footer class="text-center">
+    <span class="footer">{{ company.company_name }} | 地址：{{ company.company_address }} | 联系电话：{{ company.company_tel }}</span>
+</footer>
+{{ super() }}
+{% endblock %}
