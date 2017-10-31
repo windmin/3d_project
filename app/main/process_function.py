@@ -754,7 +754,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
-    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1000
+    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1400
     if int(from_point[0]) == 12 and int(to_point[0]) == 12:
         distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 2000
     print('1. 先从' + from_name + '的' + from_point[0] + '号72芯配线单元的(' + str(from_point[1]) + ',' + str(
