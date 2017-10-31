@@ -40,11 +40,11 @@
                 {% else %}
                     <option value ="在用">在用</option>
                 {% endif %}
-{#                {% if side == '未用' %}#}
-{#                    <option value ="未用" selected>未用</option>#}
-{#                {% else %}#}
-{#                    <option value ="未用">未用</option>#}
-{#                {% endif %}#}
+                {% if side == '未用' %}
+                    <option value ="未用" selected>未用</option>
+                {% else %}
+                    <option value ="未用">未用</option>
+                {% endif %}
             </select>
         </div>
         <button class="btn btn-default" type="submit" name="search" value="搜索">
@@ -85,6 +85,40 @@
                                 <th>端口状态</th>
                             </tr>
                         </thead>
+                        {% if status == '未用' %}
+                        <tbody>
+                            {% for rowcol in rowcols %}
+                                <tr>
+                                    <td>{{ jijiahao }}号机架</td>
+                                    <td>{{ side }}</td>
+                                    {% if side == '72芯配线单元' %}
+                                        <td>L{{ slotnum | peixian_danyuan }}</td>
+                                    {% else %}
+                                        <td>H{{ slotnum }}</td>
+                                    {% endif %}
+                                    {% if side == '96芯设备单元' %}
+                                        <td>({{ 1+24*(rowcol[0]-1)+(rowcol[1]-1) }})</td>
+                                    {% else %}
+                                        <td>({{ rowcol[0] }},{{ rowcol[1] }})</td>
+                                    {% endif %}
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>未用</td>
+{#                                    <td>#}
+{#                                        <a class="icon" href="/motor/edit/{{ motor.id }}" title="编辑">#}
+{#                                            <span class="fa fa-pencil glyphicon glyphicon-pencil"></span>#}
+{#                                        </a>#}
+{#                                        <a class="icon" href="/shebei/delete/{{ shebeiTable.id }}" title="删除" style="margin-left: 10px;">#}
+{#                                            <span class="fa fa-trash glyphicon glyphicon-trash"></span>#}
+{#                                        </a>#}
+{#                                    </td>#}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% else %}
                         <tbody>
                             {% for duankouTable in duankouTables %}
                                 <tr>
@@ -125,6 +159,7 @@
                                 </tr>
                             {% endfor %}
                         </tbody>
+                        {% endif %}
                     </table>
                 </div>
                 <!-- /.table-responsive -->

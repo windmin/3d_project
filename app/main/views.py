@@ -564,6 +564,8 @@ def duankou():
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
     company = CompanyTable.query.first()
+    jijiahao, side, slotnum, rowcols, status = '', '', '', '', ''
+    print('all', 'jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
 
     if request.method == 'POST':
         if request.form["search"] == "搜索":
@@ -577,14 +579,38 @@ def duankou():
                     slotnum = PEIXIAN_DANYUAN[slotnum]
             pagination = DuankouTable.query.filter_by(jiechu_jijia='NONE').paginate(page, per_page=20, error_out=False)
             # if jijiahao:
-            if status == '在用':
-                duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.like('%' + jijiahao + '%'), \
-                                                          DuankouTable.jiechu_side==side, DuankouTable.jiechu_slotnum.like('%'+slotnum+'%')).all()
-            elif status == '未用':
+            # if status == '在用':
+            duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.like('%' + jijiahao + '%'),\
+                                                      DuankouTable.jiechu_side==side, DuankouTable.jiechu_slotnum.like('%'+slotnum+'%')).all()
+            if status == '未用':
+                slotnum_96 = [(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),\
+                              (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21),(2,22),(2,23),(2,24),\
+                              (3,1),(3,2),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(3,10),(3,11),(3,12),(3,13),(3,14),(3,15),(3,16),(3,17),(3,18),(3,19),(3,20),(3,21),(3,22),(3,23),(3,24),\
+                              (4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),(4,10),(4,11),(4,12),(4,13),(4,14),(4,15),(4,16),(4,17),(4,18),(4,19),(4,20),(4,21),(4,22),(4,23),(4,24)]
+                slotnum_72 = [(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),\
+                              (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),\
+                              (3,1),(3,2),(3,3),(3,4),(3,5),(3,6),(3,7),(3,8),(3,9),(3,10),(3,11),(3,12),\
+                              (4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),(4,10),(4,11),(4,12),\
+                              (5,1),(5,2),(5,3),(5,4),(5,5),(5,6),(5,7),(5,8),(5,9),(5,10),(5,11),(5,12),\
+                              (6,1),(6,2),(6,3),(6,4),(6,5),(6,6),(6,7),(6,8),(6,9),(6,10),(6,11),(6,12)]
                 if not jijiahao and not slotnum:
-                    flash('搜索「未用」端口时必须输入「机架号」和「单元数」后搜索才生效')
+                    flash('搜索「未用」端口时必须输入「机架号」、「单元类型」和「单元号」后搜索才生效')
+                    return redirect(url_for('main.duankou'))
+                if side == '96芯设备单元':
+                    for duankouTable in duankouTables:
+                        rowcol = (duankouTable.jiechu_row, duankouTable.jiechu_col)
+                        if rowcol in slotnum_96:
+                            slotnum_96.remove(rowcol)
+                    rowcols = slotnum_96
+                elif side == '72芯配线单元':
+                    for duankouTable in duankouTables:
+                        rowcol = (duankouTable.jiechu_row, duankouTable.jiechu_col)
+                        if rowcol in slotnum_72:
+                            slotnum_72.remove(rowcol)
+                    rowcols = slotnum_72
 
-    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company)
+                print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status)
 
 
 # 跳纤管理
