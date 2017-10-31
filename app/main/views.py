@@ -239,7 +239,7 @@ def slot(shebei_dict):
             else:
                 shebei_dict['jiechushebei_radio'] = jiechushebei_radio.split(',') #['1', '1', '24']
                 shebei_dict['jierushebei_radio'] = jierushebei_radio.split(',')
-                if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio']:
+                if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and shebei_dict['jiechushebei'] == shebei_dict['jierushebei']:
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
                 # elif int(shebei_dict['jiechushebei_radio'][0]) > int(shebei_dict['jierushebei_radio'][0]):
                 #     flash('接出端口必需高于接入端口！')
