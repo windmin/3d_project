@@ -1106,7 +1106,9 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
-    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 900
+    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1050
+    if int(from_point[0]) == int(to_point[0]):
+        distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1200
     # log[1] 一
     log1 = '先从' + from_name + '的72芯配线单元L' + PEIXIAN_DANYUAN[from_point[0]] + '端口(' + str(from_point[1]) + ',' + str(from_point[2]) + ')出来。'
     if int(from_point[0]) <= 4:
@@ -1583,6 +1585,8 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
     print('to_point'+str(to_point))
     # 1. 先往下走到小线环
     distance_step_1 = (len(from_slot_rows) - int(from_point[1]) + 1) * 35 + 900
+    if int(from_point[0]) == int(PEIXIAN_DANYUAN[to_point[0]]):
+        distance_step_1 = (len(from_slot_rows) - int(from_point[1]) + 1) * 35 + 1215
     print('1. 先从'+from_name+'的'+from_point[0]+'('+from_point[1]+','+from_point[2]+')'+'端口出来往下经过下方最近的8位小线环:' + str(distance_step_1))
 
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
