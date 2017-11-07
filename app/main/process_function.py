@@ -384,9 +384,7 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
-    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 900
-    if int(from_point[0]) == 12 and int(to_point[0]) == 12:
-        distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1200
+    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1)
     print('1. 先从' + from_name + '的' + from_point[0] + '号72芯配线单元的(' + str(from_point[1]) + ',' + str(from_point[2]) + ')托盘出来:' + str(distance_step_1))
     # log[1] 一
     log1 = '先从' + from_name + '的72芯配线单元L' + PEIXIAN_DANYUAN[from_point[0]] + '端口(' + str(from_point[1]) + ',' + str(from_point[2]) + ')出来。'
@@ -430,7 +428,7 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(from_point[0]) + 1 > 8 and int(from_point[0]) + 1 <= 12:
             pic_step4 = (250, 360 + 160 * int(from_point[0]) + 340 * 2)
             pic_step5 = (1080, 340 + 160 * int(from_point[0]) + 340 * 2)
-
+        pic_step5_1 = (785, 360 + (int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1) * 220)  # from_point对应右挂纤轮
         json3 = PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '-大孔'
 
     elif int(from_point[0]) == 12:
@@ -445,6 +443,7 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(from_point[0]) + 1 > 8 and int(from_point[0]) <= 12:
             pic_step4 = (250, 360 + 160 * (int(from_point[0])-1) + 340 * 2)
             pic_step5 = (1080, 340 + 160 * (int(from_point[0])-1) + 340 * 2)
+        pic_step5_1 = (785, 360 + (int(BACK_RIGHT_WHEEL[from_point[0]]) - 1) * 220)  # from_point对应右挂纤轮
         json3 = PEIXIAN_DANYUAN[str(int(from_point[0]))] + '-大孔'
 
     # 4. 往上至高于from_point的挂纤轮，再往下走直到侧面最下面那个挂纤轮调头向上走
@@ -454,10 +453,18 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
         if (wheel_d + WHEEL_D) > (COMBINATION_RING[from_point[0]]):
             wheel_above.append(wheel_d)
     wheel_above.sort()
+
     if int(from_point[0]) < 12:
-        distance_step_4 = wheel_above[0]+WHEEL - COMBINATION_RING[str(int(from_point[0])+1)]
+        distance_step_4 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0])+1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0])+1)])-1])
+        distance_step_4 = distance_step_4 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0])+1)])-1])
     elif int(from_point[0]) == 12:
-        distance_step_4 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
+        distance_step_4 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]))] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
+        distance_step_4 = distance_step_4 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
+
+    # if int(from_point[0]) < 12:
+    #     distance_step_4 = wheel_above[0]+WHEEL - COMBINATION_RING[str(int(from_point[0])+1)]
+    # elif int(from_point[0]) == 12:
+    #     distance_step_4 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
     # 高挂纤轮到最下面的挂纤轮
     distance_step_5_1 = wheel_above[0]+WHEEL - WHEEL_DISTANCE[-1]
     # 调头向上到高于to_point的挂纤轮
@@ -467,11 +474,6 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     wheel_bottom.sort()
     distance_step_5_2 = wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[-1]
     distance_step_5 = distance_step_5_1 + distance_step_5_2
-    # log[4]
-    if int(from_point[0]) < 12:
-        log4 = '从72芯配线单元L'+PEIXIAN_DANYUAN[str(int(from_point[0])+1)]+'的大孔穿出后，往上经过'+from_name+'侧面第'+str(12-WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。再到最下面的挂纤轮。调头向上经过'+from_name+'侧面第'+str(12-WHEEL_DISTANCE.index(wheel_bottom[0])+1)+'个挂纤轮。'
-    elif int(from_point[0]) == 12:
-        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。再到最下面的挂纤轮。调头向上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '个挂纤轮。'
 
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0])+1-1) * 215)  # wheel_bottom
@@ -481,12 +483,27 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     json6 = '挂纤轮-'+str(WHEEL_DISTANCE.index(wheel_bottom[0])+1)
 
 
+    # wheel_bottom到to_point下面右挂纤轮，右挂纤轮至to_point大孔
     # 5. 往下进入to_point组合线环#XX+1的大孔
     if int(to_point[0]) < 12:
-        distance_step_6 = wheel_bottom[0]+WHEEL - COMBINATION_RING[str(int(to_point[0])+1)]
-        print('2. 往下进入'+to_name+'72芯配线单元'+PEIXIAN_DANYUAN[str(int(to_point[0])+1)]+'组合线环的大孔。')
+        log4_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) + 1)
+    elif int(to_point[0]) == 12:
+        log4_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[to_point[0]]) + 1)
+    if int(from_point[0]) < 12:
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至最下面中挂纤轮1，然后至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + \
+               log4_1
+    elif int(from_point[0]) == 12:
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[from_point[0]]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至最下面中挂纤轮1，然后至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + \
+               log4_1
+
+    if int(to_point[0]) < 12:
+        distance_step_6 = distance_sqrt(200, wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)]) - 1])
+        distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[str(int(to_point[0])+1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)])-1])
+        # distance_step_6 = wheel_bottom[0]+WHEEL - COMBINATION_RING[str(int(to_point[0])+1)]
         # log[5]
-        log5 = '往下进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0])+1)]+'组合线环的大孔。'
+        log5 = '进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0])+1)]+'组合线环的大孔。'
         json7 = PEIXIAN_DANYUAN[str(int(to_point[0])+1)] + '-大孔'
         if int(to_point[0])+1 <= 4:
             pic_step8 = (1080, 340 + 160 * int(to_point[0]))  # 侧-组合线环大孔
@@ -495,10 +512,11 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(to_point[0])+1 > 8 and int(to_point[0])+1 <= 12:
             pic_step8 = (1080, 340 + 160 * int(to_point[0]) + 340 * 2)
     elif int(to_point[0]) == 12:
-        distance_step_6 = wheel_bottom[0]+WHEEL - COMBINATION_RING[str(int(to_point[0]))]
-        print('2. 往下进入'+to_name+'72芯配线单元'+PEIXIAN_DANYUAN[str(int(to_point[0]))]+'组合线环的大孔。')
+        distance_step_6 = distance_sqrt(200, wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
+        distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[to_point[0]] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
+        # distance_step_6 = wheel_bottom[0]+WHEEL - COMBINATION_RING[str(int(to_point[0]))]
         # log[5]
-        log5 = '往下进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0]))]+'组合线环的大孔。'
+        log5 = '进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0]))]+'组合线环的大孔。'
         json7 = PEIXIAN_DANYUAN[str(int(to_point[0]))] + '-大孔'
         if int(to_point[0]) <= 4:
             pic_step8= (1080, 340 + 160 * (int(to_point[0])-1))
@@ -574,9 +592,11 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
                 print('调整上挂纤轮为：' + str(index_above+1))
 
             if int(from_point[0]) < 12:
-                distance_step_4 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]) + 1)]
+                distance_step_4 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]) + 1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1])
+                distance_step_4 = distance_step_4 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1])
             elif int(from_point[0]) == 12:
-                distance_step_4 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
+                distance_step_4 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]))] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
+                distance_step_4 = distance_step_4 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
             distance_step_5_1 = wheel_above[0] + WHEEL - WHEEL_DISTANCE[-1]
             distance_step_5 = distance_step_5_1 + distance_step_5_2
             used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
@@ -600,17 +620,27 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
             distance_step_5_2 = wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[-1]
             distance_step_5 = distance_step_5_1 + distance_step_5_2
             if int(to_point[0]) < 12:
-                distance_step_6 = wheel_bottom[0] + WHEEL - COMBINATION_RING[str(int(to_point[0]) + 1)]
+                distance_step_6 = distance_sqrt(200, wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
+                distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[str(int(to_point[0]) + 1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
             elif int(to_point[0]) == 12:
-                distance_step_6 = wheel_bottom[0] + WHEEL - COMBINATION_RING[str(int(to_point[0]))]
+                distance_step_6 = distance_sqrt(200, wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
+                distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[to_point[0]] -WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
             used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
                             distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长3：' + str(shengyu_xianchang))
+    if int(to_point[0]) < 12:
+        log4_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) + 1)
+    elif int(to_point[0]) == 12:
+        log4_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[to_point[0]]) + 1)
     if int(from_point[0]) < 12:
-        log4 = '从72芯配线单元L'+PEIXIAN_DANYUAN[str(int(from_point[0])+1)]+'的大孔穿出后，往上经过'+from_name+'侧面第'+str(12-WHEEL_DISTANCE.index(wheel_above[0])+1)+'个挂纤轮。再到最下面的挂纤轮。调头向上经过'+from_name+'侧面第'+str(12-WHEEL_DISTANCE.index(wheel_bottom[0])+1)+'个挂纤轮。'
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至最下面中挂纤轮1，然后至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + \
+               log4_1
     elif int(from_point[0]) == 12:
-        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。再到最下面的挂纤轮。调头向上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '个挂纤轮。'
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[from_point[0]]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至最下面中挂纤轮1，然后至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + \
+               log4_1
 
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
     pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
@@ -620,9 +650,14 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     json4 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
     json6 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_bottom[0]) + 1)  # json[6]
 
+    if int(to_point[0]) < 12:
+        pic_step8_1 = (405, 360 + (int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)]) - 1) * 220)  # to_point对应左挂纤轮
+    elif int(to_point[0]) == 12:
+        pic_step8_1 = (405, 360 + (int(BACK_RIGHT_WHEEL[to_point[0]]) - 1) * 220)  # to_point对应左挂纤轮
+
     log_list = [log0, log1, log2, log3, log4, log5, log6, log7, log8]
     step_list = [pic_step1, pic_step2, pic_step3, pic_step4, pic_step5, pic_step6, pic_step7, pic_step8, \
-                 pic_step9, pic_step10, pic_step11, pic_step12]
+                 pic_step9, pic_step10, pic_step11, pic_step12, pic_step5_1, pic_step8_1]
     json_list = [1, log_list, json1, json2, json3, json4, json5, json6, json7, json8, json9]
 
     print(step_list)
@@ -874,9 +909,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
-    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 1400
-    if int(from_point[0]) == 12 and int(to_point[0]) == 12:
-        distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1) + 2000
+    distance_step_1 = 84 + 20.5 * (int(from_point[2]) - 1)
     print('1. 先从' + from_name + '的' + from_point[0] + '号72芯配线单元的(' + str(from_point[1]) + ',' + str(
         from_point[2]) + ')托盘出来:' + str(distance_step_1))
     # log[1] 一
@@ -924,6 +957,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(from_point[0]) + 1 > 8 and int(from_point[0]) + 1 <= 12:
             pic_step4 = (250, 360 + 160 * int(from_point[0]) + 340 * 2)
             pic_step5 = (1080, 340 + 160 * int(from_point[0]) + 340 * 2)
+        pic_step5_1 = (785, 360 + (int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1) * 220)  # from_point对应右挂纤轮
         json3 = PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '-大孔'
 
     elif int(from_point[0]) == 12:
@@ -938,6 +972,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(from_point[0]) + 1 > 8 and int(from_point[0]) <= 12:
             pic_step4 = (250, 360 + 160 * (int(from_point[0]) - 1) + 340 * 2)
             pic_step5 = (1080, 340 + 160 * (int(from_point[0]) - 1) + 340 * 2)
+        pic_step5_1 = (785, 360 + (int(BACK_RIGHT_WHEEL[from_point[0]]) - 1) * 220)  # from_point对应右挂纤轮
         json3 = PEIXIAN_DANYUAN[str(int(from_point[0]))] + '-大孔'
 
     # 4. 往上至高于from_point的挂纤轮，水平走线槽，大线环2，wheel_above,wheel_bottom再调头向上走
@@ -958,12 +993,24 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
             wheel_above2.append(wheel_d)
     wheel_above2.sort()
 
+    # wheel_above到from_point对应的右挂纤轮
     if int(from_point[0]) < 12:
-        distance_step_4_1 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]) + 1)]
+        distance_step_4_1 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0])+1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0])+1)])-1])
+        distance_step_4_1 = distance_step_4_1 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0])+1)])-1])
+        distance_step_4_2 = distance_sqrt(309, BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1])
+        distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
     elif int(from_point[0]) == 12:
-        distance_step_4_1 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
+        distance_step_4_1 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]))] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
+        distance_step_4_1 = distance_step_4_1 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
+        distance_step_4_2 = distance_sqrt(309, BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1])
+        distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
+    # if int(from_point[0]) < 12:
+    #     distance_step_4_1 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]) + 1)]
+    # elif int(from_point[0]) == 12:
+    #     distance_step_4_1 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
 
     # 高挂纤轮到to_point对应大线环2
+
     # if int(from_point[0]) > 9 :
     #     bigline2 = '9'
     # else:
@@ -973,7 +1020,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     #     distance_step_4_2 = wheel_above[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
     # else:
     #     distance_step_4_2 = wheel_above[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[from_point[0]]] + LINE)
-    distance_step_4_2 = wheel_above[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
+    # distance_step_4_2 = wheel_above[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
     # 大线环2到水平走线槽边缘42mm，经过几个走线槽到from_point大线环2
     distance_step_4_3 = (shebei_count - 1) * 748 + 42
     # 大线环2到to_point组合线环上方挂纤轮
@@ -981,7 +1028,9 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
     # else:
     #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[frdistance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)om_point[0]]] + LINE)
-    distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
+    # distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
+    distance_step_4_4 = distance_sqrt(309, BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1])
+    distance_step_4_4 = distance_step_4_4 + distance_sqrt(200, (wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
     distance_step_4 = distance_step_4_1 + distance_step_4_2 + distance_step_4_3 + distance_step_4_4
 
     # # 高挂纤轮到最下面的挂纤轮
@@ -998,15 +1047,18 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
 
     # log[4] 二
     if int(from_point[0]) < 12:
-        log4 = '从' + from_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12-WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。'
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至左挂纤轮' + str(13-int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]])+1)
     elif int(from_point[0]) == 12:
-        log4 = '从' + from_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，往上经过' + from_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '个挂纤轮。'
+        log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[from_point[0]]) + 1) + \
+               '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) + 1)
+
     # log[5] 二
     # if int(from_point[0]) < int(to_point[0]):
     #     log5 = '往下到' + from_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2。'
     # else:
     #     log5 = '往下到' + from_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[from_point[0]] + '的大线环2。'
-    log5 = '往下到' + from_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2。'
+    log5 = '进入' + from_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2。'
     # log[6] 三
     # if int(from_point[0]) < int(to_point[0]):
     #     log6 = '从' + from_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2出来后，沿水平走线槽经过' + str(shebei_count - 1) + '个机架。'
@@ -1026,7 +1078,12 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     #     log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
     # else:
     #     log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[from_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
-    log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
+    if int(to_point[0]) < 12:
+        log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) + 1)
+    elif int(to_point[0]) == 12:
+        log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[to_point[0]]) + 1)
+    log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，至左挂纤轮' + str(13-int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]])+1) + '，至中挂纤轮'+str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) +\
+           log8_1
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above2[0]) + 1 - 1) * 215)  # wheel_above2
     # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
     # if int(from_point[0]) < int(to_point[0]):
@@ -1047,7 +1104,8 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
 
     # 5. 往下进入to_point组合线环#XX+1的大孔
     if int(to_point[0]) < 12:
-        distance_step_6 = wheel_above[0]+WHEEL - COMBINATION_RING[str(int(to_point[0])+1)]
+        distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)]) - 1])
+        distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[str(int(to_point[0])+1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)])-1])
         print('2. 往下进入'+to_name+'72芯配线单元'+PEIXIAN_DANYUAN[str(int(to_point[0])+1)]+'组合线环的大孔。')
         # log[9]
         log9 = '往下进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0])+1)]+'组合线环的大孔。'
@@ -1059,8 +1117,8 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
         elif int(to_point[0])+1 > 8 and int(to_point[0])+1 <= 12:
             pic_step8 = (1080, 340 + 160 * int(to_point[0]) + 340 * 2)
     elif int(to_point[0]) == 12:
-        distance_step_6 = wheel_above[0]+WHEEL - COMBINATION_RING[str(int(to_point[0]))]
-        print('2. 往下进入'+to_name+'72芯配线单元'+PEIXIAN_DANYUAN[str(int(to_point[0]))]+'组合线环的大孔。')
+        distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
+        distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[to_point[0]] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
         # log[9]
         log9 = '往下进入'+to_name+'72芯配线单元L'+PEIXIAN_DANYUAN[str(int(to_point[0]))]+'组合线环的大孔。'
         json11 = PEIXIAN_DANYUAN[str(int(to_point[0]))] + '-大孔'
@@ -1141,12 +1199,18 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
             #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]]+LINE)
             # else:
             #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[from_point[0]]] + LINE)
-            distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
+            # distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
+            distance_step_4_4 = distance_sqrt(309, BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE -WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1])
+            distance_step_4_4 = distance_step_4_4 + distance_sqrt(200, (wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
             distance_step_4 = distance_step_4_1 + distance_step_4_2 + distance_step_4_3 + distance_step_4_4
-            # distance_step_5_1 = wheel_above[0] + WHEEL - WHEEL_DISTANCE[-1]
-            # distance_step_5 = distance_step_5_1 + distance_step_5_2
+            if int(to_point[0]) < 12:
+                distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
+                distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[str(int(to_point[0]) + 1)] -WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
+            elif int(to_point[0]) == 12:
+                distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
+                distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[to_point[0]] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
             used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                    distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8
+                            distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8
             shengyu_xianchang = cable_list[0] - used_distance
             print('剩余线长2：' + str(shengyu_xianchang))
 
@@ -1181,7 +1245,13 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     #     log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
     # else:
     #     log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[from_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
-    log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
+    # log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，往上到' + to_name + '侧面第' + str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) + '个挂纤轮。'
+    if int(to_point[0]) < 12:
+        log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) + 1)
+    elif int(to_point[0]) == 12:
+        log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[to_point[0]]) + 1)
+    log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，至左挂纤轮' + str(13-int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]])+1) + '，至中挂纤轮'+str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) +\
+           log8_1
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above2[0]) + 1 - 1) * 215)  # wheel_above
     # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
     pic_step7 = (590, 230)
@@ -1197,10 +1267,17 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     # else:
     #     pic_step13 = (235, 550 + (int(COMBINATION_VS_BIGLINE2[from_point[0]]) - 1) * 320)  # 侧-大线环2（第二步）
     pic_step13 = (235, 550 + (int(COMBINATION_VS_BIGLINE2[to_point[0]]) - 1) * 320)  # 侧-大线环2（第二步）
+    pic_step13_1 = (405, 360 + (int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1) * 220)  # to_point对应大线环2对应左挂纤轮
+    if int(COMBINATION_VS_BIGLINE2[to_point[0]]) == 9:
+        pic_step13_1 = (0, 0)
+    if int(to_point[0]) < 12:
+        pic_step8_2 = (405, 360 + (int(BACK_RIGHT_WHEEL[str(int(to_point[0])+1)]) - 1) * 220)  # to_point对应左挂纤轮
+    elif int(to_point[0]) == 12:
+        pic_step8_2 = (405, 360 + (int(BACK_RIGHT_WHEEL[to_point[0]]) - 1) * 220)  # to_point对应左挂纤轮
 
     log_list = [log0, log1, log2, log3, log4, log5, log6, log7, log8, log9, log10, log11, log12]
     step_list = [pic_step1, pic_step2, pic_step3, pic_step4, pic_step5, pic_step6, pic_step7, pic_step8_1, pic_step8, \
-                 pic_step9, pic_step10, pic_step11, pic_step12, pic_step13, pic_step14]
+                 pic_step9, pic_step10, pic_step11, pic_step12, pic_step13, pic_step14, pic_step5_1, pic_step13_1, pic_step8_2]
     json_list = [shebei_count, log_list, '1-'+json1, '1-'+json2, '1-'+json3, '1-'+json4, '1-'+json5, json6, str(shebei_count)+'-'+json7, str(shebei_count)+'-'+json8, str(shebei_count)+'-'+json9, str(shebei_count)+'-'+json10, str(shebei_count)+'-'+json11, str(shebei_count)+'-'+json12, str(shebei_count)+'-'+json13]
 
     print(step_list)
@@ -1312,8 +1389,7 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
         distance_step_4_1 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]))] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
         distance_step_4_1 = distance_step_4_1 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
         distance_step_4_2 = distance_sqrt(309, BIGLINE_DISTANCE[to_point[0]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1])
-        distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (
-        wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1]))
+        distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1]))
         distance_step_4 = distance_step_4_1 + distance_step_4_2
         # distance_step_4 = wheel_above[0] + WHEEL - COMBINATION_RING[str(int(from_point[0]))]
         log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，至右挂纤轮'+ str(13-int(BACK_RIGHT_WHEEL[from_point[0]])+1)+\

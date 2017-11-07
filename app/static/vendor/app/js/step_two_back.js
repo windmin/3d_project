@@ -37,6 +37,12 @@ function draw() {
     var step13_y = $("#picStep13_y").val();
     var step14_x = $("#picStep14_x").val();
     var step14_y = $("#picStep14_y").val();
+    var step5_1_x = $("#picStep5_1_x").val();
+    var step5_1_y = $("#picStep5_1_y").val();
+    var step13_1_x = $("#picStep13_1_x").val();
+    var step13_1_y = $("#picStep13_1_y").val();
+    var step8_2_x = $("#picStep8_2_x").val();
+    var step8_2_y = $("#picStep8_2_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
     var color = $("#color").val();
@@ -90,14 +96,30 @@ function draw() {
             ctx4.beginPath();
             ctx4.moveTo(step5_x,step5_y);
             ctx4.fillText("4", Number(step5_x)-200, Number(step5_y));
-            ctx4.lineTo(680+25,step5_y);
-            ctx4.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
+            ctx4.lineTo(900+25,step5_y);
+            ctx4.arc(900+25,Number(step5_y)+25,25,1.5*Math.PI,Math.PI,true);
+            ctx4.lineTo(900,step5_1_y);
+            ctx4.arc(900-25,step5_1_y,25,0,0.5*Math.PI,false);
+            ctx4.lineTo(680+25,Number(step5_1_y)+25);
+            ctx4.arc(680+25,step5_1_y,25,0.5*Math.PI,Math.PI,false);
+            // ctx4.lineTo(680+25,step5_y);
+            // ctx4.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
             ctx4.lineTo(680,Number(step14_y)+25-25);
             ctx4.arc(680-25, Number(step14_y)+25-25, 25, 0, 1.5*Math.PI, true);
             ctx4.lineTo(Number(step14_x)-65,Number(step14_y)-25);
             ctx4.arc(Number(step14_x)-65,Number(step14_y)+25-25,25,1.5*Math.PI,Math.PI,true);
-            ctx4.lineTo(500,Number(step13_y)-25);
-            ctx4.arc(500-25,Number(step13_y)-25,25,0,0.5*Math.PI,false);
+            if (step13_1_x == 0){
+                ctx2.lineTo(500,Number(step13_y)-25);
+                ctx2.arc(500-25,Number(step13_y)-25,25,0,0.5*Math.PI,false)
+            }
+            else{
+                ctx4.lineTo(500, Number(step13_1_y)-25);
+                ctx4.arc(500-25,Number(step13_1_y)-25,25,0,0.5*Math.PI,false);
+                ctx4.lineTo(330+25,step13_1_y);
+                ctx4.arc(330+25,Number(step13_1_y)-25,25,0.5*Math.PI,Math.PI,false);
+                ctx4.lineTo(330,Number(step13_y)+25);
+                ctx4.arc(330-25,Number(step13_y)+25,25,0,1.5*Math.PI,true);
+            }
             ctx4.lineTo(step13_x,step13_y);
             ctx4.fillText("5", Number(step13_x)+100, Number(step13_y)-10);
 
@@ -160,26 +182,31 @@ function draw() {
             ctx2.beginPath();
             ctx2.moveTo(step13_x,step13_y);
             ctx2.fillText("8", Number(step13_x)+80, Number(step13_y)-20);
-            ctx2.lineTo(500-25,step13_y);
-            ctx2.arc(500-25,Number(step13_y)-25,25,0.5*Math.PI,0,true);
+            if (step13_1_x == 0){
+                ctx2.lineTo(500-25,step13_y);
+                ctx2.arc(500-25,Number(step13_y)-25,25,0.5*Math.PI,0,true);
+            }
+            else{
+                ctx2.lineTo(330-25,step13_y);
+                ctx2.arc(330-25,Number(step13_y)+25,25,1.5*Math.PI,0,false);
+                ctx2.lineTo(330,step13_1_y);
+                ctx2.arc(330+25,step13_1_y,25,Math.PI,0.5*Math.PI,true);
+                ctx2.lineTo(500-25,Number(step13_1_y)+25);
+                ctx2.arc(500-25,step13_1_y,25,0.5*Math.PI,0,true);
+            }
+            // ctx2.lineTo(500-25,step13_y);
+            // ctx2.arc(500-25,Number(step13_y)-25,25,0.5*Math.PI,0,true);
             ctx2.lineTo(500,step6_y);
             ctx2.arc(500+25,step6_y,25,Math.PI,1.5*Math.PI,false);
             ctx2.lineTo(680-25,Number(step6_y)-25);
             ctx2.arc(680-25,Number(step6_y)-25+25,25,1.5*Math.PI,2*Math.PI,false);
-            // ctx2.lineTo(680,2930);
-            // ctx2.arc(680-25,2930,25,0,0.5*Math.PI,false);
-            // ctx2.lineTo(500+25+25,2930+25);
-            // ctx2.arc(500+25+25,2930,25,0.5*Math.PI,Math.PI,false);
-            // ctx2.lineTo(525,Number(step7_y)+25);
-            // ctx2.arc(525+25,Number(step7_y)+25,25,Math.PI,1.5*Math.PI,false);
-            // // ctx2.lineTo(680-25-25,2810);
-            // // ctx2.arc(680-25-25,2810-25,25,0.5*Math.PI,0,true);
-            // ctx2.lineTo(680-25-25,Number(step7_y));
-            // ctx2.arc(680-25-25,Number(step7_y)+25,25,1.5*Math.PI,0,false);
-            // // ctx2.lineTo(525+25,step7_y);
-            // // ctx2.arc(525+25,Number(step7_y)+25,25,1.5*Math.PI,Math.PI,true);
-            ctx2.lineTo(680,Number(step8_y)-25);
-            ctx2.arc(680+25,Number(step8_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx2.lineTo(680,Number(step8_2_y)-25);
+            ctx2.arc(680+25,Number(step8_2_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx2.lineTo(900-25,step8_2_y);
+            ctx2.arc(900-25,Number(step8_2_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(900,Number(step8_y)+25);
+            ctx2.arc(900+25,Number(step8_y)+25,25,Math.PI,1.5*Math.PI,false);
+
             ctx2.lineTo(step8_x,step8_y);
             ctx2.fillText("9", Number(step8_x)-200, Number(step8_y)-20);
             ctx2.lineTo(step9_x,step9_y);

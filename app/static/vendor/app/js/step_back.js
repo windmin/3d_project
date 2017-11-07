@@ -33,8 +33,10 @@ function draw() {
     var step11_y = $("#picStep11_y").val();
     var step12_x = $("#picStep12_x").val();
     var step12_y = $("#picStep12_y").val();
-    // var step13_x = $("#picStep13_x").val();
-    // var step13_y = $("#picStep13_y").val();
+    var step5_1_x = $("#picStep5_1_x").val();
+    var step5_1_y = $("#picStep5_1_y").val();
+    var step8_1_x = $("#picStep8_1_x").val();
+    var step8_1_y = $("#picStep8_1_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
     var color = $("#color").val();
@@ -88,18 +90,18 @@ function draw() {
             ctx2.beginPath();
             ctx2.moveTo(step5_x,step5_y);
             ctx2.fillText("4", Number(step5_x)-200, Number(step5_y));
-            ctx2.lineTo(680+25,step5_y);
-            ctx2.arc(680+25, Number(step5_y)-25, 25, 0.5*Math.PI, Math.PI, false);
-            // ctx2.moveTo(680, Number(step5_y)-25);
+            ctx2.lineTo(900+25,step5_y);
+            ctx2.arc(900+25,Number(step5_y)+25,25,1.5*Math.PI,Math.PI,true);
+            ctx2.lineTo(900,step5_1_y);
+            ctx2.arc(900-25,step5_1_y,25,0,0.5*Math.PI,false);
+            ctx2.lineTo(680+25,Number(step5_1_y)+25);
+            ctx2.arc(680+25,step5_1_y,25,0.5*Math.PI,Math.PI,false);
             ctx2.lineTo(680,Number(step6_y)+25-25);
             ctx2.arc(680-25, Number(step6_y)+25-25, 25, 0, 1.5*Math.PI, true);
-            // ctx2.moveTo(680-25, step6_y);
             ctx2.lineTo(Number(step6_x)-65,Number(step6_y)-25);
             ctx2.arc(Number(step6_x)-65,Number(step6_y)+25-25,25,1.5*Math.PI,Math.PI,true);
-            // ctx2.moveTo(Number(step6_x)-95,Number(step6_y)+25);
             ctx2.lineTo(Number(step6_x)-90,2930);
             ctx2.arc(Number(step6_x)-90+25,2930,25,Math.PI,0.5*Math.PI,true);
-            // ctx2.moveTo(Number(step6_x)-95+25,2930+25);
             ctx2.lineTo(680-25,2930+25);
             ctx2.arc(680-25,2930,25,0.5*Math.PI,0,true);
             ctx2.lineTo(680,2810+25);
@@ -110,21 +112,17 @@ function draw() {
             ctx2.arc(525+25,Number(step7_y)+25,25,Math.PI,1.5*Math.PI,false);
             ctx2.lineTo(655-25,step7_y);
             ctx2.arc(655-25,Number(step7_y)+25,25,1.5*Math.PI,2*Math.PI,false);
-            ctx2.lineTo(655,Number(step8_y)-25);
-            ctx2.arc(655+25,Number(step8_y)-25,25,Math.PI,0.5*Math.PI,true);
+
+            ctx2.lineTo(655,Number(step8_1_y)-25);
+            ctx2.arc(655+25,Number(step8_1_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx2.lineTo(900-25,step8_1_y);
+            ctx2.arc(900-25,Number(step8_1_y)-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(900,Number(step8_y)+25);
+            ctx2.arc(900+25,Number(step8_y)+25,25,Math.PI,1.5*Math.PI,false);
+
             ctx2.lineTo(step8_x,step8_y);
             ctx2.fillText("5", Number(step8_x)-170, Number(step8_y));
-            // ctx2.arc(Number(step8_x)-25,Number(step8_y)-25,25,0.5*Math.PI,0,true);
             ctx2.lineTo(step9_x,step9_y);
-            // if (step8_y == step9_y){
-            //     ctx2.fillText(",3", Number(step9_x)+50, Number(step9_y)+20);
-            // }
-            // else if (step5_y == step9_y){
-            //     ctx2.fillText(",3", Number(step9_x)+50, Number(step9_y)+20);
-            // }
-            // else {
-            //     ctx2.fillText("3", Number(step9_x)+20, Number(step9_y)+20);
-            // }
             ctx2.fillText("6", Number(step9_x), Number(step9_y)+50);
 
             ctx2.strokeStyle = color;
