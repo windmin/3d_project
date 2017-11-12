@@ -126,7 +126,7 @@
 
 {% block scripts %}
 <footer class="text-center">
-    <span class="footer">上海乐通通讯设备（集团）股份有限公司 | 地址：上海市闵松路500号 | 联系电话：021-88888888</span>
+    <span class="footer">{{ company.company_name }} | 地址：{{ company.company_address }} | 联系电话：{{ company.company_tel }}</span>
 </footer>
 {{ super() }}
 <script src={{ url_for('static', filename = 'jQuery-minicolors/jquery.minicolors.min.js') }} type="text/javascript"></script>

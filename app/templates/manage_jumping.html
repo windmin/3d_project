@@ -11,31 +11,49 @@
     <form class="form-inline" method="POST" action="{{ url_for('main.manage_jumping') }}">
         <div class="form-group">
             <label for="jijiahao">机架号</label>
-            <input type="text" class="form-control" id="jijiahao" name="jijiahao" placeholder="输入数字">
+            <select class="form-control" id="jijiahao" name="jijiahao">
+                <option value=""></option>
+                {% for jjh in jijiahao_select %}
+                    <option value="{{ jjh }}">{{ jjh }}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="form-group">
 {#            <label for="side">单元类型</label>#}
             <select class="form-control" id="side" name="side">
-                {% if side == '' %}
-                    <option value ="" selected></option>
-                {% else %}
-                    <option value =""></option>
-                {% endif %}
-                {% if side == '96芯设备单元' %}
-                    <option value ="96芯设备单元" selected>96芯设备单元</option>
-                {% else %}
-                    <option value ="96芯设备单元">96芯设备单元</option>
-                {% endif %}
-                {% if side == '72芯配线单元' %}
-                    <option value ="72芯配线单元" selected>72芯配线单元</option>
-                {% else %}
-                    <option value ="72芯配线单元">72芯配线单元</option>
-                {% endif %}
+                <option value =""></option>
+                <option value ="96芯设备单元">96芯设备单元</option>
+                <option value ="72芯配线单元">72芯配线单元</option>
             </select>
         </div>
         <div class="form-group">
-{#            <label for="slotnum">单元号</label>#}
-            <input type="text" class="form-control" id="slotnum" name="slotnum" placeholder="输入数字">
+            <select class="form-control" id="slotnum-96" name="slotnum-96">
+                <option value=""></option>
+                <option value="1">H1</option>
+                <option value="2">H2</option>
+                <option value="3">H3</option>
+                <option value="4">H4</option>
+                <option value="5">H5</option>
+                <option value="6">H6</option>
+                <option value="7">H7</option>
+                <option value="8">H8</option>
+                <option value="9">H9</option>
+            </select>
+            <select class="form-control" id="slotnum-72" name="slotnum-72">
+                <option value=""></option>
+                <option value="1">L12</option>
+                <option value="2">L11</option>
+                <option value="3">L10</option>
+                <option value="4">L9</option>
+                <option value="5">L8</option>
+                <option value="6">L7</option>
+                <option value="7">L6</option>
+                <option value="8">L5</option>
+                <option value="9">L4</option>
+                <option value="9">L3</option>
+                <option value="9">L2</option>
+                <option value="9">L1</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="rowcol">端口</label>
@@ -170,4 +188,20 @@
     <span class="footer">{{ company.company_name }} | 地址：{{ company.company_address }} | 联系电话：{{ company.company_tel }}</span>
 </footer>
 {{ super() }}
+<script>
+    $(document).ready(function () {
+        $("#slotnum-96").show();
+        $("#slotnum-72").hide();
+        $("#side").change(function () {
+            if($("#side").val() == '96芯设备单元'){
+                $("#slotnum-96").show();
+                $("#slotnum-72").hide();
+            }
+            else if($("#side").val() == '72芯配线单元'){
+                $("#slotnum-96").hide();
+                $("#slotnum-72").show();
+            }
+        })
+    })
+</script>
 {% endblock %}

@@ -299,7 +299,7 @@ def slot(shebei_dict):
                         flash('不能选择同一个设备的同一个端口,请重新选择！')
                     else:
                         return redirect(url_for('main.step', shebei_dict=shebei_dict))
-                    
+
         elif 'pre-submit' in request.form:
             print('aaa')
             return redirect(url_for('main.index'))
@@ -618,24 +618,33 @@ def duankou():
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
     company = CompanyTable.query.first()
+    jijiahao_select = [l.shebei_name for l in ShebeiTable.query.all()]
+
     jijiahao, side, slotnum, rowcols, status = '', '', '', '', ''
-    print('all', 'jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+    # print('all', 'jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
 
     if request.method == 'POST':
         if request.form["search"] == "搜索":
             jijiahao = request.form.get('jijiahao')
             side = request.form.get('side')
-            slotnum = request.form.get('slotnum')
+            if side == '96芯设备单元':
+                slotnum = request.form.get('slotnum-96')
+            elif side == '72芯配线单元':
+                slotnum = request.form.get('slotnum-72')
+            else:
+                slotnum = ''
             status = request.form.get('status')
 
-            if side == '72芯配线单元':
-                if slotnum:
-                    slotnum = PEIXIAN_DANYUAN[slotnum]
+            # if side == '72芯配线单元':
+            #     if slotnum:
+            #         slotnum = PEIXIAN_DANYUAN[slotnum]
             pagination = DuankouTable.query.filter_by(jiechu_jijia='NONE').paginate(page, per_page=20, error_out=False)
             # if jijiahao:
             # if status == '在用':
             duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.like('%' + jijiahao + '%'),\
-                                                      DuankouTable.jiechu_side==side, DuankouTable.jiechu_slotnum.like('%'+slotnum+'%')).all()
+                                                      DuankouTable.jiechu_side.like('%'+side+'%'), DuankouTable.jiechu_slotnum.like('%'+slotnum+'%')).all()
+            print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+
             if status == '未用':
                 slotnum_96 = [(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),\
                               (2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,11),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,18),(2,19),(2,20),(2,21),(2,22),(2,23),(2,24),\
@@ -664,7 +673,7 @@ def duankou():
                     rowcols = slotnum_72
 
                 print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
-    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status)
+    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status, jijiahao_select=jijiahao_select)
 
 
 # 跳纤管理
@@ -675,13 +684,19 @@ def manage_jumping():
     pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
     company = CompanyTable.query.first()
+    jijiahao_select = [l.shebei_name for l in ShebeiTable.query.all()]
 
     if request.method == 'POST':
         # if request.form["search"] == "搜索":
         # if 'search' in request.form:
         jijiahao = request.form.get('jijiahao')
         side = request.form.get('side')
-        slotnum = request.form.get('slotnum')
+        if side == '96芯设备单元':
+            slotnum = request.form.get('slotnum-96')
+        elif side == '72芯配线单元':
+            slotnum = request.form.get('slotnum-72')
+        else:
+            slotnum = ''
         rowcol = request.form.get('rowcol')
         updated_time = request.form.get('updated_time')
         username = request.form.get('username')
@@ -706,8 +721,8 @@ def manage_jumping():
 
         # slotnum
         if slotnum:
-            if side == '72芯配线单元':
-                slotnum = PEIXIAN_DANYUAN[slotnum]
+            # if side == '72芯配线单元':
+            #     slotnum = PEIXIAN_DANYUAN[slotnum]
             slotnum_list = [slotnum]
         else:
             slotnum_list = list(range(1, 13))
@@ -830,7 +845,7 @@ def manage_jumping():
 
             return redirect(url_for('main.manage_jumping'))
 
-    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company)
+    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao_select=jijiahao_select)
 
 
 # 删除跳纤
@@ -978,7 +993,8 @@ def setting():
         form.company_name.data = companyTables[0].company_name
         form.company_address.data = companyTables[0].company_address
         form.company_tel.data = companyTables[0].company_tel
-    return  render_template('setting.html', form=form, lineTables=lineTables, companyTables=companyTables)
+    company = CompanyTable.query.first()
+    return  render_template('setting.html', form=form, lineTables=lineTables, companyTables=companyTables, company=company)
 
 
 # 删除setting的线材
