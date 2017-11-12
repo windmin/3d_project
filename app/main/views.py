@@ -48,6 +48,19 @@ def format_duankou(side, row, col):
     return result
 
 
+def format_back_radio_96(input_jiechu):
+    if input_jiechu >= 1 and input_jiechu <= 24:
+        input_jiechu_row = 1
+    elif input_jiechu >= 25 and input_jiechu <= 48:
+        input_jiechu_row = 2
+    elif input_jiechu >= 49 and input_jiechu <= 72:
+        input_jiechu_row = 3
+    elif input_jiechu >= 73 and input_jiechu <= 96:
+        input_jiechu_row = 4
+    input_jiechu_col = input_jiechu - 24 * (input_jiechu_row - 1)
+    return str(input_jiechu_row), str(input_jiechu_col)
+
+
 # 机架管理
 @main.route('/shebei',methods=['GET','POST'])
 @login_required
@@ -234,6 +247,33 @@ def slot(shebei_dict):
         if request.form["submit"] == "开始计算":
             jiechushebei_radio = request.form.get('jiechushebei')
             jierushebei_radio = request.form.get('jierushebei')
+
+            # 手动输入值优先
+            if request.form.get('input-jiechu-danyuan') and request.form.get('input-jiechu') and \
+                    request.form.get('input-jieru-danyuan') and request.form.get('input-jieru'):
+                if shebei_dict['jiechushebei_side'] == '96芯设备单元':
+                    input_jiechu = int(request.form.get('input-jiechu'))
+                    if input_jiechu < 1 or input_jiechu > 96:
+                        flash('接出设备的端口号输入有误')
+                    input_jiechu_row, input_jiechu_col = format_back_radio_96(input_jiechu)
+                    shebei_dict['jiechushebei_radio'] = [request.form.get('input-jiechu-danyuan'), input_jiechu_row, input_jiechu_col]
+                elif shebei_dict['jiechushebei_side'] == '72芯配线单元':
+                    shebei_dict['jiechushebei_radio'] = [request.form.get('input-jiechu-danyuan'), request.form.get('input-jiechu'), request.form.get('input-jiechu-col')]
+                if shebei_dict['jierushebei_side'] == '96芯设备单元':
+                    input_jieru = int(request.form.get('input-jieru'))
+                    if input_jiechu < 1 or input_jiechu > 96:
+                        flash('接入设备的端口号输入有误')
+                    input_jieru_row, input_jieru_col = format_back_radio_96(input_jieru)
+                    shebei_dict['jierushebei_radio'] = [request.form.get('input-jieru-danyuan'), input_jieru_row, input_jieru_col]
+                elif shebei_dict['jierushebei_side'] == '72芯配线单元':
+                    shebei_dict['jierushebei_radio'] = [request.form.get('input-jieru-danyuan'), request.form.get('input-jieru'), request.form.get('input-jieru-col')]
+                if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and shebei_dict['jiechushebei'] == \
+                        shebei_dict['jierushebei']:
+                    flash('不能选择同一个设备的同一个端口,请重新选择！')
+                else:
+                    return redirect(url_for('main.step', shebei_dict=shebei_dict))
+
+            # 选择输入
             if jierushebei_radio is None or jierushebei_radio is None:
                 flash('请选择需要连接的两个端口！')
             else:
@@ -241,12 +281,6 @@ def slot(shebei_dict):
                 shebei_dict['jierushebei_radio'] = jierushebei_radio.split(',')
                 if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and shebei_dict['jiechushebei'] == shebei_dict['jierushebei']:
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
-                # elif int(shebei_dict['jiechushebei_radio'][0]) > int(shebei_dict['jierushebei_radio'][0]):
-                #     flash('接出端口必需高于接入端口！')
-                # elif shebei_dict['jiechushebei_radio'][0] == '12' and shebei_dict['jiechushebei_side'] == '72芯配线单元':
-                #     flash('接出端口不能是最后一个单元！')
-                # elif shebei_dict['jiechushebei_radio'][0] == '9' and shebei_dict['jiechushebei_side'] == '96芯设备单元':
-                #     flash('接出端口不能是最后一个单元！')
                 else:
                     return redirect(url_for('main.step',shebei_dict=shebei_dict))
     return render_template('slot.html', shebei_dict=shebei_dict)

@@ -100,13 +100,92 @@
     {% endfor %}
 {% endmacro %}
 
+<form method="POST" action="{{ url_for('main.slot',shebei_dict=shebei_dict) }}">
 <div class="row choose-radio">
     <div class="col-md-6">
         <span class="choose-radio">请选择{{ shebei_dict['jiechushebei'] }}的{{ shebei_dict['jiechushebei_side'] }}的接出端口</span>
+        {% if shebei_dict['jiechushebei_side'] == '96芯设备单元' %}
+            <div class="form-group form-inline" style="margin-top: 20px;">
+                <label for="rowcol">单元</label>
+                <select class="form-control" id="input-jiechu-danyuan" name="input-jiechu-danyuan">
+                    <option value="1">H1</option>
+                    <option value="2">H2</option>
+                    <option value="3">H3</option>
+                    <option value="4">H4</option>
+                    <option value="5">H5</option>
+                    <option value="6">H6</option>
+                    <option value="7">H7</option>
+                    <option value="8">H8</option>
+                    <option value="9">H9</option>
+                </select>
+                <label for="rowcol" style="margin-left: 30px;">接出端口</label>
+                <input type="text" class="form-control" id="input-jiechu" name="input-jiechu" style="max-width: 70px;">
+            </div>
+        {% elif shebei_dict['jiechushebei_side'] == '72芯配线单元' %}
+            <div class="form-group form-inline" style="margin-top: 20px;">
+                <label for="rowcol">单元</label>
+                <select class="form-control" id="input-jiechu-danyuan" name="input-jiechu-danyuan">
+                    <option value="1">L12</option>
+                    <option value="2">L11</option>
+                    <option value="3">L10</option>
+                    <option value="4">L9</option>
+                    <option value="5">L8</option>
+                    <option value="6">L7</option>
+                    <option value="7">L6</option>
+                    <option value="8">L5</option>
+                    <option value="9">L4</option>
+                    <option value="9">L3</option>
+                    <option value="9">L2</option>
+                    <option value="9">L1</option>
+                </select>
+                <label for="rowcol" style="margin-left: 30px;">接出端口</label>
+                <input type="text" class="form-control" id="input-jiechu" name="input-jiechu" placeholder="行" style="max-width: 70px;">
+                <input type="text" class="form-control" id="input-jiechu-col" name="input-jiechu-col" placeholder="列" style="max-width: 70px;">
+            </div>
+        {% endif %}
     </div>
 
     <div class="col-md-6">
         <span class="choose-radio">请选择{{ shebei_dict['jierushebei'] }}的{{ shebei_dict['jierushebei_side'] }}的接入端口</span>
+        {% if shebei_dict['jierushebei_side'] == '96芯设备单元' %}
+            <div class="form-group form-inline" style="margin-top: 20px;">
+                <label for="rowcol">单元</label>
+                <select class="form-control" id="input-jieru-danyuan" name="input-jieru-danyuan">
+                    <option value="1">H1</option>
+                    <option value="2">H2</option>
+                    <option value="3">H3</option>
+                    <option value="4">H4</option>
+                    <option value="5">H5</option>
+                    <option value="6">H6</option>
+                    <option value="7">H7</option>
+                    <option value="8">H8</option>
+                    <option value="9">H9</option>
+                </select>
+                <label for="rowcol" style="margin-left: 30px;">接入端口</label>
+                <input type="text" class="form-control" id="input-jieru" name="input-jieru" style="max-width: 70px;">
+            </div>
+        {% elif shebei_dict['jierushebei_side'] == '72芯配线单元' %}
+            <div class="form-group form-inline" style="margin-top: 20px;">
+                <label for="rowcol">单元</label>
+                <select class="form-control" id="input-jieru-danyuan" name="input-jieru-danyuan">
+                    <option value="1">L12</option>
+                    <option value="2">L11</option>
+                    <option value="3">L10</option>
+                    <option value="4">L9</option>
+                    <option value="5">L8</option>
+                    <option value="6">L7</option>
+                    <option value="7">L6</option>
+                    <option value="8">L5</option>
+                    <option value="9">L4</option>
+                    <option value="9">L3</option>
+                    <option value="9">L2</option>
+                    <option value="9">L1</option>
+                </select>
+                <label for="rowcol" style="margin-left: 30px;">接入端口</label>
+                <input type="text" class="form-control" id="input-jieru" name="input-jieru" placeholder="行" style="max-width: 70px;">
+                <input type="text" class="form-control" id="input-jieru-col" name="input-jieru-col" placeholder="列" style="max-width: 70px;">
+            </div>
+        {% endif %}
     </div>
 </div>
 
@@ -116,7 +195,6 @@
     {% set slotNums = shebei_dict['jierushebei_slotNums'] %}
 {% endif %}
 
-<form method="POST" action="{{ url_for('main.slot',shebei_dict=shebei_dict) }}">
 {% for slotNum in slotNums %}
     <div class="row">
         <div class="col-md-6">
