@@ -635,14 +635,37 @@ def duankou():
                 slotnum = ''
             status = request.form.get('status')
 
-            # if side == '72芯配线单元':
-            #     if slotnum:
-            #         slotnum = PEIXIAN_DANYUAN[slotnum]
+
+            # jijiahao
+            if jijiahao:
+                jijiahao_list = [
+                    ShebeiTable.query.filter(ShebeiTable.shebei_name.like('%' + jijiahao + '%')).first().shebei_name]
+            else:
+                jijiahao_list = [result.shebei_name for result in ShebeiTable.query.all()]
+            # print('jijiahao_list:', jijiahao_list)
+
+            # side
+            if side:
+                side_list = [side]
+            else:
+                side_list = ['72芯配线单元', '96芯设备单元']
+            # print(side_list)
+
+            # slotnum
+            if slotnum:
+                # if side == '72芯配线单元':
+                #     slotnum = PEIXIAN_DANYUAN[slotnum]
+                slotnum_list = [slotnum]
+            else:
+                slotnum_list = list(range(1, 13))
+                # print(slotnum_list)
+
             pagination = DuankouTable.query.filter_by(jiechu_jijia='NONE').paginate(page, per_page=20, error_out=False)
             # if jijiahao:
             # if status == '在用':
-            duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.like('%' + jijiahao + '%'),\
-                                                      DuankouTable.jiechu_side.like('%'+side+'%'), DuankouTable.jiechu_slotnum.like('%'+slotnum+'%')).all()
+            duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.in_(jijiahao_list),
+                                                      DuankouTable.jiechu_side.in_(side_list),
+                                                      DuankouTable.jiechu_slotnum.in_(slotnum_list)).all()
             print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
 
             if status == '未用':
@@ -656,7 +679,7 @@ def duankou():
                               (4,1),(4,2),(4,3),(4,4),(4,5),(4,6),(4,7),(4,8),(4,9),(4,10),(4,11),(4,12),\
                               (5,1),(5,2),(5,3),(5,4),(5,5),(5,6),(5,7),(5,8),(5,9),(5,10),(5,11),(5,12),\
                               (6,1),(6,2),(6,3),(6,4),(6,5),(6,6),(6,7),(6,8),(6,9),(6,10),(6,11),(6,12)]
-                if not jijiahao and not slotnum:
+                if not jijiahao or not slotnum:
                     flash('搜索「未用」端口时必须输入「机架号」、「单元类型」和「单元号」后搜索才生效')
                     return redirect(url_for('main.duankou'))
                 if side == '96芯设备单元':
