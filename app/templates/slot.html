@@ -163,6 +163,7 @@
                 </select>
                 <label for="rowcol" style="margin-left: 30px;">接入端口</label>
                 <input type="text" class="form-control" id="input-jieru" name="input-jieru" style="max-width: 70px;">
+                <input type="submit" name="submit2" class="btn btn-primary class-submit" value="开始计算" style="margin-left: 20px;">
             </div>
         {% elif shebei_dict['jierushebei_side'] == '72芯配线单元' %}
             <div class="form-group form-inline" style="margin-top: 20px;">
@@ -184,6 +185,7 @@
                 <label for="rowcol" style="margin-left: 30px;">接入端口</label>
                 <input type="text" class="form-control" id="input-jieru" name="input-jieru" placeholder="行" style="max-width: 70px;">
                 <input type="text" class="form-control" id="input-jieru-col" name="input-jieru-col" placeholder="列" style="max-width: 70px;">
+                <input type="submit" name="submit2" class="btn btn-primary class-submit" value="开始计算" style="margin-left: 20px;">
             </div>
         {% endif %}
     </div>
@@ -329,5 +331,26 @@
 </div>
 </form>
 
+{% endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script  type="text/javascript">
+        $(document).ready(function() {
+            $('input[type=radio][name=jiechushebei]').change(function() {
+                $("#input-jiechu").val("");
+                $("#input-jieru").val("");
+                if ($("#input-jieru-col").val() != ""){
+                    $("#input-jieru-col").val("");
+                }
+            });
+            $('input[type=radio][name=jierushebei]').change(function () {
+                $("#input-jiechu").val("");
+                $("#input-jieru").val("");
+                if ($("#input-jieru-col").val() != ""){
+                    $("#input-jieru-col").val("");
+                }
+            })
+        });
+    </script>
 {% endblock %}

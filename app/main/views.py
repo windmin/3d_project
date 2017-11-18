@@ -246,7 +246,7 @@ def slot(shebei_dict):
     shebei_dict['difference_slotNums'] = difference_slotNums
 
     if request.method == 'POST':
-        if 'submit' in request.form:
+        if 'submit' in request.form or 'submit2' in request.form:
             jiechushebei_radio = request.form.get('jiechushebei')
             jierushebei_radio = request.form.get('jierushebei')
 
