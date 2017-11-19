@@ -269,7 +269,7 @@ def slot(shebei_dict):
                         flag_error = True
                 if shebei_dict['jierushebei_side'] == '96芯设备单元':
                     input_jieru = int(request.form.get('input-jieru'))
-                    if input_jiechu < 1 or input_jiechu > 96:
+                    if input_jieru < 1 or input_jieru > 96:
                         flash('接入设备的端口号输入有误')
                         flag_error = True
                     input_jieru_row, input_jieru_col = format_back_radio_96(input_jieru)
