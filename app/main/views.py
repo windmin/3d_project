@@ -281,7 +281,7 @@ def slot(shebei_dict):
                         flash('接入设备的端口号输入有误')
                         flag_error = True
                 if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and shebei_dict['jiechushebei'] == \
-                        shebei_dict['jierushebei']:
+                        shebei_dict['jierushebei'] and shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side']:
                     flash('不能选择同一个设备的同一个端口,请重新选择！')
                 else:
                     if not flag_error:
@@ -301,7 +301,6 @@ def slot(shebei_dict):
                         return redirect(url_for('main.step', shebei_dict=shebei_dict))
 
         elif 'pre-submit' in request.form:
-            print('aaa')
             return redirect(url_for('main.index'))
     return render_template('slot.html', shebei_dict=shebei_dict)
 
