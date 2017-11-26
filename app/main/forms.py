@@ -56,6 +56,7 @@ class SettingForm(FlaskForm):
 class EditJumpingForm(FlaskForm):
     confirm = BooleanField('审核确认')
     remark = StringField('备注')
+    line_description = StringField('线路说明')
 
     submit = SubmitField('更新')
 

@@ -294,8 +294,9 @@ def slot(shebei_dict):
                 else:
                     shebei_dict['jiechushebei_radio'] = jiechushebei_radio.split(',')  # ['1', '1', '24']
                     shebei_dict['jierushebei_radio'] = jierushebei_radio.split(',')
-                    if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and shebei_dict[
-                        'jiechushebei'] == shebei_dict['jierushebei']:
+                    if shebei_dict['jiechushebei_radio'] == shebei_dict['jierushebei_radio'] and \
+                                    shebei_dict['jiechushebei'] == shebei_dict['jierushebei'] and \
+                                    shebei_dict['jiechushebei_side'] == shebei_dict['jierushebei_side']:
                         flash('不能选择同一个设备的同一个端口,请重新选择！')
                     else:
                         return redirect(url_for('main.step', shebei_dict=shebei_dict))
@@ -621,6 +622,7 @@ def duankou():
 
     jijiahao, side, slotnum, rowcols, status = '', '', '', '', ''
     # print('all', 'jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+    pre_search = {}
 
     if request.method == 'POST':
         if request.form["search"] == "搜索":
@@ -633,6 +635,13 @@ def duankou():
             else:
                 slotnum = ''
             status = request.form.get('status')
+
+            pre_search = {
+                'jijiahao': jijiahao,
+                'side': side,
+                'slotnum': slotnum,
+                'status': status
+            }
 
 
             # jijiahao
@@ -665,7 +674,7 @@ def duankou():
             duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.in_(jijiahao_list),
                                                       DuankouTable.jiechu_side.in_(side_list),
                                                       DuankouTable.jiechu_slotnum.in_(slotnum_list)).all()
-            print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+            # print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
 
             if status == '未用':
                 slotnum_96 = [(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),\
@@ -695,7 +704,9 @@ def duankou():
                     rowcols = slotnum_72
 
                 print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
-    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status, jijiahao_select=jijiahao_select)
+    return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company,
+                           jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status,
+                           jijiahao_select=jijiahao_select, pre_search=pre_search)
 
 
 # 跳纤管理
@@ -703,10 +714,11 @@ def duankou():
 @login_required
 def manage_jumping():
     page = request.args.get('page', 1, type=int)
-    pagination = DuankouTable.query.paginate(page, per_page=100, error_out=False)
+    pagination = DuankouTable.query.order_by(DuankouTable.updated_time.desc()).paginate(page, per_page=100, error_out=False)
     duankouTables = pagination.items
     company = CompanyTable.query.first()
     jijiahao_select = [l.shebei_name for l in ShebeiTable.query.all()]
+    pre_search = {}
 
     if request.method == 'POST':
         # if request.form["search"] == "搜索":
@@ -724,6 +736,16 @@ def manage_jumping():
         username = request.form.get('username')
         remark = request.form.get('remark')
 
+        pre_search = {
+            'jijiahao': jijiahao,
+            'side': side,
+            'slotnum': slotnum,
+            'rowcol': rowcol,
+            'updated_time': updated_time,
+            'username': username,
+            'remark': remark
+        }
+
         # print('jijiahao:', jijiahao, 'side:', side, 'slotnum:', slotnum, 'rowcol:', rowcol,\
         #       'updated_time:', updated_time, 'username:', username, 'remark:', remark)
 
@@ -732,7 +754,6 @@ def manage_jumping():
             jijiahao_list = [ShebeiTable.query.filter(ShebeiTable.shebei_name.like('%' + jijiahao + '%')).first().shebei_name]
         else:
             jijiahao_list = [result.shebei_name for result in ShebeiTable.query.all()]
-        # print('jijiahao_list:', jijiahao_list)
 
         # side
         if side:
@@ -765,6 +786,8 @@ def manage_jumping():
                 rowcol = rowcol.split(',')
             elif '，' in rowcol:
                 rowcol = rowcol.split('，')
+            else:
+                rowcol = [rowcol]
 
             if len(rowcol) == 2:
                 row = int(rowcol[0])
@@ -834,7 +857,7 @@ def manage_jumping():
                                                       DuankouTable.jiechu_col.in_(col_list),
                                                       DuankouTable.updated_time.in_(updated_time_list),
                                                       DuankouTable.username.in_(username_list),
-                                                      DuankouTable.remark.in_(remark_list)).all()
+                                                      DuankouTable.remark.in_(remark_list)).order_by(DuankouTable.updated_time.desc()).all()
         else:
             duankouTables = DuankouTable.query.filter(DuankouTable.jiechu_jijia.in_(jijiahao_list),
                                                       DuankouTable.jiechu_side.in_(side_list),
@@ -842,7 +865,7 @@ def manage_jumping():
                                                       DuankouTable.jiechu_row.in_(row_list),
                                                       DuankouTable.jiechu_col.in_(col_list),
                                                       DuankouTable.updated_time.in_(updated_time_list),
-                                                      DuankouTable.username.in_(username_list)).all()
+                                                      DuankouTable.username.in_(username_list)).order_by(DuankouTable.updated_time.desc()).all()
         table = duankouTables
         if 'export' in request.form:
             exportdir = os.path.realpath(
@@ -867,7 +890,7 @@ def manage_jumping():
 
             return redirect(url_for('main.manage_jumping'))
 
-    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao_select=jijiahao_select)
+    return render_template('manage_jumping.html', duankouTables=duankouTables, pagination=pagination, company=company, jijiahao_select=jijiahao_select, pre_search=pre_search)
 
 
 # 删除跳纤
@@ -917,6 +940,8 @@ def edit_jumping(id):
     if form.validate_on_submit():
         result.confirm = form.confirm.data
         result.remark = form.remark.data
+        result.updated_time = datetime.now()
+        result.line_description = form.line_description.data
 
         db.session.add(result)
         db.session.commit()
@@ -931,7 +956,7 @@ def edit_jumping(id):
 @login_required
 def log():
     page = request.args.get('page', 1, type=int)
-    pagination = Log.query.paginate(page, per_page=100, error_out=False)
+    pagination = Log.query.order_by(Log.updated_time.desc()).paginate(page, per_page=100, error_out=False)
     LogTables = pagination.items
     company = CompanyTable.query.first()
 

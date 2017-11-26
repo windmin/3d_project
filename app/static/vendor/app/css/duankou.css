@@ -7,8 +7,12 @@
     border-radius: 5px;
 }
 
-#jijiahao, #slotnum, #status {
+#slotnum, #status {
     max-width: 80px;
+}
+
+#jijiahao {
+    min-width: 95px;
 }
 
 footer.text-center {

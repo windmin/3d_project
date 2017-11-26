@@ -14,64 +14,87 @@
             <select class="form-control" id="jijiahao" name="jijiahao">
                 <option value=""></option>
                 {% for jjh in jijiahao_select %}
-                    <option value="{{ jjh }}">{{ jjh }}</option>
+                    {% if pre_search and jjh == pre_search['jijiahao'] %}
+                        <option value="{{ jjh }}" selected>{{ jjh }}</option>
+                    {% else %}
+                        <option value="{{ jjh }}">{{ jjh }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
 {#            <label for="side">单元类型</label>#}
             <select class="form-control" id="side" name="side">
-                <option value ="">全部单元类型</option>
-                <option value ="96芯设备单元">96芯设备单元</option>
-                <option value ="72芯配线单元">72芯配线单元</option>
+                {% if pre_search and pre_search['side'] == '96芯设备单元' %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元" selected>96芯设备单元</option>
+                    <option value ="72芯配线单元">72芯配线单元</option>
+                {% elif pre_search and pre_search['side'] == '72芯配线单元' %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元">96芯设备单元</option>
+                    <option value ="72芯配线单元" selected>72芯配线单元</option>
+                {% else %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元">96芯设备单元</option>
+                    <option value ="72芯配线单元">72芯配线单元</option>
+                {% endif %}
             </select>
         </div>
         <div class="form-group">
             <select class="form-control" id="slotnum-96" name="slotnum-96">
                 <option value=""></option>
-                <option value="1">H1</option>
-                <option value="2">H2</option>
-                <option value="3">H3</option>
-                <option value="4">H4</option>
-                <option value="5">H5</option>
-                <option value="6">H6</option>
-                <option value="7">H7</option>
-                <option value="8">H8</option>
-                <option value="9">H9</option>
+                {% for i in range(1,10) %}
+                    {% if pre_search and i == pre_search['slotnum']|int %}
+                        <option value="{{ i }}" selected>H{{ i }}</option>
+                    {% else %}
+                        <option value="{{ i }}">H{{ i }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
             <select class="form-control" id="slotnum-72" name="slotnum-72">
                 <option value=""></option>
-                <option value="1">L12</option>
-                <option value="2">L11</option>
-                <option value="3">L10</option>
-                <option value="4">L9</option>
-                <option value="5">L8</option>
-                <option value="6">L7</option>
-                <option value="7">L6</option>
-                <option value="8">L5</option>
-                <option value="9">L4</option>
-                <option value="9">L3</option>
-                <option value="9">L2</option>
-                <option value="9">L1</option>
+                {% for i in range(1,13) %}
+                    {% if pre_search and i == pre_search['slotnum']|int %}
+                        <option value="{{ i }}" selected>L{{ 13 - i }}</option>
+                    {% else %}
+                        <option value="{{ i }}">L{{ 13 - i }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="rowcol">端口</label>
-            <input type="text" class="form-control" id="rowcol" name="rowcol" placeholder="(1,2)或(2)">
+            {% if pre_search and pre_search['rowcol'] %}
+                <input type="text" class="form-control" id="rowcol" name="rowcol" placeholder="(1,2)或(2)" value="{{ pre_search['rowcol'] }}">
+            {% else %}
+                <input type="text" class="form-control" id="rowcol" name="rowcol" placeholder="(1,2)或(2)">
+            {% endif %}
         </div>
         <div class="form-group">
             <label for="updated_time">时间</label>
-            <input type="text" class="form-control" id="updated_time" name="updated_time" placeholder="2017-10-31">
+            {% if pre_search and pre_search['updated_time'] %}
+                <input type="text" class="form-control" id="updated_time" name="updated_time" placeholder="2017-10-31" value="{{ pre_search['updated_time'] }}">
+            {% else %}
+                <input type="text" class="form-control" id="updated_time" name="updated_time" placeholder="2017-10-31">
+            {% endif %}
         </div>
         <div class="form-group">
             <label for="username">操作人员</label>
-            <input type="text" class="form-control" id="username" name="username">
+            {% if pre_search and pre_search['username'] %}
+                <input type="text" class="form-control" id="username" name="username" value="{{ pre_search['username'] }}">
+            {% else %}
+                <input type="text" class="form-control" id="username" name="username">
+            {% endif %}
         </div>
         <div class="form-group">
             <label for="remark">备注</label>
-            <input type="text" class="form-control" id="remark" name="remark">
+            {% if pre_search and pre_search['remark'] %}
+                <input type="text" class="form-control" id="remark" name="remark">
+            {% else %}
+                <input type="text" class="form-control" id="remark" name="remark" value="{{ pre_search['remark'] }}">
+            {% endif %}
         </div>
-        <button class="btn btn-default" type="submit" name="search" value="搜索">
+        <button class="btn btn-default" type="submit" name="search" id="search" value="搜索">
             <i class="fa fa-search">查询</i>
         </button>
 {#        <button class="btn btn-default" type="submit" name="export" value="export" onclick="{location.href='/export'}">#}
@@ -115,6 +138,7 @@
                                 <th>接入<br>端口</th>
                                 <th>跳纤<br>长度</th>
                                 <th>审核<br>确认</th>
+                                <th>线路说明</th>
                                 <th>备注</th>
                                 <th>操作</th>
                             </tr>
@@ -153,6 +177,7 @@
                                     {% endif %}
                                     <td>{{ duankouTable.line }}米</td>
                                     <td>{{ macros.format_confirm(duankouTable.confirm) }}</td>
+                                    <td>{{ duankouTable.line_description }}</td>
                                     <td>{{ duankouTable.remark }}</td>
                                     <td>
                                         <a class="icon" href="/jumping/edit/{{ duankouTable.id }}" title="编辑">
@@ -190,8 +215,18 @@
 {{ super() }}
 <script>
     $(document).ready(function () {
-        $("#slotnum-96").show();
-        $("#slotnum-72").hide();
+        if ($("#side").val() == '96芯设备单元'){
+            $("#slotnum-96").show();
+            $("#slotnum-72").hide();
+        }
+        else if ($("#side").val() == '72芯配线单元'){
+            $("#slotnum-96").hide();
+            $("#slotnum-72").show();
+        }
+        else {
+            $("#slotnum-96").show();
+            $("#slotnum-72").hide();
+        }
         $("#side").change(function () {
             if($("#side").val() == '96芯设备单元'){
                 $("#slotnum-96").show();
@@ -201,6 +236,12 @@
                 $("#slotnum-96").hide();
                 $("#slotnum-72").show();
             }
+        });
+        $("#slotnum-96").change(function () {
+            $("#side option[value=96芯设备单元]").attr("selected", "selected");
+        });
+        $("#slotnum-72").change(function () {
+            $("side option[value=72芯配线单元]").attr("selected", "selected")
         })
     })
 </script>

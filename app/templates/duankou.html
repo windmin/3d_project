@@ -14,56 +14,63 @@
             <select class="form-control" id="jijiahao" name="jijiahao">
                 <option value=""></option>
                 {% for jjh in jijiahao_select %}
-                    <option value="{{ jjh }}">{{ jjh }}</option>
+                    {% if pre_search and jjh == pre_search['jijiahao'] %}
+                        <option value="{{ jjh }}" selected>{{ jjh }}</option>
+                    {% else %}
+                        <option value="{{ jjh }}">{{ jjh }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="side">单元类型</label>
-            <select class="form-control" id="side" name="side">#}
-                <option value =""></option>
-                <option value ="96芯设备单元">96芯设备单元</option>
-                <option value ="72芯配线单元">72芯配线单元</option>
+            <select class="form-control" id="side" name="side">
+                {% if pre_search and pre_search['side'] == '96芯设备单元' %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元" selected>96芯设备单元</option>
+                    <option value ="72芯配线单元">72芯配线单元</option>
+                {% elif pre_search and pre_search['side'] == '72芯配线单元' %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元">96芯设备单元</option>
+                    <option value ="72芯配线单元" selected>72芯配线单元</option>
+                {% else %}
+                    <option value ="">全部单元类型</option>
+                    <option value ="96芯设备单元">96芯设备单元</option>
+                    <option value ="72芯配线单元">72芯配线单元</option>
+                {% endif %}
             </select>
         </div>
         <div class="form-group">
             <select class="form-control" id="slotnum-96" name="slotnum-96">
                 <option value=""></option>
-                <option value="1">H1</option>
-                <option value="2">H2</option>
-                <option value="3">H3</option>
-                <option value="4">H4</option>
-                <option value="5">H5</option>
-                <option value="6">H6</option>
-                <option value="7">H7</option>
-                <option value="8">H8</option>
-                <option value="9">H9</option>
+                {% for i in range(1,10) %}
+                    {% if pre_search and i == pre_search['slotnum']|int %}
+                        <option value="{{ i }}" selected>H{{ i }}</option>
+                    {% else %}
+                        <option value="{{ i }}">H{{ i }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
             <select class="form-control" id="slotnum-72" name="slotnum-72">
                 <option value=""></option>
-                <option value="1">L12</option>
-                <option value="2">L11</option>
-                <option value="3">L10</option>
-                <option value="4">L9</option>
-                <option value="5">L8</option>
-                <option value="6">L7</option>
-                <option value="7">L6</option>
-                <option value="8">L5</option>
-                <option value="9">L4</option>
-                <option value="9">L3</option>
-                <option value="9">L2</option>
-                <option value="9">L1</option>
+                {% for i in range(1,13) %}
+                    {% if pre_search and i == pre_search['slotnum']|int %}
+                        <option value="{{ i }}" selected>L{{ 13 - i }}</option>
+                    {% else %}
+                        <option value="{{ i }}">L{{ 13 - i }}</option>
+                    {% endif %}
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
             <label for="status">端口状态</label>
             <select class="form-control" id="status" name="status">
-                {% if side == '在用' %}
+                {% if status == '在用' %}
                     <option value ="在用" selected>在用</option>
                 {% else %}
                     <option value ="在用">在用</option>
                 {% endif %}
-                {% if side == '未用' %}
+                {% if status == '未用' %}
                     <option value ="未用" selected>未用</option>
                 {% else %}
                     <option value ="未用">未用</option>
@@ -112,7 +119,7 @@
                         <tbody>
                             {% for rowcol in rowcols %}
                                 <tr>
-                                    <td>{{ jijiahao }}号机架</td>
+                                    <td>{{ jijiahao }}</td>
                                     <td>{{ side }}</td>
                                     {% if side == '72芯配线单元' %}
                                         <td>L{{ slotnum | peixian_danyuan }}</td>
@@ -208,8 +215,18 @@
 {{ super() }}
 <script>
     $(document).ready(function () {
-        $("#slotnum-96").show();
-        $("#slotnum-72").hide();
+        if ($("#side").val() == '96芯设备单元'){
+            $("#slotnum-96").show();
+            $("#slotnum-72").hide();
+        }
+        else if ($("#side").val() == '72芯配线单元'){
+            $("#slotnum-96").hide();
+            $("#slotnum-72").show();
+        }
+        else {
+            $("#slotnum-96").show();
+            $("#slotnum-72").hide();
+        }
         $("#side").change(function () {
             if($("#side").val() == '96芯设备单元'){
                 $("#slotnum-96").show();
@@ -219,6 +236,12 @@
                 $("#slotnum-96").hide();
                 $("#slotnum-72").show();
             }
+        });
+        $("#slotnum-96").change(function () {
+            $("#side option[value=96芯设备单元]").attr("selected", "selected");
+        });
+        $("#slotnum-72").change(function () {
+            $("side option[value=72芯配线单元]").attr("selected", "selected")
         })
     })
 </script>

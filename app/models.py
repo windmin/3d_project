@@ -183,7 +183,8 @@ class DuankouTable(db.Model):
     updated_time = db.Column(db.DateTime, default=datetime.now())
     username = db.Column(db.String(64))
     confirm = db.Column(db.Boolean, default=False)
-    remark = db.Column(db.String(128))  # 备注
+    remark = db.Column(db.String(256), default='')  # 备注
+    line_description = db.Column(db.Text, default='')  # 线路说明
 
     def __repr__(self):
         return '<端口 %r>' % self.id

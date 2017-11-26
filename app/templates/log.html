@@ -40,9 +40,9 @@
 {#                                    {% if duankouTables %}#}
 {#                                        <td>{{ duankouTables.index(duankouTable)+1 }}</td>#}
 {#                                    {% endif %}#}
-                                    <td>{{ LogTable.updated_time | format_time_seconds }}</td>
                                     <td>{{ LogTable.user.username }}</td>
                                     <td>{{ LogTable.user.email }}</td>
+                                    <td>{{ LogTable.updated_time | format_time_seconds }}</td>
                                     <td>{{ LogTable.type }}</td>
                                     <td>{{ LogTable.content }}</td>
                                     <td>
