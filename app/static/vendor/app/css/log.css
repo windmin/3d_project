@@ -13,3 +13,7 @@ footer.text-center {
     background-color: #F6F6F6;
     margin-top: 50px;
 }
+
+div.search {
+    margin-bottom: 20px;
+}

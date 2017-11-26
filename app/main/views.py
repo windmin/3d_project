@@ -960,6 +960,36 @@ def log():
     LogTables = pagination.items
     company = CompanyTable.query.first()
 
+    if request.method == 'POST':
+        updated_time = request.form.get('updated_time')
+        username = request.form.get('username')
+
+        # 计算时间
+        if updated_time:
+            if not re.match(r'[0-9]{4}-[0-9]{2}-[0-9]{2}', updated_time):
+                flash('输入的时间格式有误，请按此格式输入「XXXX-XX-XX」')
+                return redirect(url_for('main.log'))
+            else:
+                # updated_time = datetime.strptime(updated_time, "%Y-%m-%d").date()
+                updated_time_list = [result.updated_time for result in DuankouTable.query.filter(
+                    DuankouTable.updated_time.like('%' + updated_time + '%')).all()]
+                # print(updated_time.date())
+        else:
+            updated_time_list = [result.updated_time for result in DuankouTable.query.all()]
+        # print(updated_time_list)
+        # 计算时间 - END
+
+        # username
+        if username:
+            username_list = [result.id for result in
+                             User.query.filter(User.username.like('%' + username + '%')).all()]
+        else:
+            username_list = [result.id for result in User.query.all()]
+            # print('username_list:', username_list)
+
+        pagination = Log.query.filter_by(id='NONE').paginate(page, per_page=20, error_out=False)
+        LogTables = Log.query.filter(Log.updated_time.in_(updated_time_list),
+                                     Log.user_id.in_(username_list)).order_by(Log.updated_time.desc()).all()
     return render_template('log.html', LogTables=LogTables, pagination=pagination, company=company)
 
 
