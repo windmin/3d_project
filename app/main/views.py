@@ -565,6 +565,7 @@ def save(shebei_dict2, line):
         qidian.jieru_slotnum = jieru_slotnum
         qidian.jieru_row = jieru_row
         qidian.jieru_col = jieru_col
+        qidian.updated_time = datetime.now()
         db.session.add(qidian)
 
         # db.session.add(DuankouTable(jiechu_jijia=jieru_jijia,
