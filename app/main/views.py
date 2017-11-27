@@ -452,148 +452,65 @@ def save(shebei_dict2, line):
                                            jiechu_row=jiechu_row,
                                            jiechu_col=jiechu_col).first()
 
-    mubiao = DuankouTable.query.filter_by(jiechu_jijia=jieru_jijia,
-                                           jiechu_side=jieru_side,
-                                           jiechu_slotnum=jieru_slotnum,
-                                           jiechu_row=jieru_row,
-                                           jiechu_col=jieru_col).first()
+    # mubiao = DuankouTable.query.filter_by(jiechu_jijia=jieru_jijia,
+    #                                        jiechu_side=jieru_side,
+    #                                        jiechu_slotnum=jieru_slotnum,
+    #                                        jiechu_row=jieru_row,
+    #                                        jiechu_col=jieru_col).first()
+
+    mubiao2 = DuankouTable.query.filter_by(jieru_jijia=jieru_jijia,
+                                          jieru_side=jieru_side,
+                                          jieru_slotnum=jieru_slotnum,
+                                          jieru_row=jieru_row,
+                                          jieru_col=jieru_col).first()
 
     if not qidian:
-        # if mubiao:
-        #     # 删除目标(2个)
-        #     mubiao_jieru = DuankouTable.query.filter_by(jiechu_jijia=mubiao.jieru_jijia,
-        #                                                 jiechu_side=mubiao.jieru_side,
-        #                                                 jiechu_slotnum=mubiao.jieru_slotnum,
-        #                                                 jiechu_row=mubiao.jieru_row,
-        #                                                 jiechu_col=mubiao.jieru_col).first()
-        #     db.session.delete(mubiao)
-        #     db.session.delete(mubiao_jieru)
+        if mubiao2:
+            flash(jieru_jijia+jieru_side+jieru_slotname+'端口('+format_duankou(jieru_side,jieru_row,jieru_col)+')已被占用，请先到「跳纤管理」界面删除原有记录再新增。')
 
-            # 删除日志
-            # db.session.add(Log(updated_time=updated_time,
-            #                    type='删除跳纤',
-            #                    content='删除从' + mubiao.jieru_jijia + mubiao.jieru_side + format_slotnum(mubiao.jieru_side, mubiao.jieru_slotnum) + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）' +\
-            #                             '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
-            #                    user_id=current_user.id))
-            # # db.session.add(Log(updated_time=updated_time,
-            # #                    type='删除跳纤',
-            # #                    content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + str(mubiao.jieru_slotnum) + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）',
-            # #                    user_id=current_user.id))
+        elif not mubiao2:
+            # 新增跳纤
+            db.session.add(DuankouTable(jiechu_jijia=jiechu_jijia,
+                                        jiechu_side=jiechu_side,
+                                        jiechu_slotnum=jiechu_slotnum,
+                                        jiechu_row=jiechu_row,
+                                        jiechu_col=jiechu_col,
+                                        jieru_jijia=jieru_jijia,
+                                        jieru_side=jieru_side,
+                                        jieru_slotnum=jieru_slotnum,
+                                        jieru_row=jieru_row,
+                                        jieru_col=jieru_col,
+                                        line=line,
+                                        updated_time=updated_time,
+                                        username=current_user.username))
 
-        # 新增跳纤
-        db.session.add(DuankouTable(jiechu_jijia=jiechu_jijia,
-                                    jiechu_side=jiechu_side,
-                                    jiechu_slotnum=jiechu_slotnum,
-                                    jiechu_row=jiechu_row,
-                                    jiechu_col=jiechu_col,
-                                    jieru_jijia=jieru_jijia,
-                                    jieru_side=jieru_side,
-                                    jieru_slotnum=jieru_slotnum,
-                                    jieru_row=jieru_row,
-                                    jieru_col=jieru_col,
-                                    line=line,
-                                    updated_time=updated_time,
-                                    username=current_user.username))
-        # db.session.add(DuankouTable(jiechu_jijia=jieru_jijia,
-        #                             jiechu_side=jieru_side,
-        #                             jiechu_slotnum=jieru_slotnum,
-        #                             jiechu_row=jieru_row,
-        #                             jiechu_col=jieru_col,
-        #                             jieru_jijia=jiechu_jijia,
-        #                             jieru_side=jiechu_side,
-        #                             jieru_slotnum=jiechu_slotnum,
-        #                             jieru_row=jiechu_row,
-        #                             jieru_col=jiechu_col,
-        #                             line=line,
-        #                             updated_time=updated_time,
-        #                             username=current_user.username))
-
-        db.session.add(Log(updated_time=updated_time,
-                           type='新增跳纤',
-                           content='新增从' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）' + \
-                                   '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
-                           user_id=current_user.id))
-        # db.session.add(Log(updated_time=updated_time,
-        #                    type='新增跳纤',
-        #                    content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）' + \
-        #                            '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）',
-        #                    user_id=current_user.id))
-        db.session.commit()
+            db.session.add(Log(updated_time=updated_time,
+                               type='新增跳纤',
+                               content='新增从' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）' + \
+                                       '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
+                               user_id=current_user.id))
+            db.session.commit()
 
 
     elif qidian:
-        # 删除元目标
-        # original_mubiao = DuankouTable.query.filter_by(jiechu_jijia=qidian.jieru_jijia,
-        #                                                jiechu_side=qidian.jieru_side,
-        #                                                jiechu_slotnum=qidian.jieru_slotnum,
-        #                                                jiechu_row=qidian.jieru_row,
-        #                                                jiechu_col=qidian.jieru_col).first()
+        flash(jiechu_jijia + jiechu_side + jiechu_slotname + '端口(' + format_duankou(jiechu_side, jiechu_row,jiechu_col) + ')已被占用，请先到「跳纤管理」界面删除原有记录再新增。')
+        # # 更新跳纤
+        # qidian.jieru_jijia = jieru_jijia
+        # qidian.jieru_side = jieru_side
+        # qidian.jieru_slotnum = jieru_slotnum
+        # qidian.jieru_row = jieru_row
+        # qidian.jieru_col = jieru_col
+        # qidian.updated_time = datetime.now()
+        # db.session.add(qidian)
         #
-        # db.session.delete(original_mubiao)
-
-        # 删除日志
-        # db.session.add(Log(updated_time=updated_time,
-        #                    type='删除跳纤',
-        #                    content='删除从' + qidian.jiechu_jijia + qidian.jiechu_side + format_slotnum(qidian.jiechu_side, qidian.jiechu_slotnum) + '端口（' + format_duankou(qidian.jiechu_side, qidian.jiechu_row, qidian.jiechu_col) + '）' +\
-        #                             '到'+ qidian.jieru_jijia + qidian.jieru_side + format_slotnum(qidian.jieru_side, qidian.jieru_slotnum) + '端口（' + format_duankou(qidian.jieru_side, qidian.jieru_row, qidian.jieru_col) + '）',
-        #                    user_id=current_user.id))
-        # 目标有连接
-        # if mubiao:
-        #     # 删除目标(2个)
-        #     mubiao_jieru = DuankouTable.query.filter_by(jiechu_jijia=mubiao.jieru_jijia,
-        #                                                 jiechu_side=mubiao.jieru_side,
-        #                                                 jiechu_slotnum=mubiao.jieru_slotnum,
-        #                                                 jiechu_row=mubiao.jieru_row,
-        #                                                 jiechu_col=mubiao.jieru_col).first()
-        #     db.session.delete(mubiao)
-        #     db.session.delete(mubiao_jieru)
-
-            # 删除日志
-            # db.session.add(Log(updated_time=updated_time,
-            #                    type='删除跳纤',
-            #                    content='删除从' + mubiao.jieru_jijia + mubiao.jieru_side + format_slotnum(mubiao.jieru_side, mubiao.jieru_slotnum) + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）' +\
-            #                             '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）',
-            #                    user_id=current_user.id))
-            # # db.session.add(Log(updated_time=updated_time,
-            # #                    type='删除跳纤',
-            # #                    content='删除' + mubiao.jieru_jijia + mubiao.jieru_side + mubiao.jieru_slotnum + '端口（' + format_duankou(mubiao.jieru_side, mubiao.jieru_row, mubiao.jieru_col) + '）',
-            # #                    user_id=current_user.id))
-
-        # 更新跳纤
-        qidian.jieru_jijia = jieru_jijia
-        qidian.jieru_side = jieru_side
-        qidian.jieru_slotnum = jieru_slotnum
-        qidian.jieru_row = jieru_row
-        qidian.jieru_col = jieru_col
-        qidian.updated_time = datetime.now()
-        db.session.add(qidian)
-
-        # db.session.add(DuankouTable(jiechu_jijia=jieru_jijia,
-        #                             jiechu_side=jieru_side,
-        #                             jiechu_slotnum=jieru_slotnum,
-        #                             jiechu_row=jieru_row,
-        #                             jiechu_col=jieru_col,
-        #                             jieru_jijia=jiechu_jijia,
-        #                             jieru_side=jiechu_side,
-        #                             jieru_slotnum=jiechu_slotnum,
-        #                             jieru_row=jiechu_row,
-        #                             jieru_col=jiechu_col,
-        #                             line=line,
-        #                             updated_time=updated_time,
-        #                             username=current_user.username))
-
-        # 写入日志
-        db.session.add(Log(updated_time=updated_time,
-                           type='新增跳纤',
-                           content='新增从'+jiechu_jijia+jiechu_side+jiechu_slotname+'端口（'+format_duankou(jiechu_side, jiechu_row, jiechu_col)+'）' + \
-                                   '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side,jieru_row,jieru_col) + '）',
-                           user_id=current_user.id))
+        #
+        # # 写入日志
         # db.session.add(Log(updated_time=updated_time,
         #                    type='新增跳纤',
-        #                    content='新增从' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side, jieru_row, jieru_col) + '）' + \
-        #                            '到' + jiechu_jijia + jiechu_side + jiechu_slotname + '端口（' + format_duankou(jiechu_side, jiechu_row, jiechu_col) + '）',
+        #                    content='新增从'+jiechu_jijia+jiechu_side+jiechu_slotname+'端口（'+format_duankou(jiechu_side, jiechu_row, jiechu_col)+'）' + \
+        #                            '到' + jieru_jijia + jieru_side + jieru_slotname + '端口（' + format_duankou(jieru_side,jieru_row,jieru_col) + '）',
         #                    user_id=current_user.id))
-        db.session.commit()
+        # db.session.commit()
 
     return redirect(url_for('main.index'))
 
@@ -691,7 +608,7 @@ def duankou():
                             slotnum_72.remove(rowcol)
                     rowcols = slotnum_72
 
-                print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
+                # print('jijiahao:', jijiahao, 'slotnum:', slotnum, 'side:', side, 'status:', status)
     return render_template('duankou.html', duankouTables=duankouTables, pagination=pagination, company=company,
                            jijiahao=jijiahao, side=side, slotnum=slotnum, rowcols=rowcols, status=status,
                            jijiahao_select=jijiahao_select, pre_search=pre_search)
