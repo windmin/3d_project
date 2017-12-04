@@ -1,4 +1,4 @@
-import math
+import math, re
 
 # 网线长度 1m=100cm 1cm=10mm
 # CABLE_LENGTH = [3000, 5000, 6000, 8000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000] #mm
@@ -693,6 +693,9 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     to_slot_cols = jierushebei_slot_cols
     from_name = jiechushebei
     to_name = jierushebei
+    right_to_left = 0
+    if re.findall('\d+', from_name)[0] < re.findall('\d+', to_name)[0]:
+        right_to_left = 1
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先往下走到小线环
@@ -783,15 +786,19 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     # distance_step_4_1 = wheel_bottom[0] + WHEEL - (BIGLINE2_DISTANCE[to_point[0]] + LINE)
     # 大线环2到水平走线槽边缘42mm，经过几个走线槽到to_point大线环1
     distance_step_4_2 = (shebei_count - 1) * 748 + 42
+    if right_to_left:
+        distance_step_4_2 = (shebei_count - 1) * 748 + 200  # 42
     distance_step_4 = distance_step_4_1 + distance_step_4_2
 
     log4 = '进入' + from_name + '96芯设备单元H' + to_point[0] + '的大线环2。'
     log4_1 = '从' + from_name + '96芯设备单元H' + to_point[0] + '的大线环2出来后，沿水平走线槽经过' + str(shebei_count - 1) + '个机架。'
-    log4_2 = '到' + to_name + '96芯设备单元H' + to_point[0] + '的大线环1。'
+    log4_2 = '到' + to_name + '96芯设备单元H' + to_point[0] + '的中线环。'
 
     # pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0]) + 1 - 1) * 215)  # wheel_above
     # # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0])+1-1) * 215)  # wheel_bottom
     pic_step8_1 = (750, 535 + (int(to_point[0]) - 1) * 320)  # 2正-大线环2
+    if right_to_left:
+        pic_step8_1 = (750+930, 535 + (int(to_point[0]) - 1) * 320)  # 2正-大线环2
     # pic_step14 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0]) + 1 - 1) * 215)  #
     #
     pic_step8 = (235, 570+(int(to_point[0])-1)*320)  # 侧-大线环2
@@ -803,7 +810,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
         distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 140
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
 
-    log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的大线环1出来后，往左进入'+to_name+'设备单元'+to_point[0]+'的中线环，并将线嵌入邻近的8位小线环中。'
+    log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的中线环出来后，往左进入'+to_name+'设备单元'+to_point[0]+'的中线环，并将线嵌入邻近的8位小线环中。'
     pic_step9 = (230+(int(to_point[2])-1)*18, 315+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
     pic_step10 = (pic_step9[0], pic_step9[1]+35*(5-int(to_point[1])))
     pic_step11 = (pic_step10[0]+distance_step_6-140,pic_step10[1])
@@ -819,7 +826,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     log6 = '最后往上将线插入'+to_name+'96芯设备单元H'+to_point[0]+'端口('+format_radio_96(to_point[1],to_point[2])+')中。'
 
     if int(from_point[0]) > int(to_point[0]):
-        increase = 500
+        increase = 450
     else:
         increase = 180
     used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7+increase
@@ -910,7 +917,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
     print(step_list)
     print(log_list)
     print('used_distance:', used_distance)
-    return step_list, log_list, json_list, int(cable_list[0] / 1000)
+    return step_list, log_list, json_list, int(cable_list[0] / 1000), right_to_left
 
 
 # 计算不同设备、同side、背面，跳纤方式
@@ -922,6 +929,9 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     to_point = jierushebei_radio
     from_name = jiechushebei
     to_name = jierushebei
+    right_to_left = 0
+    if re.findall('\d+', from_name)[0] < re.findall('\d+', to_name)[0]:
+        right_to_left = 1
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
@@ -1038,6 +1048,8 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
         distance_step_4_4 = distance_step_4_4 + distance_sqrt(200, (wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
     # 大线环2到水平走线槽边缘42mm，经过几个走线槽到from_point大线环2
     distance_step_4_3 = (shebei_count - 1) * 748 + 42
+    if right_to_left:
+        distance_step_4_3 = (shebei_count - 1) * 748 + 200
     # 大线环2到to_point组合线环上方挂纤轮
 
 
@@ -1238,7 +1250,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     print(step_list)
     print(log_list)
     print('used_distance:', used_distance)
-    return step_list, log_list, json_list, int(cable_list[0] / 1000)
+    return step_list, log_list, json_list, int(cable_list[0] / 1000), right_to_left
 
 
 # 计算同一设备、不同side、背面-正面，跳纤方式
@@ -1481,6 +1493,9 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     to_slot_cols = jierushebei_slot_cols
     from_name = jiechushebei
     to_name = jierushebei
+    right_to_left = 0
+    if re.findall('\d+', from_name)[0] < re.findall('\d+', to_name)[0]:
+        right_to_left = 1
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先从第几排托盘往左出来
@@ -1584,6 +1599,8 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     # distance_step_4_2 = wheel_above[0]+WHEEL - (BIGLINE2_DISTANCE[to_point[0]]+LINE)
     # 大线环2到水平走线槽边缘42mm，经过几个走线槽到from_point大线环2
     distance_step_4_3 = (shebei_count-1) * 748 + 42
+    if right_to_left:
+        distance_step_4_3 = (shebei_count - 1) * 748 + 200
     # 大线环2到机架2高挂纤轮
     # distance_step_4_4 = wheel_above[0]+WHEEL - (BIGLINE2_DISTANCE[to_point[0]]+LINE)
     distance_step_4_4 = 0
@@ -1595,11 +1612,13 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     # log[6] 三
     log6 = '从'+from_name+'96芯设备单元H'+to_point[0]+'的大线环2出来后，沿水平走线槽经过'+str(shebei_count-1)+'个机架。'
     # log[7] 三
-    log7 = '到'+to_name+'96芯设备单元H'+to_point[0]+'的大线环1。'
+    log7 = '到'+to_name+'96芯设备单元H'+to_point[0]+'的中线环。'
     log8 = ''
     pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above 水平走线钱
     # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0])+1-1) * 215)  # wheel_bottom
     pic_step8_1 = (750, 535 + (int(to_point[0])-1) * 320)  # 2正-大线环2
+    if right_to_left:
+        pic_step8_1 = (750+930, 535 + (int(to_point[0]) - 1) * 320)  # 2正-大线环2
     # pic_step14 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0]) + 1 - 1) * 215)  # wheel_above1
 
     json4 ='挂纤轮-'+str(WHEEL_DISTANCE.index(wheel_above[0])+1)
@@ -1624,7 +1643,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     else:
         distance_step_7 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 140
     # log[10] 五
-    log10 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的大线环1出来后，往左进入' + to_name + '设备单元' + to_point[0] + '的中线环，并将线嵌入邻近的小线环中。'
+    log10 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的中线环出来后，往左进入' + to_name + '设备单元' + to_point[0] + '的中线环，并将线嵌入邻近的小线环中。'
     pic_step9 = (230 + (int(to_point[2]) - 1) * 18, 315 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
     pic_step10 = (pic_step9[0], pic_step9[1] + 35 * (5 - int(to_point[1])))
     pic_step11 = (pic_step10[0] + distance_step_7 - 140, pic_step10[1])
@@ -1641,6 +1660,10 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
 
     if int(from_point[0]) == 2 and int(to_point[0]) == 6:
         increase = 400
+    elif int(from_point[0]) == 3 and int(to_point[0]) == 4:
+        increase = 525
+    elif int(from_point[0]) == 6 and int(to_point[0]) == 5:
+        increase = 100
     else:
         increase = 0
     used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
@@ -1723,7 +1746,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     print(step_list)
     print(log_list)
     print('used_distance:', used_distance)
-    return step_list, log_list, json_list, int(cable_list[0] / 1000)
+    return step_list, log_list, json_list, int(cable_list[0] / 1000), right_to_left
 
 
 # 计算同一设备、不同side、正面-背面，跳纤方式
