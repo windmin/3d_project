@@ -810,7 +810,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
         distance_step_6 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 140
     print('6. 往左进入slot的中线环，进入该端口邻近的8位小线环:' + str(distance_step_6))
 
-    log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的中线环出来后，往左进入'+to_name+'设备单元'+to_point[0]+'的中线环，并将线嵌入邻近的8位小线环中。'
+    log5 = '从'+to_name+'的96芯设备单元H'+to_point[0]+'的中线环出来后，将线嵌入邻近的8位小线环中。'
     pic_step9 = (230+(int(to_point[2])-1)*18, 315+(int(to_point[0])-1)*320+(int(to_point[1])-1)*35)
     pic_step10 = (pic_step9[0], pic_step9[1]+35*(5-int(to_point[1])))
     pic_step11 = (pic_step10[0]+distance_step_6-140,pic_step10[1])
@@ -1643,7 +1643,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
     else:
         distance_step_7 = (len(to_slot_cols) - int(to_point[2])) * 18 + 26 + 140
     # log[10] 五
-    log10 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的中线环出来后，往左进入' + to_name + '设备单元' + to_point[0] + '的中线环，并将线嵌入邻近的小线环中。'
+    log10 = '从' + to_name + '的96芯设备单元H' + to_point[0] + '的中线环出来后，将线嵌入邻近的小线环中。'
     pic_step9 = (230 + (int(to_point[2]) - 1) * 18, 315 + (int(to_point[0]) - 1) * 320 + (int(to_point[1]) - 1) * 35)
     pic_step10 = (pic_step9[0], pic_step9[1] + 35 * (5 - int(to_point[1])))
     pic_step11 = (pic_step10[0] + distance_step_7 - 140, pic_step10[1])
