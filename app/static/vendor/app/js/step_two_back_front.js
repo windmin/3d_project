@@ -192,12 +192,12 @@ function draw() {
             ctx3.fillText(to_name, 370, 70);
             ctx3.beginPath();
             if (right_to_left == 0){
-                ctx3.moveTo(Number(step8_1_x)-125,step10_y);
-                ctx3.fillText("8", Number(step8_1_x)-100, step10_y);
-                ctx3.lineTo(Number(step10_x)+20,step10_y);
-                ctx3.arc(Number(step10_x)+20,Number(step10_y)-25,25,0.5*Math.PI,Math.PI,false);
-                ctx3.lineTo(Number(step9_x)-5,step9_y);
-                ctx3.fillText("9", Number(step9_x)-5+20, Number(step9_y)+20);
+                ctx3.moveTo(680,step10_y);
+                ctx3.fillText("8", 680, Number(step8_1_y)-30);
+                ctx3.lineTo(Number(step10_x)+18,step10_y);
+                ctx3.arc(Number(step10_x)+18,Number(step10_y)-25,25,0.5*Math.PI,Math.PI,false);
+                ctx3.lineTo(Number(step9_x)-7,step9_y);
+                ctx3.fillText("9", Number(step9_x)-7+20, Number(step9_y)+20);
             }
             else if (right_to_left == 1){
                 ctx3.moveTo(680,step10_y);
