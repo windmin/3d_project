@@ -1971,6 +1971,9 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     to_slot_cols = jierushebei_slot_cols
     from_name = jiechushebei
     to_name = jierushebei
+    right_to_left = 0
+    if re.findall('\d+', from_name)[0] < re.findall('\d+', to_name)[0]:
+        right_to_left = 1
     print('from_point'+str(from_point))
     print('to_point'+str(to_point))
     # 1. 先往下走到小线环
@@ -1979,6 +1982,8 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     # log[0]
     log1 = '先从'+from_name+'的96芯设备单元H'+from_point[0]+'端口('+format_radio_96(from_point[1],from_point[2])+')'+'出来往下经过下方邻近的8位小线环。'
     pic_step1 = (230+(int(from_point[2])-1)*18, 315+(int(from_point[0])-1)*320+(int(from_point[1])-1)*35)
+    if right_to_left:
+        pic_step1 = (230 + 930 + (int(from_point[2]) - 1) * 18, 315 + (int(from_point[0]) - 1) * 320 + (int(from_point[1]) - 1) * 35)
     pic_step2 = (pic_step1[0], pic_step1[1]+35*(5-int(from_point[1])))
 
     json1 = from_point[0]+'('+from_point[1]+','+from_point[2]+')'
@@ -2175,4 +2180,4 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
     print(step_list)
     print(log_list)
     print('used_distance:', used_distance)
-    return step_list, log_list, json_list, int(cable_list[0] / 1000)
+    return step_list, log_list, json_list, int(cable_list[0] / 1000), right_to_left

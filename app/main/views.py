@@ -395,7 +395,7 @@ def step(shebei_dict):
             return render_template('step_two_back_front.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
                                    line=line, jieru_duankou=jieru_duankou, color=color, right_to_left=right_to_left)
         elif shebei_dict['jiechushebei_side'] == '96芯设备单元' and shebei_dict['jierushebei_side'] == '72芯配线单元':
-            step_list, log_list, session['json_list'], line = calculate_two_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
+            step_list, log_list, session['json_list'], line, right_to_left = calculate_two_front_back(shebei_dict['jiechushebei_radio'],shebei_dict['jierushebei_radio'], \
                                           shebei_dict['jiechushebei_slot_rows'],shebei_dict['jiechushebei_slot_cols'],\
                                           shebei_dict['jierushebei_slot_rows'],shebei_dict['jierushebei_slot_cols'],\
                                           shebei_dict['jiechushebei'],shebei_dict['jierushebei'],\
@@ -406,7 +406,7 @@ def step(shebei_dict):
             if result_line:
                 color = result_line.line_color
             return render_template('step_two_front_back.html', shebei_dict=shebei_dict2, step_list=step_list, log_list=log_list, \
-                                   line=line, jiechu_duankou=jiechu_duankou, color=color)
+                                   line=line, jiechu_duankou=jiechu_duankou, color=color, right_to_left=right_to_left)
     # return render_template('step.html',shebei_dict=shebei_dict2,step_list=step_list,log_list=log_list)
 
 

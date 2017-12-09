@@ -40,6 +40,7 @@ function draw() {
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
     var color = $("#color").val();
+    var right_to_left = $("#right_to_left").val();
 //    alert(step1_y);
 
 //    第一步
@@ -54,20 +55,39 @@ function draw() {
             ctx.drawImage(img,0,0);
             ctx.font = "54px serif";
             ctx.fillStyle = 'red';
-            ctx.fillText(from_name, 370, 60);
-            ctx.fillText(to_name, 1200, 60);
-            ctx.beginPath();
-            ctx.moveTo(step1_x,step1_y);
-            ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
-            ctx.lineTo(step2_x,Number(step2_y)-25);
-            ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
-            ctx.lineTo(Number(step4_x)-70-25,step3_y);
-            ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
-            ctx.lineTo(Number(step4_x)-70,Number(step4_y)-25);
-            ctx.arc(Number(step4_x)-70+25,Number(step4_y)-25,25,Math.PI,0.5*Math.PI,true);
-            ctx.lineTo(Number(step4_x)+930-25, step4_y);
-            ctx.arc(Number(step4_x)+930-25,Number(step4_y)-25,25,0.5*Math.PI,0,true);
-            ctx.fillText("2", Number(step4_x)+930+20, Number(step4_y)+20);
+            if (right_to_left == 0) {
+                ctx.fillText(from_name, 370, 60);
+                ctx.fillText(to_name, 1200, 60);
+                ctx.beginPath();
+                ctx.moveTo(step1_x,step1_y);
+                ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
+                ctx.lineTo(step2_x,Number(step2_y)-25);
+                ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)-70-25,step3_y);
+                ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+                ctx.lineTo(Number(step4_x)-70,Number(step4_y)-25);
+                ctx.arc(Number(step4_x)-70+25,Number(step4_y)-25,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)+930-25, step4_y);
+                ctx.arc(Number(step4_x)+930-25,Number(step4_y)-25,25,0.5*Math.PI,0,true);
+                ctx.fillText("2", Number(step4_x)+930+20, Number(step4_y)+20);
+            }
+            else if (right_to_left == 1) {
+                ctx.fillText(to_name, 370, 60);
+                ctx.fillText(from_name, 1200, 60);
+                ctx.beginPath();
+                ctx.moveTo(step1_x,step1_y);
+                ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
+                ctx.lineTo(step2_x,Number(step2_y)-25);
+                ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)-70-25,step3_y);
+                ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+                ctx.lineTo(Number(step4_x)-70,Number(step4_y)-50);
+                ctx.arc(Number(step4_x)-70-25,Number(step4_y)-50,25,0,0.5*Math.PI,false);
+                ctx.lineTo(Number(step4_x)-930+25, Number(step4_y)-25);
+                ctx.arc(Number(step4_x)-930+25,Number(step4_y)-50,25,0.5*Math.PI,Math.PI,false);
+                ctx.fillText("2", Number(step4_x)-930, Number(step4_y)-70);
+            }
+
             ctx.strokeStyle = color;
             ctx.lineWidth = 6;
             ctx.stroke();
