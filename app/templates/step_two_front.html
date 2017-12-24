@@ -33,14 +33,22 @@
 {% block page_content %}
 <ol>
 <div class="row">
-    <div class="col-md-8 col-md-offset-3">
+    {% if log_list[5] %}
+        <div class="col-md-8 col-md-offset-3">
+    {% else %}
+        <div class="col-md-11 col-md-offset-1">
+    {% endif %}
         <article>
 {#            <p>第一步</p>#}
             <p><span>接线步骤</span></p>
 {#            <p>{{ log_list[0] }}</p>#}
             <li>{{ log_list[1] }}</li>
             <li>{{ log_list[2] }}</li>
-            <canvas id="canvas1" width="931" height="3298"></canvas>
+            {% if log_list[5] %}
+                <canvas id="canvas1" width="931" height="3298"></canvas>
+            {% else %}
+                <canvas id="canvas1" width="1862" height="3298"></canvas>
+            {% endif %}
             <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
         </article>
     </div>
@@ -59,22 +67,27 @@
 </div>
 
 
-<div class="row" style="position: relative; top: -3200px;">
-    <div class="col-md-8 col-md-offset-1">
-        <article>
-{#            <p>第三步</p>#}
-            <div style="max-width: 100%; padding-left: 25%;">
-                <li>{{ log_list[5] }}</li>
-                <li>{{ log_list[6] }}</li>
-            </div>
-            <canvas id="canvas5" width="1854" height="3296"></canvas>
-            <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
-        </article>
+{% if log_list[5] %}
+    <div class="row" style="position: relative; top: -3200px;">
+        <div class="col-md-8 col-md-offset-1">
+            <article>
+    {#            <p>第三步</p>#}
+                <div style="max-width: 100%; padding-left: 25%;">
+                    <li>{{ log_list[5] }}</li>
+                    <li>{{ log_list[6] }}</li>
+                </div>
+                <canvas id="canvas5" width="1854" height="3296"></canvas>
+                <!--<p>sdfjsadfjsiofjsoaifjsadfiojsaidfojsdaifjsaddfa</p>-->
+            </article>
+        </div>
     </div>
-</div>
+{% endif %}
 
-
-<div class="row" style="position: relative; top: -4800px;">
+{% if log_list[5] %}
+    <div class="row" style="position: relative; top: -4800px;">
+{% else %}
+    <div class="row" style="position: relative; top: -3200px;">
+{% endif %}
     <div class="col-md-8 col-md-offset-3">
         <article>
 {#            <p>第四步</p>#}
@@ -87,8 +100,11 @@
 </div>
 </ol>
 
-
-<div class="row" style="position: relative; top: -4800px;">
+{% if log_list[5] %}
+    <div class="row" style="position: relative; top: -4800px;">
+{% else %}
+    <div class="row" style="position: relative; top: -3200px;">
+{% endif %}
     <div class="col-md-4 col-md-offset-4">
 {#        <button type="button" class="btn btn-default" onclick="{window.history.back(-1);}">< 返回重选</button>#}
 {#        <button type="button" class="btn btn-primary" style="margin-left: 10%; width:30%; background-color: #3d90ff;" onclick="{location.href='/modf'}">3D演示</button>#}
