@@ -1642,9 +1642,14 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
         if int(to_point[0]) == 9:
             pic_step13_1 = (0, 0)
 
+        pic_step6_6 = (0, 0)
+        pic_step7_7 = (0, 0)
+        pic_step7_8 = (0, 0)
+
         log_list = [log0,log1,log2,log3,log4,log5,log6,log7,log8,log9,log10,log11]
         step_list = [pic_step1,pic_step2,pic_step3,pic_step4,pic_step5,pic_step6,pic_step7,pic_step8_1,pic_step8,\
-                     pic_step9,pic_step10,pic_step11,pic_step12,pic_step13, pic_step5_1, pic_step13_1]
+                     pic_step9,pic_step10,pic_step11,pic_step12,pic_step13, pic_step5_1, pic_step13_1, \
+                     pic_step6_6, pic_step7_7, pic_step7_8]
         json_list = [shebei_count, log_list, '1-'+json1, '1-'+json2, '1-'+json3, '1-'+json4, '1-'+json5, json6, str(shebei_count)+'-'+json7, str(shebei_count)+'-'+json8, str(shebei_count)+'-'+json9, str(shebei_count)+'-'+json10, str(shebei_count)+'-'+json11, str(shebei_count)+'-'+json12]
 
     elif not right_to_left:
