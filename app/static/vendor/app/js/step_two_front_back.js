@@ -37,13 +37,23 @@ function draw() {
     var step5_1_y = $("#picStep5_1_y").val();
     var step8_1_x = $("#picStep8_1_x").val();
     var step8_1_y = $("#picStep8_1_y").val();
+    var step7_1_x = $("#picStep7_1_x").val();
+    var step7_1_y = $("#picStep7_1_y").val();
+    var step8_8_x = $("#picStep8_8_x").val();
+    var step8_8_y = $("#picStep8_8_y").val();
+    var step8_9_x = $("#picStep8_9_x").val();
+    var step8_9_y = $("#picStep8_9_y").val();
+    var step13_1_x = $("#picStep13_1_x").val();
+    var step13_1_y = $("#picStep13_1_y").val();
     var from_name = $("#from_name").val();
     var to_name = $("#to_name").val();
     var color = $("#color").val();
     var right_to_left = $("#right_to_left").val();
 //    alert(step1_y);
 
-//    第一步
+
+if (right_to_left == 0){
+    //    第一步
     var canvas1 = document.getElementById("canvas1");
     if (canvas1.getContext) {
         var ctx = canvas1.getContext("2d");
@@ -94,8 +104,69 @@ function draw() {
         };
         img.src = '/static/images/two-front.png'; // 设置图片源地址
     }
+}
+else if (right_to_left == 1){
+    //    第一步
+    var canvas1 = document.getElementById("canvas1");
+    if (canvas1.getContext) {
+        var ctx = canvas1.getContext("2d");
 
-//    第二步
+        var img = new Image();   // 创建一个<img>元素
+        if (right_to_left == 1) {
+            img.onload = function(){
+                // 执行drawImage语句
+                ctx.scale(0.5, 0.5);
+                ctx.drawImage(img,0,0);
+                ctx.font = "54px serif";
+                ctx.fillStyle = 'red';
+                ctx.fillText(from_name, 370, 70);
+                ctx.beginPath();
+                ctx.moveTo(step1_x,step1_y);
+                ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
+                ctx.lineTo(step2_x,Number(step2_y)-25);
+                ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)-25,step3_y);
+                ctx.arc(Number(step4_x)-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+                ctx.lineTo(step4_x,step4_y);
+                ctx.fillText("2", Number(step4_x)+20, Number(step4_y)+20);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 6;
+                ctx.stroke();
+            };
+            img.src = '/static/images/img-front.png'; // 设置图片源地址
+        }
+        else if (right_to_left == 0) {
+            img.onload = function(){
+                ctx.scale(0.5, 0.5);
+                ctx.drawImage(img,0,0);
+                ctx.font = "54px serif";
+                ctx.fillStyle = 'red';
+                ctx.fillText(from_name, 370, 60);
+                ctx.fillText(to_name, 1200, 60);
+                ctx.beginPath();
+                ctx.moveTo(step1_x,step1_y);
+                ctx.fillText("1", Number(step1_x)+20, Number(step1_y)+20);
+                ctx.lineTo(step2_x,Number(step2_y)-25);
+                ctx.arc(Number(step2_x)+25,Number(step2_y)-25,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)-70-25,step3_y);
+                ctx.arc(Number(step4_x)-70-25,Number(step3_y)+25,25,1.5*Math.PI,2*Math.PI,false);
+                ctx.lineTo(Number(step4_x)-70,Number(step4_y)+50);
+                ctx.arc(Number(step4_x)-70+25,Number(step4_y)+50,25,Math.PI,0.5*Math.PI,true);
+                ctx.lineTo(Number(step4_x)+930-25, Number(step4_y)+75);
+                ctx.arc(Number(step4_x)+930-25,Number(step4_y)+50,25,0.5*Math.PI,0,true);
+                ctx.fillText("2", Number(step4_x)+930+20, Number(step4_y)+70);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 6;
+                ctx.stroke();
+            };
+            img.src = '/static/images/two-front.png'; // 设置图片源地址
+        }
+    }
+}
+
+
+if (right_to_left == 0){
+    //    第二步
     var canvas2 = document.getElementById("canvas2");
     if (canvas2.getContext) {
         var ctx2 = canvas2.getContext("2d");
@@ -146,8 +217,100 @@ function draw() {
         };
         img2.src = '/static/images/img-side.png'; // 设置图片源地址
     }
+}
+else if(right_to_left == 1){
+    //    第二步
+    var canvas2 = document.getElementById("canvas2");
+    if (canvas2.getContext) {
+        var ctx2 = canvas2.getContext("2d");
+
+        var img2 = new Image();   // 创建一个<img>元素
+        img2.onload = function(){
+            // 执行drawImage语句
+            ctx2.scale(0.5, 0.5);
+            ctx2.drawImage(img2,0,0);
+            ctx2.font = "54px serif";
+            ctx2.fillStyle = 'red';
+            if (right_to_left == 1) {
+                ctx2.fillText(from_name, 500, 70);
+            }
+            else if (right_to_left == 0) {
+                ctx2.fillText(to_name, 500, 70);
+            }
+            ctx2.beginPath();
+            if (right_to_left == 1) {
+                ctx2.moveTo(step5_x,step5_y);
+                ctx2.fillText("3", Number(step5_x)+80, Number(step5_y)-20);
+                if (step5_1_x == 0){
+                    ctx2.lineTo(500-25,step5_y);
+                    ctx2.arc(500-25,Number(step5_y)-25,25,0.5*Math.PI,0,true);
+                }
+                else{
+                    ctx2.lineTo(330-25,step5_y);
+                    ctx2.arc(330-25,Number(step5_y)+25,25,1.5*Math.PI,0,false);
+                    ctx2.lineTo(330,step5_1_y);
+                    ctx2.arc(330+25,step5_1_y,25,Math.PI,0.5*Math.PI,true);
+                    ctx2.lineTo(500-25,Number(step5_1_y)+25);
+                    ctx2.arc(500-25,step5_1_y,25,0.5*Math.PI,0,true);
+                }
+            }
+            else if (right_to_left == 0) {
+                ctx2.moveTo(Number(step5_x)-10,Number(step5_y)+100);
+                ctx2.fillText("3", Number(step5_x)-10+80, Number(step5_y)-20+100);
+                if (step5_1_x == 0){
+                    ctx2.lineTo(500-25,Number(step5_y)+100);
+                    ctx2.arc(500-25,Number(step5_y)-25+100,25,0.5*Math.PI,0,true);
+                }
+                else{
+                    ctx2.lineTo(330-25,Number(step5_y)+100);
+                    ctx2.arc(330-25,Number(step5_y)+25+100,25,1.5*Math.PI,0,false);
+                    ctx2.lineTo(330,step5_1_y);
+                    ctx2.arc(330+25,step5_1_y,25,Math.PI,0.5*Math.PI,true);
+                    ctx2.lineTo(500-25,Number(step5_1_y)+25);
+                    ctx2.arc(500-25,step5_1_y,25,0.5*Math.PI,0,true);
+                }
+            }
+            ctx2.lineTo(500,step6_y);
+            ctx2.arc(500+25,step6_y,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25,Number(step6_y)-25);
+            ctx2.arc(680-25,Number(step6_y)-25+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx2.lineTo(680,2930);
+            ctx2.arc(680-25,2930,25,0,0.5*Math.PI,false);
+            ctx2.lineTo(500+50,2930+25);
+            ctx2.arc(500+50,2930,25,0.5*Math.PI,Math.PI,false);
+            ctx2.lineTo(500+25,2810+25);
+            ctx2.arc(500+50,2810+25,25,Math.PI,1.5*Math.PI,false);
+            ctx2.lineTo(680-25-25,2810);
+            ctx2.arc(680-25-25,2810-25,25,0.5*Math.PI,0,true);
+            ctx2.lineTo(680-25,Number(step7_y)+25);
+            ctx2.arc(680-25-25,Number(step7_y)+25,25,0,1.5*Math.PI,true);
+            ctx2.lineTo(525+25,step7_y);
+            ctx2.arc(525+25,Number(step7_y)+25,25,1.5*Math.PI,Math.PI,true);
+            if (step7_1_x == 0){
+                ctx2.lineTo(525,Number(step8_8_y)-25);
+                ctx2.arc(525-25,Number(step8_8_y)-25,25,0,0.5*Math.PI,false);
+            }
+            else{
+                ctx2.lineTo(525,Number(step7_1_y)-25);
+                ctx2.arc(525-25,Number(step7_1_y)-25,25,0,0.5*Math.PI,false);
+                ctx2.lineTo(330+25,step7_1_y);
+                ctx2.arc(330+25,Number(step7_1_y)-25,25,0.5*Math.PI,Math.PI,false);
+                ctx2.lineTo(330,Number(step8_8_y)+25);
+                ctx2.arc(330-25,Number(step8_8_y)+25,25,0,1.5*Math.PI,true);
+            }
+            ctx2.lineTo(step8_8_x,step8_8_y);
+            ctx2.fillText("4", Number(step8_8_x), Number(step8_8_y)+50);
+
+            ctx2.strokeStyle = color;
+            ctx2.lineWidth = 6;
+            ctx2.stroke();
+        };
+        img2.src = '/static/images/img-side.png'; // 设置图片源地址
+    }
+}
 
 
+if (right_to_left == 0){
     //    第三步
     var canvas3 = document.getElementById("canvas3");
     if (canvas3.getContext) {
@@ -175,6 +338,122 @@ function draw() {
         };
         img3.src = '/static/images/img-back.png'; // 设置图片源地址
     }
+}
+else if(right_to_left == 1){
+    //    第三步
+    var canvas5 = document.getElementById("canvas5");
+    if (canvas5.getContext) {
+        var ctx5 = canvas5.getContext("2d");
+
+        var img5 = new Image();   // 创建一个<img>元素
+        img5.onload = function(){
+            // 执行drawImage语句
+            ctx5.scale(0.5, 0.5);
+            ctx5.drawImage(img5,0,0);
+            ctx5.font = "54px serif";
+            ctx5.fillStyle = 'red';
+
+            ctx5.fillText(to_name, 370, 60);
+            ctx5.fillText(from_name, 1200, 60);
+            ctx5.beginPath();
+            ctx5.moveTo(step8_9_x,step8_9_y);
+            ctx5.fillText("5", Number(step8_9_x), Number(step8_9_y));
+            ctx5.arc(Number(step8_9_x)-25, step8_9_y, 25, 0, 0.5*Math.PI, false);
+            ctx5.lineTo(Number(step8_9_x)-930, Number(step8_9_y)+25);
+            ctx5.arc(Number(step8_9_x)-930,Number(step8_9_y),25,0.5*Math.PI,Math.PI,false);
+            // ctx5.lineTo(Number(step8_9_x)-930-50,Number(step8_9_y)-55);
+            // ctx5.arc(Number(step8_9_x)-930-75,Number(step8_9_y)-55,25,0,1.5*Math.PI,true);
+            // ctx5.lineTo(650, Number(step8_9_y)-55-25);
+            ctx5.fillText("6", 650, Number(step8_9_y));
+
+            ctx5.strokeStyle = color;
+            ctx5.lineWidth = 6;
+            ctx5.stroke();
+        };
+        img5.src = '/static/images/two-front.png'; // 设置图片源地址
+    }
+
+    //
+    var canvas22 = document.getElementById("canvas22");
+    if (canvas22.getContext) {
+        var ctx22 = canvas22.getContext("2d");
+
+        var img22 = new Image();   // 创建一个<img>元素
+        img22.onload = function(){
+            // 执行drawImage语句
+            ctx22.scale(0.5, 0.5);
+            ctx22.drawImage(img22,0,0);
+            ctx22.font = "54px serif";
+            ctx22.fillStyle = 'red';
+            ctx22.fillText(to_name, 500, 70);
+            ctx22.beginPath();
+            ctx22.moveTo(step8_8_x,step8_8_y);
+            ctx22.fillText("7", Number(step8_8_x)+80, Number(step8_8_y)-20);
+            if (step13_1_x == 0){
+                ctx22.lineTo(500-25,step8_8_y);
+                ctx22.arc(500-25,Number(step8_8_y)-25,25,0.5*Math.PI,0,true);
+            }
+            else{
+                ctx22.lineTo(330-25,step8_8_y);
+                ctx22.arc(330-25,Number(step8_8_y)+25,25,1.5*Math.PI,0,false);
+                ctx22.lineTo(330,step13_1_y);
+                ctx22.arc(330+25,step13_1_y,25,Math.PI,0.5*Math.PI,true);
+                ctx22.lineTo(500-25,Number(step13_1_y)+25);
+                ctx22.arc(500-25,step13_1_y,25,0.5*Math.PI,0,true);
+            }
+
+            ctx22.lineTo(500,step7_y);
+            ctx22.arc(500+25,step7_y,25,Math.PI,1.5*Math.PI,false);
+            ctx22.lineTo(680-25,Number(step7_y)-25);
+            ctx22.arc(680-25,Number(step7_y)-25+25,25,1.5*Math.PI,2*Math.PI,false);
+            ctx22.lineTo(680,Number(step8_1_y)-25);
+            ctx22.arc(680+25,Number(step8_1_y)-25,25,Math.PI,0.5*Math.PI,true);
+            ctx22.lineTo(900-25,step8_1_y);
+            ctx22.arc(900-25,Number(step8_1_y)-25,25,0.5*Math.PI,0,true);
+            ctx22.lineTo(900,Number(step8_y)+25);
+            ctx22.arc(900+25,Number(step8_y)+25,25,Math.PI,1.5*Math.PI,false);
+
+            ctx22.lineTo(step8_x,step8_y);
+            ctx22.fillText("8", Number(step8_x)-200, Number(step8_y)-20);
+            ctx22.lineTo(step9_x,step9_y);
+            ctx22.fillText("9", Number(step9_x)+20, Number(step9_y)+20);
+
+            ctx22.strokeStyle = color;
+            ctx22.lineWidth = 6;
+            ctx22.stroke();
+        };
+        img22.src = '/static/images/img-side.png'; // 设置图片源地址
+    }
+
+
+    //
+    var canvas33 = document.getElementById("canvas33");
+    if (canvas33.getContext) {
+        var ctx33 = canvas33.getContext("2d");
+
+        var img33 = new Image();   // 创建一个<img>元素
+        img33.onload = function(){
+            // 执行drawImage语句
+            ctx33.scale(0.5, 0.5);
+            ctx33.drawImage(img33,0,0);
+            ctx33.font = "54px serif";
+            ctx33.fillStyle = 'red';
+            ctx33.fillText(to_name, 370, 70);
+            ctx33.beginPath();
+            ctx33.moveTo(step10_x,step10_y);
+            ctx33.fillText("10", Number(step10_x)-40, Number(step10_y)+20);
+            ctx33.lineTo(step11_x,Number(step11_y)+25);
+            ctx33.arc(Number(step11_x)+25,Number(step11_y)+25,25,Math.PI,1.5*Math.PI,false);
+            ctx33.lineTo(step12_x,step12_y);
+            ctx33.fillText("11", Number(step12_x)+20, Number(step12_y)+20);
+//            // ctx3.lineTo(step10_x,step10_y);
+            ctx33.strokeStyle = color;
+            ctx33.lineWidth = 6;
+            ctx33.stroke();
+        };
+        img33.src = '/static/images/img-back.png'; // 设置图片源地址
+    }
+}
 
 }
 
