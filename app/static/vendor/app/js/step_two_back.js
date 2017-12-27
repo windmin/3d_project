@@ -70,8 +70,8 @@ function draw() {
             // ctx.moveTo(step2_x, Number(step2_y)+25);
             ctx.lineTo(step3_x,step3_y);
             ctx.fillText("2", Number(step3_x)+20, Number(step3_y)+20);
-            ctx.lineTo(step4_x,step4_y);
-            ctx.fillText("3", Number(step4_x)+20, Number(step4_y)+20);
+            ctx.lineTo(step4_x,Number(step4_y)+30);
+            ctx.fillText("3", Number(step4_x)+20, Number(step4_y)+70);
             // ctx.lineTo(step5_x, step5_y);
 
             ctx.strokeStyle = color;
