@@ -2244,7 +2244,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
             distance_step_4 = distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
             distance_step_4 = distance_step_4 +        distance_sqrt(430, COMBINATION_RING[to_point[0]] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
 
-            log4 = '进入' + to_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(to_point[0]))] + '组合线环的大孔。'
+            log4 = '进入' + to_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(to_point[0]))] + '组合线环。'
             json6 = PEIXIAN_DANYUAN[str(int(to_point[0]))] + '-大孔'
             if int(to_point[0]) <= 4:
                 pic_step8 = (1080, 340 + 160 * (int(to_point[0]) - 1))
@@ -2265,7 +2265,6 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
         elif int(to_point[0]) == 12:
             distance_step_5 = 0
             pic_step9 = (pic_step8[0], pic_step8[1])
-        print('3. 再进入' + to_name + '72芯配线单元' + PEIXIAN_DANYUAN[str(int(to_point[0]))] + '组合线环的小孔。')
 
         log5 = '再进入' + to_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(int(to_point[0]))] + '组合线环的小孔。'
 
@@ -2273,7 +2272,6 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
 
         # 6. 往右进入指定托盘
         distance_step_6 = 34 + 26 * (6 - int(to_point[1])) + 84 + 20.5 * (int(to_point[2]) - 1)
-        print('1. 往右进入' + to_name + '的' + str(to_point[0]) + '号72芯配线单元的(' + str(to_point[1]) + ',' + str(to_point[2]) + ')托盘:' + str(distance_step_6))
 
         log6 = '从' + to_name + '72芯配线单元L' + PEIXIAN_DANYUAN[to_point[0]] + '组合线环的小孔出穿出。'
         log7 = '往右进入' + to_name + '72芯配线单元L' + PEIXIAN_DANYUAN[str(to_point[0])] + '端口(' + str(to_point[1]) + ',' + str(to_point[2]) + ')中。'
