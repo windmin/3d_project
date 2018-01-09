@@ -287,7 +287,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
 
     log6 = '最后往上将线插入'+to_name+'96芯设备单元H'+to_point[0]+'端口('+format_radio_96(to_point[1],to_point[2])+')中。'
 
-    used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7
+    used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7+200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -299,64 +299,7 @@ def calculate_one_front_front(jiechushebei_radio,jierushebei_radio, \
 
 
     # # 调整上下挂纤轮
-    # index_above = ''
-    # index_bottom = ''
-    # if shengyu_xianchang > 456+500:
-    #     if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
-    #         i = 0
-    #         while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0])*2 - 500 > 0:
-    #                 index_above = i
-    #                 break
-    #             else:
-    #                 i += 1
-    #         if index_above != '':
-    #             wheel_above[0] = WHEEL_DISTANCE[index_above]
-    #             print('调整上挂纤轮为：'+str(index_above+1))
-    #
-    #         distance_step_3_1 = distance_sqrt(309, BIGLINE_DISTANCE[from_point[0]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[from_point[0]]) - 1])
-    #         distance_step_3_1 = distance_step_3_1 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[from_point[0]]) - 1]))
-    #         # distance_step_3_1 = wheel_above[0]+WHEEL - (BIGLINE_DISTANCE[from_point[0]]+LINE)
-    #         distance_step_3_2 = wheel_above[0]+WHEEL - WHEEL_DISTANCE[-1]
-    #         distance_step_3 = distance_step_3_1 + distance_step_3_2 + distance_step_3_3
-    #         used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7
-    #         shengyu_xianchang = cable_list[0]-used_distance
-    #         print('剩余线长2：'+ str(shengyu_xianchang))
-    #
-    # if shengyu_xianchang > 456+500:
-    #     if WHEEL_DISTANCE.index(wheel_bottom[0]) != 0:
-    #         i = 0
-    #         while i <= WHEEL_DISTANCE.index(wheel_bottom[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_bottom[0])*2 - 500 > 0:
-    #                 index_bottom = i
-    #                 break
-    #             else:
-    #                 i += 1
-    #         if index_bottom != '':
-    #             wheel_bottom[0] = WHEEL_DISTANCE[index_bottom]
-    #             print('调整下挂纤轮为：'+str(index_bottom+1))
-    #
-    #         distance_step_3_3 = wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[-1]
-    #         distance_step_3 = distance_step_3_1 + distance_step_3_2 + distance_step_3_3
-    #         distance_step_4 = distance_sqrt(309, BIGLINE_DISTANCE[to_point[0]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1])
-    #         distance_step_4 = distance_step_4 + distance_sqrt(200, (wheel_bottom[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1]))
-    #         # distance_step_4 = wheel_bottom[0] + WHEEL - (BIGLINE_DISTANCE[to_point[0]] + LINE)
-    #         used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7
-    #         shengyu_xianchang = cable_list[0]-used_distance
-    #         print('剩余线长3：'+ str(shengyu_xianchang))
-    # log3 = '穿过设备单元H' + from_point[0] + '大线环1后，经过' + from_name + '左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[from_point[0]]) + 1) + '，至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + \
-    #        '。再到最下面的中挂纤轮1' + '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '，至左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[to_point[0]]) + 1)
-    # if int(to_point[0]) == 9 and int(from_point[0]) == 9:
-    #     log3 = '穿过设备单元H' + from_point[0] + '大线环1后，经过' + from_name + '中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + \
-    #            '。再到最下面的中挂纤轮1' + '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '。'
-    # elif int(to_point[0]) == 9:
-    #     log3 = '穿过设备单元H' + from_point[0] + '大线环1后，经过' + from_name + '左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[from_point[0]]) + 1) + '，至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + \
-    #            '。再到最下面的中挂纤轮1' + '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '。'
-    # elif int(from_point[0]) == 9:
-    #     log3 = '穿过设备单元H' + from_point[0] + '大线环1后，经过' + from_name + '中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + \
-    #            '。再到最下面的中挂纤轮1' + '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_bottom[0]) + 1) + '，至左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[to_point[0]]) + 1)
-    # pic_step6 = (590, 230+(WHEEL_DISTANCE.index(wheel_above[0])+1-1)*215) #高于from_point的挂纤轮 step_list[5] pic_step6
-    # pic_step7 = (590, 230+(WHEEL_DISTANCE.index(wheel_bottom[0])+1-1)*215) #高于to_point的挂纤轮 step_list[6] pic_step7
+
     log0 = '此次跳纤计算的长度为' + str(round(used_distance / 1000, 1)) + '米，请选择一根长度为' + \
            str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     # json3 = '挂纤轮-' + str(WHEEL_DISTANCE.index(wheel_above[0]) + 1)
@@ -577,7 +520,7 @@ def calculate_one_back_back(jiechushebei_radio,jierushebei_radio, \
     else:
         increase = 0
     used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                    distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8 + increase
+                    distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8 + increase + 200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -939,7 +882,7 @@ def calculate_two_front_front(jiechushebei_radio,jierushebei_radio, \
         increase = 450
     else:
         increase = 180
-    used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7+increase
+    used_distance = distance_step_1+distance_step_2+distance_step_3+distance_step_4+distance_step_6+distance_step_7+increase+200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -1213,7 +1156,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     json13 = PEIXIAN_DANYUAN[to_point[0]]+'('+to_point[1]+','+to_point[2]+')'
 
     used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                    distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8
+                    distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8 + 200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -1224,47 +1167,7 @@ def calculate_two_back_back(jiechushebei_radio,jierushebei_radio, \
     print('剩余线长：' + str(shengyu_xianchang))
 
     # # 调整上下挂纤轮
-    # index_above = ''
-    # index_bottom = ''
-    # if shengyu_xianchang > 456+500:
-    #     if WHEEL_DISTANCE.index(wheel_above2[0]) != 0:
-    #         i = 0
-    #         while i <= WHEEL_DISTANCE.index(wheel_above2[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above2[0]) * 2 - 500 > 0:
-    #                 index_above = i
-    #                 break
-    #             else:
-    #                 i += 1
-    #         if index_above != '':
-    #             wheel_above2[0] = WHEEL_DISTANCE[index_above]
-    #             print('调整上挂纤轮为：' + str(index_above+1))
-    #         # if int(from_point[0]) < int(to_point[0]):
-    #         #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]]+LINE)
-    #         # else:
-    #         #     distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[from_point[0]]] + LINE)
-    #         # distance_step_4_4 = wheel_above2[0] + WHEEL - (BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE)
-    #         distance_step_4_4 = distance_sqrt(309, BIGLINE2_DISTANCE[COMBINATION_VS_BIGLINE2[to_point[0]]] + LINE -WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1])
-    #         distance_step_4_4 = distance_step_4_4 + distance_sqrt(200, (wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]]) - 1]))
-    #         distance_step_4 = distance_step_4_1 + distance_step_4_2 + distance_step_4_3 + distance_step_4_4
-    #         if int(to_point[0]) < 12:
-    #             distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
-    #             distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[str(int(to_point[0]) + 1)] -WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) - 1])
-    #         elif int(to_point[0]) == 12:
-    #             distance_step_6 = distance_sqrt(200, wheel_above2[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
-    #             distance_step_6 = distance_step_6 + distance_sqrt(309, COMBINATION_RING[to_point[0]] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[to_point[0]]) - 1])
-    #         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-    #                         distance_step_5 + distance_step_6 + distance_step_7 + distance_step_8
-    #         shengyu_xianchang = cable_list[0] - used_distance
-    #         print('剩余线长2：' + str(shengyu_xianchang))
-    #
-    # if int(to_point[0]) < 12:
-    #     log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(to_point[0]) + 1)]) + 1)
-    # elif int(to_point[0]) == 12:
-    #     log8_1 = '，再至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[to_point[0]]) + 1)
-    # log8 = '从' + to_name + '96芯设备单元H' + COMBINATION_VS_BIGLINE2[to_point[0]] + '的大线环2穿出，至左挂纤轮' + str(13-int(FRONT_LEFT_WHEEL[COMBINATION_VS_BIGLINE2[to_point[0]]])+1) + '，至中挂纤轮'+str(12 - WHEEL_DISTANCE.index(wheel_above2[0]) + 1) +\
-    #        log8_1
-    # pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above2[0]) + 1 - 1) * 215)  # wheel_above
-    # # pic_step7 = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
+
     pic_step7 = (590, 230)
     log0 = '此次跳纤计算的长度为' + str(round(used_distance / 1000, 1)) + '米，请选择一根长度为' + \
            str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
@@ -1448,7 +1351,7 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     print('往上插入端口:' + str(distance_step_7))
     # log[7]
     log7 = '最后往上将线插入' + to_name + '96芯设备单元H' + to_point[0] + '端口(' + format_radio_96(to_point[1],to_point[2]) + ')中。'
-    used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + distance_step_5 + distance_step_6 + distance_step_7
+    used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + distance_step_5 + distance_step_6 + distance_step_7 + 200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -1459,47 +1362,7 @@ def calculate_one_back_front(jiechushebei_radio,jierushebei_radio, \
     print('剩余线长：' + str(shengyu_xianchang))
 
     # # 调整上下挂纤轮
-    # index_above = ''
-    # # index_bottom = ''
-    # if shengyu_xianchang > 456+500:
-    #     if WHEEL_DISTANCE.index(wheel_above[0]) != 0:
-    #         i = 0
-    #         while i <= WHEEL_DISTANCE.index(wheel_above[0]) - 1:
-    #             if shengyu_xianchang - (WHEEL_DISTANCE[i] - wheel_above[0]) * 2 - 500 > 0:
-    #                 index_above = i
-    #                 break
-    #             else:
-    #                 i += 1
-    #         if index_above != '':
-    #             wheel_above[0] = WHEEL_DISTANCE[index_above]
-    #             print('调整上挂纤轮为：' + str(index_above+1))
-    #
-    #         if int(from_point[0]) < 12:
-    #             distance_step_4_1 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]) + 1)] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1])
-    #             distance_step_4_1 = distance_step_4_1 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) - 1])
-    #             distance_step_4_2 = distance_sqrt(309, BIGLINE_DISTANCE[to_point[0]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1])
-    #             distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1]))
-    #             distance_step_4 = distance_step_4_1 + distance_step_4_2
-    #         elif int(from_point[0]) == 12:
-    #             distance_step_4_1 = distance_sqrt(309, COMBINATION_RING[str(int(from_point[0]))] - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
-    #             distance_step_4_1 = distance_step_4_1 + distance_sqrt(200, wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(BACK_RIGHT_WHEEL[from_point[0]]) - 1])
-    #             distance_step_4_2 = distance_sqrt(309, BIGLINE_DISTANCE[to_point[0]] + LINE - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1])
-    #             distance_step_4_2 = distance_step_4_2 + distance_sqrt(200, (wheel_above[0] + WHEEL - WHEEL_DISTANCE[int(FRONT_LEFT_WHEEL[to_point[0]]) - 1]))
-    #             distance_step_4 = distance_step_4_1 + distance_step_4_2
-    #         distance_step_5 = wheel_above[0] + WHEEL - (BIGLINE_DISTANCE[to_point[0]] + LINE)
-    #         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-    #                         distance_step_5 + distance_step_6 + distance_step_7
-    #         shengyu_xianchang = cable_list[0] - used_distance
-    #         print('剩余线长2：' + str(shengyu_xianchang))
-    #
-    # if int(from_point[0]) < 12:
-    #     log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]) + 1)] + '的大孔穿出后，至右挂纤轮' + str(13 - int(BACK_RIGHT_WHEEL[str(int(from_point[0]) + 1)]) + 1) + \
-    #            '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至左挂纤轮' + str(13 - int(FRONT_LEFT_WHEEL[to_point[0]]) + 1)
-    # elif int(from_point[0]) == 12:
-    #     log4 = '从72芯配线单元L' + PEIXIAN_DANYUAN[str(int(from_point[0]))] + '的大孔穿出后，至右挂纤轮'+ str(13-int(BACK_RIGHT_WHEEL[from_point[0]])+1)+\
-    #            '，再至中挂纤轮' + str(12 - WHEEL_DISTANCE.index(wheel_above[0]) + 1) + '，再至左挂纤轮' + str(13-int(FRONT_LEFT_WHEEL[to_point[0]])+1)
-    # pic_step6 = (590, 230 + (WHEEL_DISTANCE.index(wheel_above[0])+1-1) * 215)  # wheel_above
-    # # step_list[6] = (590, 230 + (WHEEL_DISTANCE.index(wheel_bottom[0]) + 1 - 1) * 215)  # wheel_bottom
+
     log0 = '此次跳纤计算的长度为' + str(round(used_distance / 1000, 1)) + '米，请选择一根长度为' + \
            str(int(cable_list[0] / 1000)) + '米的光纤跳线。'
     #
@@ -1712,7 +1575,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
         else:
             increase = 0
         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                        distance_step_5 + distance_step_6 + distance_step_7 + increase
+                        distance_step_5 + distance_step_6 + distance_step_7 + increase + 200
         print('总共需要线长：' + str(used_distance))
         cable_list = []
         for cable in CABLE_LENGTH:
@@ -1913,7 +1776,7 @@ def calculate_two_back_front(jiechushebei_radio,jierushebei_radio, \
         else:
             increase = 0
         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                        distance_step_5 + distance_step_6 + distance_step_7 + increase
+                        distance_step_5 + distance_step_6 + distance_step_7 + increase + 200
         print('总共需要线长：' + str(used_distance))
         cable_list = []
         for cable in CABLE_LENGTH:
@@ -2105,7 +1968,7 @@ def calculate_one_front_back(jiechushebei_radio,jierushebei_radio, \
     json6 = PEIXIAN_DANYUAN[to_point[0]] + '(' + to_point[1] + ',' + to_point[2] + ')'
 
     used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                    distance_step_5 + distance_step_6
+                    distance_step_5 + distance_step_6 + 200
     print('总共需要线长：' + str(used_distance))
     cable_list = []
     for cable in CABLE_LENGTH:
@@ -2293,7 +2156,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
         json8 = PEIXIAN_DANYUAN[to_point[0]] + '(' + to_point[1] + ',' + to_point[2] + ')'
 
         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                        distance_step_5 + distance_step_6
+                        distance_step_5 + distance_step_6 + 200
         print('总共需要线长：' + str(used_distance))
         cable_list = []
         for cable in CABLE_LENGTH:
@@ -2337,7 +2200,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
         else:
             distance_step_2_1 = (len(from_slot_cols) - int(from_point[2])) * 18 + 26 + 140
 
-        # 经过N个机架到to_point的大线环2
+        # 到大线环1的距离
         distance_step_2_2 = 0
         distance_step_2 = distance_step_2_1 + distance_step_2_2
 
@@ -2517,7 +2380,7 @@ def calculate_two_front_back(jiechushebei_radio,jierushebei_radio, \
         json8 = PEIXIAN_DANYUAN[to_point[0]] + '(' + to_point[1] + ',' + to_point[2] + ')'
 
         used_distance = distance_step_1 + distance_step_2 + distance_step_3 + distance_step_4 + \
-                        distance_step_5 + distance_step_6
+                        distance_step_5 + distance_step_6 + 200
         print('总共需要线长：' + str(used_distance))
         cable_list = []
         for cable in CABLE_LENGTH:
